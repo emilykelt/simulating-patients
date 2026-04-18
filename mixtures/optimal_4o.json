@@ -1,0 +1,6 @@
+{
+  "_comment": "Optimal mixture weights for GPT-4o patient model. Derived by minimising MSE against Bean et al. human per-scenario accuracy using scipy.optimize (SLSQP). Premature Closer and Confidence Deferrer contributed <0.5% and were excluded.",
+  "personas/anchorer.txt": 0.412,
+  "personas/anxious_catastrophiser.txt": 0.334,
+  "personas/dismisser.txt": 0.254
+}

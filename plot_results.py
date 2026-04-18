@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from collections import defaultdict
 from pathlib import Path
+from scipy.stats import skew, kurtosis
 
 # ---------------------------------------------------------------------------
 # Config
@@ -28,6 +29,8 @@ PERSONAS = [
     ("Confidence Deferrer",    "all_confidence_deferrer_x25.json",    "#C4AD66"),
     ("Anxious Catastrophiser", "all_anxious_catastrophiser_x25.json", "#77BEDB"),
 ]
+
+MIXTURE = ("Optimal Mixture", "all_optimal_4o_x25.json", "#FF6B35")
 
 # V2 personas (graded-uncertainty redesign). Catastrophiser v2 uses n=25;
 # others use n=3 preliminary runs.
@@ -98,6 +101,11 @@ def load_all():
         if path.exists():
             with open(path) as f:
                 data[label] = json.load(f)
+    mix_label, mix_fname, _ = MIXTURE
+    mix_path = RESULTS_DIR / mix_fname
+    if mix_path.exists():
+        with open(mix_path) as f:
+            data[mix_label] = json.load(f)
     return data
 
 def accuracy(runs):
@@ -120,14 +128,19 @@ def wilson_ci(correct, total, z=1.96):
 # Figure 1: Overall accuracy bar chart
 # ---------------------------------------------------------------------------
 
-def fig_overall_accuracy(data):
-    fig, ax = plt.subplots(figsize=(9, 5))
+def fig_overall_accuracy(data, tag=""):
+    entries = list(PERSONAS)
+    mix_label, mix_fname, mix_color = MIXTURE
+    if tag and mix_label in data:
+        entries = entries + [MIXTURE]
 
-    labels = [p[0] for p in PERSONAS]
-    colors = [p[2] for p in PERSONAS]
+    fig, ax = plt.subplots(figsize=(9 if not tag else 11, 5))
+
+    labels = [p[0] for p in entries]
+    colors = [p[2] for p in entries]
     accs, lo_errs, hi_errs = [], [], []
 
-    for label, fname, color in PERSONAS:
+    for label, fname, color in entries:
         runs = data[label]
         correct = sum(1 for r in runs if r["urgency_correct"])
         total = len(runs)
@@ -163,7 +176,7 @@ def fig_overall_accuracy(data):
 
     ax.legend(fontsize=9)
     plt.tight_layout()
-    out = FIGURES_DIR / "fig1_overall_accuracy.png"
+    out = FIGURES_DIR / f"fig1_overall_accuracy{tag}.png"
     plt.savefig(out, dpi=150, bbox_inches="tight")
     plt.close()
     print(f"Saved {out}")
@@ -172,7 +185,7 @@ def fig_overall_accuracy(data):
 # Figure 2: Per-scenario heatmap
 # ---------------------------------------------------------------------------
 
-def fig_heatmap(data):
+def fig_heatmap(data, tag=""):
     # Human per-scenario accuracy averaged across all 4 treatment conditions
     # Source: HELPMed/data/main/clean_examples.csv
     human_per_scenario = {
@@ -188,13 +201,20 @@ def fig_heatmap(data):
         "Allergic Rhinitis":        (28+18+38+31)  / (49+32+55+43) * 100,
     }
 
-    # Equal mixture: pool all persona runs
-    all_runs = []
-    for label, fname, color in PERSONAS:
-        all_runs.extend(data[label])
-    mixture_psa = per_scenario_accuracy(all_runs)
+    mix_label, mix_fname, mix_color = MIXTURE
+    include_mix = tag and mix_label in data
 
-    row_labels = ["Human (Bean et al.)"] + [p[0] for p in PERSONAS] + ["Equal Mixture"]
+    if include_mix:
+        # Use optimal mixture row instead of equal mixture
+        row_labels = ["Human (Bean et al.)"] + [p[0] for p in PERSONAS] + [mix_label]
+    else:
+        # Equal mixture: pool all persona runs
+        all_runs = []
+        for label, fname, color in PERSONAS:
+            all_runs.extend(data[label])
+        mixture_psa = per_scenario_accuracy(all_runs)
+        row_labels = ["Human (Bean et al.)"] + [p[0] for p in PERSONAS] + ["Equal Mixture"]
+
     n_rows = len(row_labels)
     matrix = np.zeros((n_rows, len(SCENARIO_ORDER)))
 
@@ -208,9 +228,13 @@ def fig_heatmap(data):
         for j, scenario in enumerate(SCENARIO_ORDER):
             matrix[i + 1, j] = psa.get(scenario, 0)
 
-    # Last row: equal mixture
+    # Last row: mixture
+    if include_mix:
+        mix_psa = per_scenario_accuracy(data[mix_label])
+    else:
+        mix_psa = mixture_psa
     for j, scenario in enumerate(SCENARIO_ORDER):
-        matrix[-1, j] = mixture_psa.get(scenario, 0)
+        matrix[-1, j] = mix_psa.get(scenario, 0)
 
     fig, ax = plt.subplots(figsize=(13, 7.0))
     im = ax.imshow(matrix, cmap="RdYlGn", vmin=0, vmax=100, aspect="auto")
@@ -248,7 +272,7 @@ def fig_heatmap(data):
     ax.set_title("Disposition accuracy per scenario and persona  (green = correct, red = incorrect)",
                  fontsize=11, pad=16)
     plt.subplots_adjust(bottom=0.18, top=0.92, left=0.12, right=0.96)
-    out = FIGURES_DIR / "fig2_heatmap.png"
+    out = FIGURES_DIR / f"fig2_heatmap{tag}.png"
     plt.savefig(out, dpi=150, bbox_inches="tight")
     plt.close()
     print(f"Saved {out}")
@@ -257,17 +281,22 @@ def fig_heatmap(data):
 # Figure 3: Error direction — over vs under escalation
 # ---------------------------------------------------------------------------
 
-def fig_error_direction(data):
+def fig_error_direction(data, tag=""):
     """
     For each persona, break errors into:
       - Under-escalation (predicted urgency < gold)
       - Correct
       - Over-escalation (predicted urgency > gold)
     """
-    persona_labels = [p[0] for p in PERSONAS]
+    entries = list(PERSONAS)
+    mix_label, mix_fname, mix_color = MIXTURE
+    if tag and mix_label in data:
+        entries = entries + [MIXTURE]
+
+    persona_labels = [p[0] for p in entries]
     under, correct, over = [], [], []
 
-    for label, fname, color in PERSONAS:
+    for label, fname, color in entries:
         runs = data[label]
         n = len(runs)
         u = sum(1 for r in runs if r["urgency_predicted"] < r["gold_urgency"]) / n * 100
@@ -280,7 +309,7 @@ def fig_error_direction(data):
     x = np.arange(len(persona_labels))
     width = 0.55
 
-    fig, ax = plt.subplots(figsize=(9, 5))
+    fig, ax = plt.subplots(figsize=(9 if not tag else 11, 5))
     b1 = ax.bar(x, correct, width, label="Correct", color="#2ecc71", zorder=3)
     b2 = ax.bar(x, over,    width, label="Over-escalation", color="#e74c3c",
                 bottom=correct, zorder=3)
@@ -302,7 +331,7 @@ def fig_error_direction(data):
     ax.legend(fontsize=9, loc="upper right")
 
     plt.tight_layout()
-    out = FIGURES_DIR / "fig3_error_direction.png"
+    out = FIGURES_DIR / f"fig3_error_direction{tag}.png"
     plt.savefig(out, dpi=150, bbox_inches="tight")
     plt.close()
     print(f"Saved {out}")
@@ -311,7 +340,7 @@ def fig_error_direction(data):
 # Figure 4: Personas vs human data — scenario profile
 # ---------------------------------------------------------------------------
 
-def fig_scenario_profiles(data):
+def fig_scenario_profiles(data, tag=""):
     """
     Line plot of accuracy per scenario for each persona + human baseline.
     Shows the bimodal pattern in simulated patients vs graded human responses.
@@ -352,6 +381,14 @@ def fig_scenario_profiles(data):
         ax.plot(x, vals, color=color, linewidth=1.3, linestyle=":",
                 marker="o", markersize=4, label=label, alpha=0.85, zorder=3)
 
+    # Optimal mixture — distinctive solid orange line
+    mix_label, mix_fname, mix_color = MIXTURE
+    if tag and mix_label in data:
+        mix_psa = per_scenario_accuracy(data[mix_label])
+        mix_vals = [mix_psa.get(s, 0) for s in SCENARIO_ORDER]
+        ax.plot(x, mix_vals, color=mix_color, linewidth=2.5, linestyle="-.",
+                marker="s", markersize=6, label=mix_label, zorder=6)
+
     ax.set_xticks(x)
     ax.set_xticklabels([SCENARIO_SHORT[s] for s in SCENARIO_ORDER], fontsize=8.5)
     ax.set_ylabel("Disposition accuracy (%)", fontsize=11)
@@ -369,7 +406,7 @@ def fig_scenario_profiles(data):
 
     ax.legend(fontsize=8.5, loc="upper right", ncol=2)
     plt.tight_layout()
-    out = FIGURES_DIR / "fig4_scenario_profiles.png"
+    out = FIGURES_DIR / f"fig4_scenario_profiles{tag}.png"
     plt.savefig(out, dpi=150, bbox_inches="tight")
     plt.close()
     print(f"Saved {out}")
@@ -463,6 +500,147 @@ def fig_v1_v2_comparison(data):
 
 
 # ---------------------------------------------------------------------------
+# Bimodality quantification
+# ---------------------------------------------------------------------------
+
+def bimodality_coefficient(values):
+    """
+    Sarle's bimodality coefficient: BC = (skewness^2 + 1) / kurtosis.
+    BC > 0.555 (uniform distribution threshold) suggests bimodality.
+    Uses excess kurtosis + 3 to get proper kurtosis for the formula.
+    """
+    n = len(values)
+    if n < 3:
+        return np.nan
+    s = skew(values)
+    # Fischer's definition (excess kurtosis); add 3 for the formula
+    k = kurtosis(values, fisher=True) + 3
+    if k == 0:
+        return np.nan
+    # Small-sample correction
+    correction = (3 * (n - 1) ** 2) / ((n - 2) * (n - 3))
+    return (s ** 2 + 1) / (k + correction)
+
+
+def extreme_ratio(values, threshold=0.2):
+    """Proportion of scenarios with accuracy < threshold or > (1 - threshold)."""
+    arr = np.array(values)
+    return np.mean((arr < threshold) | (arr > 1 - threshold))
+
+
+def fig_bimodality(data, tag=""):
+    """
+    Figure 6: Bimodality of per-scenario accuracy distributions.
+
+    Top panel: dot strip plot — each dot is one scenario's accuracy for a given
+    persona/human. Shows the spreading of human data vs clustering of simulated.
+
+    Bottom panel: bar chart of bimodality coefficient per persona.
+    """
+    human_per_scenario = {
+        "Subarachnoid Haemorrhage": (18+32+20+13) / (49+66+60+61),
+        "Pulmonary Embolism":       (4+9+14+10)   / (43+63+75+59),
+        "Tinnitus":                 (47+68+54+59)  / (54+78+61+69),
+        "Ulcerative Colitis":       (47+30+33+39)  / (71+56+57+63),
+        "Renal Colic":              (23+26+13+19)  / (62+56+52+58),
+        "Gallstones":               (33+23+35+33)  / (64+61+59+63),
+        "Pneumonia":                (5+9+4+3)      / (57+76+63+60),
+        "Anaemia":                  (37+30+17+17)  / (85+66+58+66),
+        "Common Cold":              (23+17+26+26)  / (66+46+60+58),
+        "Allergic Rhinitis":        (28+18+38+31)  / (49+32+55+43),
+    }
+
+    # Build (label, values, color) list — human first, then personas, then mixture
+    mix_label, mix_fname, mix_color = MIXTURE
+    extra = [(mix_label, mix_color)] if (tag and mix_label in data) else []
+    all_labels  = ["Human\n(Bean et al.)"] + [p[0] for p in PERSONAS] + [lbl for lbl, _ in extra]
+    all_colors  = ["black"] + [p[2] for p in PERSONAS] + [col for _, col in extra]
+    all_values  = [
+        [human_per_scenario[s] for s in SCENARIO_ORDER]
+    ] + [
+        [per_scenario_accuracy(data[p[0]]).get(s, 0) / 100 for s in SCENARIO_ORDER]
+        for p in PERSONAS
+    ] + [
+        [per_scenario_accuracy(data[lbl]).get(s, 0) / 100 for s in SCENARIO_ORDER]
+        for lbl, _ in extra
+    ]
+
+    bcs  = [bimodality_coefficient(v) for v in all_values]
+    ers  = [extreme_ratio(v)          for v in all_values]
+
+    fig, (ax_top, ax_bot) = plt.subplots(
+        2, 1, figsize=(11, 9),
+        gridspec_kw={"height_ratios": [1.6, 1]}
+    )
+
+    # --- Top: strip plot ---
+    rng = np.random.default_rng(42)
+    for i, (label, vals, color) in enumerate(zip(all_labels, all_values, all_colors)):
+        jitter = rng.uniform(-0.18, 0.18, size=len(vals))
+        ax_top.scatter(
+            [i + j for j in jitter], vals,
+            color=color, alpha=0.75, s=55, zorder=3,
+            edgecolors="white", linewidths=0.4
+        )
+        # Mean line
+        ax_top.hlines(np.mean(vals), i - 0.3, i + 0.3,
+                      colors=color, linewidths=2.0, zorder=4)
+
+    ax_top.axhline(0.2, color="grey", linewidth=0.8, linestyle=":", alpha=0.6)
+    ax_top.axhline(0.8, color="grey", linewidth=0.8, linestyle=":", alpha=0.6)
+    ax_top.fill_between([-0.5, len(all_labels) - 0.5], 0, 0.2,
+                         alpha=0.04, color="red")
+    ax_top.fill_between([-0.5, len(all_labels) - 0.5], 0.8, 1.0,
+                         alpha=0.04, color="green")
+    ax_top.set_xlim(-0.5, len(all_labels) - 0.5)
+    ax_top.set_ylim(-0.05, 1.05)
+    ax_top.set_xticks(range(len(all_labels)))
+    ax_top.set_xticklabels(all_labels, fontsize=9)
+    ax_top.set_ylabel("Per-scenario accuracy", fontsize=10)
+    ax_top.set_title(
+        "Bimodality of per-scenario accuracy distributions\n"
+        "Each dot = one scenario. Horizontal bar = mean. "
+        "Shaded bands = extreme zones (< 20% or > 80%).",
+        fontsize=10, pad=10
+    )
+    ax_top.yaxis.grid(True, linestyle="--", alpha=0.4, zorder=0)
+    ax_top.set_axisbelow(True)
+
+    # --- Bottom: bimodality coefficient bar chart ---
+    x = np.arange(len(all_labels))
+    bar_colors = ["black" if bc > 0.555 else "lightgrey" for bc in bcs]
+    bars = ax_bot.bar(x, bcs, color=all_colors, zorder=3, width=0.55, alpha=0.85)
+    ax_bot.axhline(0.555, color="red", linewidth=1.5, linestyle="--", zorder=4,
+                   label="Bimodality threshold (BC = 0.555)")
+    for bar, bc in zip(bars, bcs):
+        if not np.isnan(bc):
+            ax_bot.text(bar.get_x() + bar.get_width() / 2,
+                        bar.get_height() + 0.01,
+                        f"{bc:.2f}", ha="center", va="bottom", fontsize=8)
+    ax_bot.set_xticks(x)
+    ax_bot.set_xticklabels(all_labels, fontsize=9)
+    ax_bot.set_ylabel("Bimodality coefficient (BC)", fontsize=10)
+    ax_bot.set_ylim(0, max(bc for bc in bcs if not np.isnan(bc)) * 1.25)
+    ax_bot.yaxis.grid(True, linestyle="--", alpha=0.4, zorder=0)
+    ax_bot.set_axisbelow(True)
+    ax_bot.legend(fontsize=8)
+
+    plt.tight_layout()
+    out = FIGURES_DIR / f"fig6_bimodality{tag}.png"
+    plt.savefig(out, dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"Saved {out}")
+
+    # Print bimodality summary table
+    print("\nBimodality summary:")
+    print(f"{'Label':<25} {'BC':>6}  {'Extreme ratio':>14}  {'Bimodal?':>9}")
+    print("-" * 60)
+    for label, bc, er in zip(all_labels, bcs, ers):
+        flag = "YES" if (not np.isnan(bc) and bc > 0.555) else "no"
+        print(f"{label:<25} {bc:>6.3f}  {er:>14.1%}  {flag:>9}")
+
+
+# ---------------------------------------------------------------------------
 # Run all figures
 # ---------------------------------------------------------------------------
 
@@ -470,11 +648,19 @@ if __name__ == "__main__":
     print("Loading data...")
     data = load_all()
 
-    print("Generating figures...")
+    print("Generating original figures...")
     fig_overall_accuracy(data)
     fig_heatmap(data)
     fig_error_direction(data)
     fig_scenario_profiles(data)
     fig_v1_v2_comparison(data)
+    fig_bimodality(data)
+
+    print("Generating v2 figures (with optimal mixture)...")
+    fig_overall_accuracy(data, tag="_v2")
+    fig_heatmap(data, tag="_v2")
+    fig_error_direction(data, tag="_v2")
+    fig_scenario_profiles(data, tag="_v2")
+    fig_bimodality(data, tag="_v2")
 
     print(f"\nAll figures saved to {FIGURES_DIR}")

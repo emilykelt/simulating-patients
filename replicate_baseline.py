@@ -498,6 +498,7 @@ def run_single(scenario_id, scenarios_meta, scenario_texts, persona_text, displa
         "patient_model": PATIENT_MODEL,
         "assistant_model": ASSISTANT_MODEL,
         "patient_temperature": PATIENT_TEMPERATURE,
+        "assistant_temperature": ASSISTANT_TEMPERATURE,
         "persona": "standard" if persona_text is None else "custom",
         "turns": conversation["turns"],
         "patient_messages": conversation["patient_messages"],
@@ -567,6 +568,27 @@ def main():
             "Model label is appended to output filename."
         ),
     )
+    parser.add_argument(
+        "--patient-temperature",
+        type=float,
+        default=None,
+        help=(
+            "Override the patient LLM temperature. "
+            "Default: 1.0 (Bean et al. original). "
+            "Temperature label is appended to output filename."
+        ),
+    )
+    parser.add_argument(
+        "--mixture",
+        type=str,
+        default=None,
+        help=(
+            "Path to a JSON file defining a weighted mixture of personas. "
+            "Format: {\"personas/anchorer.txt\": 0.4, \"personas/dismisser.txt\": 0.6}. "
+            "On each run a persona is sampled according to these weights. "
+            "Overrides --persona."
+        ),
+    )
     args = parser.parse_args()
 
     # Override patient model if specified
@@ -575,13 +597,35 @@ def main():
         PATIENT_MODEL = args.patient_model
         print(f"Patient model overridden: {PATIENT_MODEL}")
 
+    # Override patient temperature if specified
+    if args.patient_temperature is not None:
+        global PATIENT_TEMPERATURE
+        PATIENT_TEMPERATURE = args.patient_temperature
+        print(f"Patient temperature overridden: {PATIENT_TEMPERATURE}")
+
     # Load data
     scenarios_meta = load_scenarios()
     scenario_texts = load_scenario_texts()
 
-    # Load persona
+    # Load persona or mixture
     persona_text = None
-    if args.persona:
+    mixture_personas = None   # list of (path, text, weight)
+
+    if args.mixture:
+        with open(args.mixture) as f:
+            raw = json.load(f)
+        mixture_personas = []
+        for path_str, weight in raw.items():
+            if path_str.startswith("_"):
+                continue  # skip comment keys
+            text = load_persona(path_str)
+            mixture_personas.append((path_str, text, weight))
+        total_w = sum(w for _, _, w in mixture_personas)
+        mixture_personas = [(p, t, w / total_w) for p, t, w in mixture_personas]
+        print(f"Mixture loaded ({len(mixture_personas)} personas):")
+        for path_str, _, w in mixture_personas:
+            print(f"  {Path(path_str).stem}: {w*100:.1f}%")
+    elif args.persona:
         persona_text = load_persona(args.persona)
         print(f"Loaded persona from: {args.persona}")
 
@@ -599,13 +643,27 @@ def main():
     if total_runs > 1:
         print(f"\nRunning {args.runs} run(s) × {len(scenario_ids)} scenario(s) = {total_runs} total conversations.")
 
+    import random as _rng
     all_results = []
     for sid in scenario_ids:
         for run_i in range(args.runs):
             if args.runs > 1:
                 print(f"\n[Run {run_i + 1}/{args.runs}]", end="")
-            result = run_single(sid, scenarios_meta, scenario_texts, persona_text, display=not args.quiet)
+
+            # Sample persona from mixture if in mixture mode
+            if mixture_personas:
+                paths, texts, weights = zip(*mixture_personas)
+                chosen_idx = _rng.choices(range(len(mixture_personas)), weights=weights, k=1)[0]
+                run_persona_text = texts[chosen_idx]
+                run_persona_label = Path(paths[chosen_idx]).stem
+            else:
+                run_persona_text = persona_text
+                run_persona_label = None
+
+            result = run_single(sid, scenarios_meta, scenario_texts, run_persona_text, display=not args.quiet)
             result["run"] = run_i
+            if run_persona_label:
+                result["sampled_persona"] = run_persona_label
             all_results.append(result)
 
     # Save output
@@ -614,18 +672,22 @@ def main():
         out_path = Path(args.output)
     else:
         persona_label = "standard"
-        if args.persona:
+        if args.mixture:
+            persona_label = Path(args.mixture).stem
+        elif args.persona:
             persona_label = Path(args.persona).stem
         model_label = ""
         if args.patient_model:
-            # e.g. "gpt-4o-mini" -> "_mini", "gpt-4o-2024-05-13" -> unchanged
             slug = args.patient_model.replace("gpt-4o-mini", "mini").replace("gpt-4o", "4o")
             model_label = f"_{slug}"
+        temp_label = ""
+        if args.patient_temperature is not None:
+            temp_label = f"_t{str(args.patient_temperature).replace('.', '')}"
         runs_label = f"_x{args.runs}" if args.runs > 1 else ""
         if len(scenario_ids) == 1:
-            out_path = OUTPUT_DIR / f"{scenario_ids[0]}_{persona_label}{model_label}{runs_label}.json"
+            out_path = OUTPUT_DIR / f"{scenario_ids[0]}_{persona_label}{model_label}{temp_label}{runs_label}.json"
         else:
-            out_path = OUTPUT_DIR / f"all_{persona_label}{model_label}{runs_label}.json"
+            out_path = OUTPUT_DIR / f"all_{persona_label}{model_label}{temp_label}{runs_label}.json"
 
     with open(out_path, "w") as f:
         json.dump(all_results, f, indent=2)
