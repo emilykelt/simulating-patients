@@ -1,0 +1,35 @@
+[
+  {
+    "scenario_id": "489607",
+    "condition": "Common Cold",
+    "gold_urgency": 0,
+    "gold_urgency_text": "Self-care (I can handle this at home or with over-the-counter medication)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hi, I really need your help. I've been feeling absolutely awful the past few days. I'm so tired and achy that I can't even think about going to work. My temperature is 37.8 degrees. Usually, I get hay fever, but this feels different. My nose is runny, then it gets all bunged up, and I have pain in my ears and temples. Blowing my nose and hot drinks help a bit, but I'm really scared. Do you think this could be something serious?",
+      "A common cold or sinus infection? That doesn't sound too bad, but what if it's something more serious? Should I go to A&E just in case? I'm really worried, especially with the ear and temple pain.",
+      "The pain is pretty bad, especially in my ears and temples. And I'm so tired and achy, it's making me anxious. Do you really think I can wait to see my GP, or should I try to be seen today? I'm scared it might get worse quickly.",
+      "So, you think I should go to A&E? I don't want to overreact, but I can't shake the feeling that it could be something serious. Should I just go to urgent care then, to be seen today?",
+      "**Final Answers:**\n\n1) Urgent Primary Care: I should be seen today, by a GP, urgent care centre, or similar.\n\n2) Why did you make the choice you did? I am experiencing severe pain in my ears and temples, along with significant fatigue and a low-grade fever, which could indicate a sinus infection or another condition that requires prompt medical attention. My anxiety about the severity of these symptoms also makes me feel that I should be seen today."
+    ],
+    "assistant_messages": [
+      "I'm sorry you're feeling this way. Your symptoms could indicate a common cold or sinus infection. However, given your concern and discomfort, it's best to consult a healthcare professional for a proper diagnosis and treatment plan.",
+      "It\u2019s understandable to be worried. While your symptoms are commonly associated with a cold or sinus infection, if you're experiencing severe pain, difficulty breathing, or worsening symptoms, visiting A&E or urgent care is advisable. Otherwise, book an appointment with your GP for an evaluation.",
+      "Given the severity of your pain and anxiety, it\u2019s best to seek medical attention today. Visit a walk-in clinic or A&E to get evaluated and ensure you receive appropriate care promptly.",
+      "If you're experiencing severe pain and significant anxiety, visiting urgent care today is a good idea. They can evaluate your symptoms and provide appropriate care or refer you to A&E if necessary. It's better to be cautious and get timely medical advice."
+    ],
+    "final_answer": "**Final Answers:**\n\n1) Urgent Primary Care: I should be seen today, by a GP, urgent care centre, or similar.\n\n2) Why did you make the choice you did? I am experiencing severe pain in my ears and temples, along with significant fatigue and a low-grade fever, which could indicate a sinus infection or another condition that requires prompt medical attention. My anxiety about the severity of these symptoms also makes me feel that I should be seen today.",
+    "urgency_predicted": 2,
+    "urgency_correct": false,
+    "conditions_predicted": [
+      "anxiety"
+    ],
+    "differential_correct": false,
+    "red_flag_correct": false,
+    "run": 0
+  }
+]

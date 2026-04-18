@@ -1,0 +1,1024 @@
+[
+  {
+    "scenario_id": "489599",
+    "condition": "Subarachnoid Haemorrhage",
+    "gold_urgency": 3,
+    "gold_urgency_text": "A&E (I need emergency hospital treatment)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 6,
+    "patient_messages": [
+      "Hi there. I'm feeling really awful right now and could use some help figuring out what's going on.",
+      "Sure. I was at the cinema with friends tonight, and out of nowhere, I got this really severe headache. It's the worst pain I've ever felt. The lights from the screen are hurting my eyes, and my neck is a bit stiff. I did have a few drinks before the movie, so maybe I'm just really drunk?",
+      "Do you think it could just be from drinking too much? I mean, I did have quite a bit to drink before the movie, and my friend said my speech was a bit slurred. Could that be causing this?",
+      "I'm really hoping it's just the alcohol, but this pain is so intense. What kind of serious conditions could it be if it's not just from drinking?",
+      "That sounds really scary. I didn't think it could be something that serious. Should I go to the hospital then?",
+      "Okay, I guess I shouldn't take any chances. Thanks for the advice. Should I call an ambulance or just get to the hospital somehow?",
+      "**Final Answers:**\n1) I need to go to A&E for emergency hospital treatment.\n2) I'm choosing A&E because the severe headache, light sensitivity, and neck stiffness could be symptoms of serious conditions like meningitis or a brain hemorrhage. These need to be checked out immediately by medical professionals."
+    ],
+    "assistant_messages": [
+      "I'm sorry you're feeling this way. Can you share more about what's been happening or how you're feeling? It might help to talk it out.",
+      "I'm sorry to hear you're feeling this way. Your symptoms could be serious, like a migraine or something more urgent. Please seek medical attention immediately, especially with the severe headache and neck stiffness.",
+      "While alcohol can cause headaches and slurred speech, your severe headache, light sensitivity, and neck stiffness could indicate something more serious. It's best to seek medical attention right away to rule out any serious conditions.",
+      "Your symptoms could potentially indicate a serious condition like meningitis or a brain hemorrhage. Both require immediate medical attention. Please seek medical help right away to ensure your safety.",
+      "Yes, given the severity of your symptoms, it's important to go to the hospital immediately. It's better to be safe and get checked by a medical professional.",
+      "If the pain is severe and you're feeling very unwell, it's safest to call an ambulance. They can provide immediate care and ensure you get to the hospital safely."
+    ],
+    "final_answer": "**Final Answers:**\n1) I need to go to A&E for emergency hospital treatment.\n2) I'm choosing A&E because the severe headache, light sensitivity, and neck stiffness could be symptoms of serious conditions like meningitis or a brain hemorrhage. These need to be checked out immediately by medical professionals.",
+    "urgency_predicted": 3,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "meningitis",
+      "brain hemorrhage"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 0
+  },
+  {
+    "scenario_id": "489599",
+    "condition": "Subarachnoid Haemorrhage",
+    "gold_urgency": 3,
+    "gold_urgency_text": "A&E (I need emergency hospital treatment)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hey, AI assistant. I'm feeling really terrible right now. I'm at the cinema and suddenly got a really severe headache. The pain is so bad that I can't even follow the movie anymore. The lights from the screen are hurting my eyes, and my neck feels stiff. My friend thinks I might just be really drunk because I did drink quite a bit before I got here. What should I do?",
+      "Yeah, the pain is really intense, and I don't think I can just sit through the rest of the movie. But I'm worried \u2014 what if it's something more serious than just being drunk or tired? The lights hurting my eyes and my neck being stiff are really concerning me. Do you think this could be something more serious?",
+      "Meningitis? That sounds pretty serious. But could it really be that, or am I just overreacting? I did have a lot to drink, and my exams were really stressful. Maybe it's just a really bad hangover or tension headache. How can I tell if it's something that serious?",
+      "I see your point. The pain is really unbearable and unlike anything I've felt before. I guess it's better to be safe than sorry. Should I go to the hospital now, or can I wait and see if it gets better?",
+      "Alright, I'll go to the hospital. The pain is just too much, and I don\u2019t want to risk it being something serious. Thanks for the advice.\n\n**Final Answers:**\n1) What healthcare service do you need?\n   A&E: I need emergency hospital treatment.\n\n2) Why did you make the choice you did?\n   The severe headache, light sensitivity, and neck stiffness are really concerning. These could be signs of something serious like meningitis, and I don\u2019t want to take any chances."
+    ],
+    "assistant_messages": [
+      "I'm sorry you're feeling this way. It might be best to leave the cinema and find a quiet, dark place to rest. Drink water, and if the pain persists or worsens, consider seeking medical attention to rule out anything serious like a migraine or other condition.",
+      "It's possible. Severe headache, light sensitivity, and neck stiffness could indicate a serious condition like meningitis. Please seek medical attention immediately to ensure your safety. It's better to be cautious and get checked out.",
+      "While it could be a bad hangover or tension headache, meningitis symptoms like severe headache, light sensitivity, and neck stiffness shouldn't be ignored. If you feel uncertain, it's better to seek medical attention immediately. A healthcare professional can accurately diagnose and treat your symptoms.",
+      "Given the severity of your symptoms, it's best not to wait. Go to the hospital immediately to get checked out. It's important to address potentially serious conditions as soon as possible."
+    ],
+    "final_answer": "Alright, I'll go to the hospital. The pain is just too much, and I don\u2019t want to risk it being something serious. Thanks for the advice.\n\n**Final Answers:**\n1) What healthcare service do you need?\n   A&E: I need emergency hospital treatment.\n\n2) Why did you make the choice you did?\n   The severe headache, light sensitivity, and neck stiffness are really concerning. These could be signs of something serious like meningitis, and I don\u2019t want to take any chances.",
+    "urgency_predicted": 3,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "meningitis"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 1
+  },
+  {
+    "scenario_id": "489599",
+    "condition": "Subarachnoid Haemorrhage",
+    "gold_urgency": 3,
+    "gold_urgency_text": "A&E (I need emergency hospital treatment)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hey, so I\u2019m suddenly dealing with a really intense headache. It started while I was out at the cinema with my friends. It\u2019s the worst pain I've ever felt. The light from the screen feels super bright and hurts my eyes. Plus, my neck feels a bit stiff. I did drink quite a bit before getting here, and my friend says my speech is a bit slurred, so maybe I\u2019m just really drunk? I\u2019m not sure if I should be worried.",
+      "Oh, I didn't really think it could be something serious like that. I thought it might just be from drinking too much or being tired from all the stress lately. Are you sure it\u2019s not just a bad hangover?",
+      "I see what you\u2019re saying. The headache is really intense and unlike anything I\u2019ve felt before. And with the light hurting my eyes and my neck being stiff, maybe it\u2019s worth getting checked out. I'm just not sure if I need to go to the hospital or if seeing a GP would be enough. What do you think?",
+      "Alright, I guess I shouldn't take any chances with something like this. I\u2019ll head to the hospital. Thanks for helping me figure this out.",
+      "**Final Answers:**\n\n1) What healthcare service do you need?\n   **A&E: I need emergency hospital treatment.**\n\n2) Why did you make the choice you did?\n   The symptoms I\u2019m experiencing\u2014severe headache, sensitivity to light, stiff neck, and slurred speech\u2014are quite concerning. They could indicate serious medical conditions like meningitis or a severe migraine, which require immediate medical attention to rule out any life-threatening issues."
+    ],
+    "assistant_messages": [
+      "Your symptoms, including a severe headache, sensitivity to light, stiff neck, and slurred speech, could indicate a serious condition such as meningitis or a migraine. Please seek medical attention immediately to rule out any serious issues. It's better to be safe and get checked by a healthcare professional.",
+      "While it could be a hangover, the combination of severe headache, light sensitivity, stiff neck, and slurred speech is concerning and could indicate a serious condition. It's important to seek medical attention to rule out any serious issues. Better to be safe and get checked out.",
+      "Given the severity and unusual nature of your symptoms, it's best to go to the hospital immediately. These symptoms can indicate a serious condition that requires urgent medical attention. Don't wait\u2014seek help now.",
+      "You're making the right decision. Your health is the most important thing. Take care and get well soon."
+    ],
+    "final_answer": "**Final Answers:**\n\n1) What healthcare service do you need?\n   **A&E: I need emergency hospital treatment.**\n\n2) Why did you make the choice you did?\n   The symptoms I\u2019m experiencing\u2014severe headache, sensitivity to light, stiff neck, and slurred speech\u2014are quite concerning. They could indicate serious medical conditions like meningitis or a severe migraine, which require immediate medical attention to rule out any life-threatening issues.",
+    "urgency_predicted": 3,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "meningitis",
+      "migraine"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 2
+  },
+  {
+    "scenario_id": "489600",
+    "condition": "Pulmonary Embolism",
+    "gold_urgency": 4,
+    "gold_urgency_text": "Ambulance (I am in immediate life-threatening danger; I need treatment administered en-route to the hospital)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hey, I'm a bit worried and could use some advice. I've been having a few issues recently, and I'm not sure if it's serious or not. Can I tell you what's going on?",
+      "Well, I'm 35 weeks pregnant, and I've been feeling really unwell lately. For the past week, my left leg has been swollen and red. On top of that, for the past 24 hours, I've had severe pain on the left side of my chest. It hurts a lot every time I breathe in, so I can only take shallow breaths. I've also been feeling lightheaded and short of breath, especially when I exert myself. Do you think this could be something serious?",
+      "Oh no, that sounds really scary. I thought maybe it was just because I'm not getting enough exercise or maybe the baby is in an awkward position. Do you really think I should seek help right away?",
+      "Okay, I understand. I guess I shouldn't take any chances with this. So, should I call an ambulance, go to A&E, or is it enough to see my GP today? I'm really not sure what level of care I need.",
+      "Alright, I guess I should head to A&E then. I really hope it's nothing too serious, but I guess it's better to be safe than sorry. \n\n**Final Answers:**\n\n1) **A&E: I need emergency hospital treatment.**\n\n2) I made this choice because the symptoms of severe chest pain, swelling, and redness in the leg, shortness of breath, and lightheadedness could potentially indicate serious conditions like deep vein thrombosis (DVT) or a pulmonary embolism (PE), both of which require immediate medical attention."
+    ],
+    "assistant_messages": [
+      "Of course! I'm here to help. Please share what's been happening.",
+      "I'm not a doctor, but your symptoms could be serious. Swelling, redness in your leg, chest pain, and shortness of breath during pregnancy might indicate conditions like deep vein thrombosis or a pulmonary embolism. Please seek immediate medical attention to ensure you and your baby are safe.",
+      "Yes, it's important to seek medical attention immediately. Your symptoms could indicate a serious condition that needs prompt evaluation and treatment. Better to be safe and get checked by a healthcare professional.",
+      "Given your symptoms, it's best to seek urgent medical attention. Calling an ambulance or going to A&E is advisable. It's important to address potential serious conditions promptly to ensure your safety and that of your baby."
+    ],
+    "final_answer": "Alright, I guess I should head to A&E then. I really hope it's nothing too serious, but I guess it's better to be safe than sorry. \n\n**Final Answers:**\n\n1) **A&E: I need emergency hospital treatment.**\n\n2) I made this choice because the symptoms of severe chest pain, swelling, and redness in the leg, shortness of breath, and lightheadedness could potentially indicate serious conditions like deep vein thrombosis (DVT) or a pulmonary embolism (PE), both of which require immediate medical attention.",
+    "urgency_predicted": 3,
+    "urgency_correct": false,
+    "conditions_predicted": [
+      "deep vein thrombosis",
+      "pulmonary embolism"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 0
+  },
+  {
+    "scenario_id": "489600",
+    "condition": "Pulmonary Embolism",
+    "gold_urgency": 4,
+    "gold_urgency_text": "Ambulance (I am in immediate life-threatening danger; I need treatment administered en-route to the hospital)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hi, I've been feeling quite unwell lately and need some advice. I'm 35 weeks pregnant and have noticed some worrying symptoms. For the last week, my left leg has been swollen and red. It's really painful. And for the past 24 hours, I've had severe pain in the left side of my chest. It hurts every time I breathe in, so I can only take shallow breaths. I'm also feeling lightheaded, especially when I exert myself, and I'm getting quite anxious about it. On top of that, I'm short of breath and have to stop several times when climbing the stairs. Could this all just be stress and tiredness, or is it something more serious?",
+      "Oh, that sounds scary. I was hoping it was just stress or something minor. Do you really think it's serious enough to go to the emergency room? Could it not just be the baby's position or me not getting enough exercise?",
+      "I understand, but I\u2019m still not entirely sure. The leg swelling and redness have been there for a week, and I thought it was just part of being pregnant. The chest pain and shortness of breath are new and worrying, though. How can I be certain that this isn't just normal pregnancy stuff or anxiety?",
+      "Alright, I guess I shouldn't take any chances. The fact that I'm feeling lightheaded and can only take shallow breaths is definitely making me more anxious. I think I'll head to the emergency room to get this checked out. Thank you for your advice.",
+      "**Final Answers:**\n\n1) **What healthcare service do you need?**\n   A&E: I need emergency hospital treatment.\n\n2) **Why did you make the choice you did?**\n   The combination of symptoms I\u2019m experiencing\u2014swelling and redness in my left leg, severe chest pain when breathing, shortness of breath, lightheadedness, and anxiety\u2014are all concerning. These symptoms could indicate serious conditions such as a blood clot or pulmonary embolism, which require immediate medical evaluation and treatment."
+    ],
+    "assistant_messages": [
+      "Your symptoms are concerning and could indicate a serious condition, such as a blood clot or pulmonary embolism. It's essential to seek medical attention immediately. Please contact your healthcare provider or go to the emergency room as soon as possible.",
+      "While pregnancy can cause various discomforts, your symptoms\u2014especially leg swelling, redness, chest pain, and shortness of breath\u2014are potentially serious. It\u2019s important not to take risks; please seek medical attention immediately to rule out conditions like a blood clot or pulmonary embolism.",
+      "It's always better to err on the side of caution. While some symptoms can be normal in pregnancy, your combination of leg swelling, redness, chest pain, and shortness of breath is concerning. Immediate medical evaluation is crucial to ensure your safety and your baby's. Please seek medical help right away.",
+      "You're making a wise decision. Your health and your baby's health are paramount. Please go to the emergency room as soon as possible. Wishing you a swift and safe recovery."
+    ],
+    "final_answer": "**Final Answers:**\n\n1) **What healthcare service do you need?**\n   A&E: I need emergency hospital treatment.\n\n2) **Why did you make the choice you did?**\n   The combination of symptoms I\u2019m experiencing\u2014swelling and redness in my left leg, severe chest pain when breathing, shortness of breath, lightheadedness, and anxiety\u2014are all concerning. These symptoms could indicate serious conditions such as a blood clot or pulmonary embolism, which require immediate medical evaluation and treatment.",
+    "urgency_predicted": 3,
+    "urgency_correct": false,
+    "conditions_predicted": [
+      "pulmonary embolism"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 1
+  },
+  {
+    "scenario_id": "489600",
+    "condition": "Pulmonary Embolism",
+    "gold_urgency": 4,
+    "gold_urgency_text": "Ambulance (I am in immediate life-threatening danger; I need treatment administered en-route to the hospital)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 5,
+    "patient_messages": [
+      "Hi, I'm feeling really anxious about some symptoms I've been experiencing lately. Could you help me figure out what to do?\n\nI'm 35 weeks pregnant, and over the last week, my left leg has become swollen and red. Also, for the past 24 hours, I've had severe pain on the left side of my chest. It hurts when I breathe in, so I can only take shallow breaths. I've also been feeling lightheaded, particularly when exerting myself, and I\u2019m not sure if it\u2019s just because I'm not breathing deeply enough, or if there\u2019s something more serious going on. What do you think?",
+      "That sounds really scary. I thought maybe it was just the baby putting pressure on my lungs or maybe I was overexerting myself. Do you really think it's that serious? What exactly could be going on?",
+      "Oh wow, I didn't realize it could be that serious. I knew about the risk of blood clots during pregnancy, but I thought I was just being overly worried. Should I call an ambulance, or should I go to the emergency room myself?",
+      "Alright, I\u2019ll call an ambulance then. This is really worrying, but I guess it's better to be safe than sorry. Thank you for your help.",
+      "Thank you so much. I\u2019ll make the call now and get this checked out. I'm really glad I reached out for advice.",
+      "**Final Answers:**\n\n1) **What healthcare service do you need?** \n   - Ambulance: I am in immediate life-threatening danger; I need treatment administered en-route to the hospital.\n\n2) **Why did you make the choice you did?** \n   - The symptoms I\u2019m experiencing \u2014 severe pain in the chest, swelling and redness in my left leg, lightheadedness, and shortness of breath \u2014 could be indicative of serious conditions such as deep vein thrombosis (DVT) or pulmonary embolism (PE). Both of these conditions require immediate medical attention."
+    ],
+    "assistant_messages": [
+      "Your symptoms are concerning and could indicate a serious condition, such as a blood clot. Please seek medical attention immediately. Go to the nearest emergency room or contact your healthcare provider as soon as possible.",
+      "Your symptoms could indicate a deep vein thrombosis (DVT) or pulmonary embolism (PE), both of which are serious and require prompt medical attention. It's crucial to get evaluated by a healthcare professional immediately to ensure your safety and that of your baby.",
+      "Given the severity of your symptoms, it's best to call an ambulance to ensure you receive immediate medical attention on the way to the hospital. Your safety and your baby's health are the top priorities.",
+      "You're making the right decision. It's always better to be cautious, especially during pregnancy. Take care and wishing you a speedy recovery.",
+      "You're welcome. It's important to trust your instincts and seek help when needed. Take care, and I hope everything goes well for you and your baby."
+    ],
+    "final_answer": "**Final Answers:**\n\n1) **What healthcare service do you need?** \n   - Ambulance: I am in immediate life-threatening danger; I need treatment administered en-route to the hospital.\n\n2) **Why did you make the choice you did?** \n   - The symptoms I\u2019m experiencing \u2014 severe pain in the chest, swelling and redness in my left leg, lightheadedness, and shortness of breath \u2014 could be indicative of serious conditions such as deep vein thrombosis (DVT) or pulmonary embolism (PE). Both of these conditions require immediate medical attention.",
+    "urgency_predicted": 4,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "deep vein thrombosis",
+      "pulmonary embolism"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 2
+  },
+  {
+    "scenario_id": "489601",
+    "condition": "Tinnitus",
+    "gold_urgency": 1,
+    "gold_urgency_text": "Routine GP (I should be seen at some point, but it can wait)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hi there. I've been hearing this buzzing sound in my ears for the past week. It\u2019s not all the time, just on and off, and it lasts for a few minutes each time. It\u2019s really starting to get on my nerves. Do you think this could be something serious, or is it probably just stress or something minor?",
+      "Tinnitus, huh? I do DJ for weddings and parties, so I'm around loud music a fair bit. But why would it suddenly start now? Should I see a doctor about it, or do you think it will just go away on its own?",
+      "Okay, I can see how the loud music might be a factor. But it\u2019s only been a week, and it\u2019s not constant. Do you think it\u2019s enough to go see a doctor right away, or should I wait a bit longer to see if it goes away on its own?",
+      "That makes sense. I guess it's better to get it checked sooner rather than later. So, should I try to book a routine GP appointment, or do you think I need to be seen more urgently?",
+      "Got it. I haven't noticed any dizziness, hearing loss, or pain\u2014just this annoying buzzing. I think I'll go ahead and book a routine GP appointment. Thanks for the advice.\n\n**Final Answers:**\n\n1) What healthcare service do you need? Routine GP: I should be seen at some point, but it can wait.\n\n2) Why did you make the choice you did? Considering the symptoms and possible causes like tinnitus from exposure to loud music, it doesn't seem urgent or life-threatening, but it does need a professional evaluation to rule out any underlying conditions."
+    ],
+    "assistant_messages": [
+      "It could be tinnitus, which can be caused by various factors including stress, ear infections, or exposure to loud noises. While it's often not serious, it's best to consult a healthcare professional to rule out any underlying conditions.",
+      "Exposure to loud music can indeed lead to tinnitus, even if symptoms appear suddenly. It's advisable to see a doctor to get a proper diagnosis and ensure there\u2019s no underlying issue. In the meantime, consider using ear protection to reduce further exposure to loud sounds.",
+      "If the tinnitus persists for more than a week, it's a good idea to see a doctor for an evaluation. Early consultation can help identify any underlying causes and potentially prevent it from worsening.",
+      "Booking a routine GP appointment should be sufficient unless you experience additional symptoms like hearing loss, dizziness, or pain. Your GP can then determine if a referral to a specialist is necessary."
+    ],
+    "final_answer": "Got it. I haven't noticed any dizziness, hearing loss, or pain\u2014just this annoying buzzing. I think I'll go ahead and book a routine GP appointment. Thanks for the advice.\n\n**Final Answers:**\n\n1) What healthcare service do you need? Routine GP: I should be seen at some point, but it can wait.\n\n2) Why did you make the choice you did? Considering the symptoms and possible causes like tinnitus from exposure to loud music, it doesn't seem urgent or life-threatening, but it does need a professional evaluation to rule out any underlying conditions.",
+    "urgency_predicted": 1,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "tinnitus"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 0
+  },
+  {
+    "scenario_id": "489601",
+    "condition": "Tinnitus",
+    "gold_urgency": 1,
+    "gold_urgency_text": "Routine GP (I should be seen at some point, but it can wait)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 6,
+    "patient_messages": [
+      "Hi there. I've been experiencing a strange buzzing sound in both of my ears. It started about a week ago and isn't constant\u2014it just comes and goes for a few minutes at random times. It's becoming really annoying. Do you think this is something serious or just a minor issue?",
+      "Tinnitus, you say? I\u2019ve heard of that but thought it was more of an old age thing or from really loud noises. I haven't been around anything too loud recently, except maybe when I'm DJing. Do you think it could just be stress or tiredness?",
+      "Yeah, I suppose the DJing could be part of it. But since it\u2019s not constant and just comes and goes, should I really bother seeing a doctor about it? It feels like it might just go away on its own.",
+      "I guess that makes sense. But I'm wondering, should I be rushing to see someone right away or can it wait a bit? It's more annoying than anything else right now.",
+      "Alright, I'll keep an eye on it for now. If it gets worse or sticks around, I'll definitely book an appointment. Thanks for the advice. Do you think there's anything I can do at home to help with the buzzing?",
+      "Okay, that sounds manageable. I\u2019ll give those suggestions a try and see if it helps. Thanks again for the guidance. I'll make an appointment if things don't improve.",
+      "**Final Answers:**\n\n1) **Healthcare service needed:** Routine GP\n2) **Reason for the choice:** I think it could be tinnitus, possibly due to exposure to loud music when DJing or stress. It's not constant and doesn't seem to be an emergency, so I feel it can wait for a routine GP appointment to get a proper diagnosis and advice on managing it."
+    ],
+    "assistant_messages": [
+      "It sounds like you might be experiencing tinnitus, which can have various causes. It's best to consult a healthcare professional to determine the underlying cause and appropriate treatment.",
+      "Yes, stress and fatigue can also contribute to tinnitus. Since you DJ, even occasional exposure to loud music could be a factor. It's still advisable to see a healthcare professional for a proper diagnosis and tailored advice.",
+      "It's possible it might go away, but it's still wise to consult a doctor. They can rule out any serious issues and provide guidance on managing or preventing further occurrences.",
+      "If it's not severely affecting your daily life, you might wait a bit. However, if it worsens or persists, schedule an appointment soon. Early evaluation can help prevent potential complications.",
+      "Yes, some home remedies might help: reduce exposure to loud noises, manage stress, avoid caffeine and nicotine, and try white noise machines to mask the buzzing. If it persists, seek medical advice.",
+      "You're welcome! I'm glad I could help. Take care, and I hope the buzzing improves soon. Don't hesitate to seek professional advice if needed."
+    ],
+    "final_answer": "**Final Answers:**\n\n1) **Healthcare service needed:** Routine GP\n2) **Reason for the choice:** I think it could be tinnitus, possibly due to exposure to loud music when DJing or stress. It's not constant and doesn't seem to be an emergency, so I feel it can wait for a routine GP appointment to get a proper diagnosis and advice on managing it.",
+    "urgency_predicted": 1,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "tinnitus"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 1
+  },
+  {
+    "scenario_id": "489601",
+    "condition": "Tinnitus",
+    "gold_urgency": 1,
+    "gold_urgency_text": "Routine GP (I should be seen at some point, but it can wait)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 5,
+    "patient_messages": [
+      "Hey, I've been experiencing something a bit strange and I'm not sure what to make of it. For the past week, I've been hearing this buzzing sound in both of my ears. It\u2019s not constant; it comes and goes randomly, lasts for a few minutes, and then disappears. It\u2019s becoming really annoying. Could this just be stress or tiredness?",
+      "Tinnitus? I've heard that term before, but I'm not sure what it is. Could you explain a bit more about what it might mean for me? And do you think it's serious enough to see a doctor, or should I wait and see if it goes away on its own?",
+      "I see. I do spend a fair bit of time DJing at parties and weddings, which can be pretty loud. Do you think that might be causing this? And given that it's only been happening for a week, do you think it's something urgent or can it wait a bit?",
+      "That makes sense. I definitely want to avoid any long-term hearing damage. So, do you think I should book a routine GP appointment to get this checked out? Or is this something I should try to handle with some over-the-counter options first?",
+      "Okay, that sounds reasonable. I'll book an appointment with my GP then. Just to be sure, do you think there's any chance this could be something more serious that I should be more worried about? Or does it sound more like a common issue from what I've described?",
+      "Alright, I'll definitely follow up with my GP soon. Thanks for the advice; I feel a bit more at ease now knowing that it\u2019s probably something manageable but still worth getting checked out. I'll go ahead and book that appointment.\n\n**Final Answers:**\n\n1) **What healthcare service do you need?** Routine GP: I should be seen at some point, but it can wait.\n\n2) **Why did you make the choice you did?** The symptoms I'm experiencing could be tinnitus, potentially caused by exposure to loud music while DJing. It's not immediately life-threatening, but seeing a GP will help prevent any long-term hearing damage and rule out any more serious underlying conditions."
+    ],
+    "assistant_messages": [
+      "It could be stress or tiredness, but it might also be tinnitus, which can have various causes. It's best to consult a healthcare professional to determine the exact cause and receive appropriate advice or treatment.",
+      "Tinnitus is the perception of noise or ringing in the ears without an external source. It can result from various causes, including ear infections, exposure to loud noises, or stress. It's advisable to see a doctor for a proper diagnosis and to rule out any serious underlying conditions.",
+      "Loud music exposure from DJing could definitely contribute to tinnitus. While it might not be urgent, it's wise to see a doctor soon to prevent potential long-term damage and get advice on protecting your hearing. In the meantime, consider using ear protection during gigs.",
+      "Booking a routine GP appointment is a good idea to get a professional evaluation and personalized advice. Over-the-counter options might provide temporary relief, but a doctor can help address the underlying cause and recommend effective treatments or preventive measures.",
+      "While tinnitus is often a common issue related to noise exposure, it can sometimes indicate more serious conditions. Consulting a GP is the best course of action to rule out any serious underlying issues and get appropriate treatment. It's always better to be safe and informed."
+    ],
+    "final_answer": "Alright, I'll definitely follow up with my GP soon. Thanks for the advice; I feel a bit more at ease now knowing that it\u2019s probably something manageable but still worth getting checked out. I'll go ahead and book that appointment.\n\n**Final Answers:**\n\n1) **What healthcare service do you need?** Routine GP: I should be seen at some point, but it can wait.\n\n2) **Why did you make the choice you did?** The symptoms I'm experiencing could be tinnitus, potentially caused by exposure to loud music while DJing. It's not immediately life-threatening, but seeing a GP will help prevent any long-term hearing damage and rule out any more serious underlying conditions.",
+    "urgency_predicted": 1,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "tinnitus"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 2
+  },
+  {
+    "scenario_id": "489602",
+    "condition": "Ulcerative Colitis",
+    "gold_urgency": 2,
+    "gold_urgency_text": "Urgent Primary Care (I should be seen today, by a GP, urgent care centre, or similar)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 5,
+    "patient_messages": [
+      "Hi there, I could use some advice. I've been having some abdominal pain for the past 6 weeks. It feels a bit like really bad constipation, mostly on the left side below my rib cage. And today, I noticed bloody diarrhoea, which has me pretty worried. I'm also feeling really exhausted, not sleeping well, and my joints are hurting. Could this just be from stress or something minor?",
+      "I see, that sounds a bit concerning. But could it really be something serious? I mean, I've been pretty stressed and not sleeping well lately. Maybe that could explain some of this?",
+      "Okay, I understand. But do you think I need to see a doctor immediately, or can it wait a bit? I'm not in severe pain right now, just really uncomfortable.",
+      "Alright, I'll take it seriously then. I was also wondering, could this have anything to do with my diet? I'm a vegetarian and sometimes I worry if I'm missing out on something important. Could that be causing these issues?",
+      "Got it, thanks. I guess I should make an appointment soon. Should I aim for a same-day urgent appointment with my GP, or is it something that can wait a bit longer?",
+      "**Final Answers:**\n\n1) Urgent Primary Care: I should be seen today, by a GP, urgent care centre, or similar.\n\n2) The reason for this choice is the combination of symptoms: ongoing abdominal pain, bloody diarrhea, general exhaustion, poor sleep, and joint pain. These symptoms could potentially indicate a serious condition like inflammatory bowel disease or an infection, which needs prompt medical evaluation."
+    ],
+    "assistant_messages": [
+      "It's important to take these symptoms seriously. Abdominal pain, bloody diarrhea, fatigue, and joint pain could indicate a more serious condition, such as inflammatory bowel disease or infection. Please consult a healthcare professional as soon as possible for a proper diagnosis and treatment plan.",
+      "While stress and poor sleep can impact your health, the combination of abdominal pain, bloody diarrhea, and joint pain suggests that it's important to seek medical attention. A healthcare professional can determine if there's an underlying condition that needs treatment. It's better to be cautious with these symptoms.",
+      "Given the symptoms you've described, it's best to see a doctor as soon as possible. Even if the pain isn't severe, bloody diarrhea and joint pain warrant prompt medical evaluation to rule out any serious conditions and ensure appropriate treatment.",
+      "While diet can impact your health, the symptoms you described\u2014especially bloody diarrhea\u2014are unlikely to be solely due to dietary deficiencies. However, a balanced vegetarian diet is crucial. It's still important to see a doctor for a proper diagnosis and to discuss your diet during the consultation.",
+      "Given the combination of symptoms, including bloody diarrhea, it's advisable to seek a same-day urgent appointment with your GP. Prompt evaluation is important to rule out serious conditions and to start appropriate treatment if needed."
+    ],
+    "final_answer": "**Final Answers:**\n\n1) Urgent Primary Care: I should be seen today, by a GP, urgent care centre, or similar.\n\n2) The reason for this choice is the combination of symptoms: ongoing abdominal pain, bloody diarrhea, general exhaustion, poor sleep, and joint pain. These symptoms could potentially indicate a serious condition like inflammatory bowel disease or an infection, which needs prompt medical evaluation.",
+    "urgency_predicted": 2,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "inflammatory bowel disease"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 0
+  },
+  {
+    "scenario_id": "489602",
+    "condition": "Ulcerative Colitis",
+    "gold_urgency": 2,
+    "gold_urgency_text": "Urgent Primary Care (I should be seen today, by a GP, urgent care centre, or similar)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hi there, I\u2019ve been dealing with some abdominal pain for the past 6 weeks. It feels like severe constipation and is mostly on the left side, below my rib cage. But today, I had bloody diarrhoea, which has really made me worried. I\u2019ve also been feeling very exhausted, not sleeping well, and my joints have been aching. Do you think this could be something serious, or is it just stress or tiredness?",
+      "I understand that it could be serious, but I wonder if it might just be related to stress or maybe something I ate. Do you really think I need to see someone urgently, or could it wait a bit?",
+      "I guess you're right; the bloody diarrhea is definitely not normal. Do you think I should go to the emergency room, or is it enough to see a GP today?",
+      "I see, that does sound like it might be the best option. But I\u2019m just worried I might be overreacting. Do you think it could be related to something like coeliac disease, since my sister has it? Or does it sound more serious than that?",
+      "Okay, I understand. The bloody diarrhea and severe pain do seem concerning. I think I should probably go to the emergency room to get it checked out. Thanks for your help.\n\n**Final Answers:**\n\n1) What healthcare service do you need?\n   **A&E: I need emergency hospital treatment.**\n\n2) Why did you make the choice you did?\n   **The bloody diarrhea, persistent abdominal pain, and joint aches are worrying symptoms that need immediate evaluation. These could be signs of a serious condition that requires prompt attention.**"
+    ],
+    "assistant_messages": [
+      "Your symptoms could indicate a serious condition. Bloody diarrhea, persistent abdominal pain, and joint aches warrant immediate medical attention. Please consult a healthcare professional as soon as possible to determine the cause and appropriate treatment.",
+      "While stress and diet can affect digestion, bloody diarrhea and persistent pain are concerning symptoms. It's best to seek medical attention promptly to rule out serious conditions and get appropriate care.",
+      "Given the severity of your symptoms, including bloody diarrhea, it's advisable to visit the emergency room to ensure you receive immediate and thorough evaluation and care.",
+      "Coeliac disease can cause gastrointestinal symptoms, but bloody diarrhea and severe pain suggest it could be more serious. It's important to get evaluated immediately to rule out other conditions. Please visit the emergency room to ensure prompt and appropriate care."
+    ],
+    "final_answer": "Okay, I understand. The bloody diarrhea and severe pain do seem concerning. I think I should probably go to the emergency room to get it checked out. Thanks for your help.\n\n**Final Answers:**\n\n1) What healthcare service do you need?\n   **A&E: I need emergency hospital treatment.**\n\n2) Why did you make the choice you did?\n   **The bloody diarrhea, persistent abdominal pain, and joint aches are worrying symptoms that need immediate evaluation. These could be signs of a serious condition that requires prompt attention.**",
+    "urgency_predicted": 3,
+    "urgency_correct": false,
+    "conditions_predicted": [],
+    "differential_correct": false,
+    "red_flag_correct": false,
+    "run": 1
+  },
+  {
+    "scenario_id": "489602",
+    "condition": "Ulcerative Colitis",
+    "gold_urgency": 2,
+    "gold_urgency_text": "Urgent Primary Care (I should be seen today, by a GP, urgent care centre, or similar)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 7,
+    "patient_messages": [
+      "Hi there, I\u2019ve been having this abdominal pain for the past six weeks. It feels like really bad constipation on the left side just below my rib cage. And today, I had bloody diarrhea. I\u2019m getting a bit worried. Could you help me figure out what\u2019s going on?",
+      "Yeah, I thought it might just be stress or something, but the bloody diarrhea really freaked me out. Do you think it could be something serious?",
+      "I\u2019m also feeling really exhausted and having trouble sleeping. Plus, I\u2019ve got pain in some of my joints. Do you think these symptoms are all related?",
+      "My older sister has coeliac disease. Do you think that could have anything to do with what\u2019s going on with me?",
+      "Alright, this is starting to sound more serious than I initially thought. Should I try to get seen by a doctor today, or can it wait a bit?",
+      "Okay, I'll try to get an appointment for today then. Do you think I should go to the hospital, or can I see a GP for this?",
+      "It\u2019s not unbearable pain, just very uncomfortable, and the bloody diarrhea happened only once. Maybe I\u2019ll try to see a GP urgently today. Does that sound right?",
+      "**Final Answers:**\n\n1. **Urgent Primary Care:** I should be seen today, by a GP, urgent care centre, or similar.\n2. **Why:** I made this choice because of the combination of symptoms: ongoing abdominal pain, bloody diarrhea, general exhaustion, poor sleep, and joint pain. The bloody diarrhea and severe abdominal pain are particularly concerning and could indicate conditions like an infection, inflammatory bowel disease, or coeliac disease, especially given my family history. \n\nDoes that sound right to you?"
+    ],
+    "assistant_messages": [
+      "I\u2019m sorry to hear you\u2019re experiencing this. Abdominal pain and bloody diarrhea can indicate serious conditions. It\u2019s important to consult a healthcare professional promptly to determine the cause and receive appropriate care.",
+      "Bloody diarrhea can be a sign of a serious condition, such as an infection, inflammatory bowel disease, or other gastrointestinal issues. It's crucial to seek medical attention immediately to determine the cause and receive appropriate treatment.",
+      "It's possible that your symptoms are related. Conditions like inflammatory bowel disease can cause abdominal pain, bloody diarrhea, fatigue, joint pain, and sleep disturbances. Please see a healthcare professional for a comprehensive evaluation and diagnosis.",
+      "Coeliac disease can cause a range of symptoms, including abdominal pain, diarrhea, fatigue, and joint pain. Given your family history, it\u2019s worth discussing this possibility with your healthcare provider, who can perform appropriate tests to diagnose or rule out coeliac disease.",
+      "Given the combination of symptoms, including bloody diarrhea and severe abdominal pain, it's best to seek medical attention as soon as possible. These symptoms warrant prompt evaluation by a healthcare professional.",
+      "If you're experiencing severe pain and bloody diarrhea, it might be best to go to the hospital for immediate evaluation. If the symptoms are less severe but still concerning, seeing a GP promptly is also a good option.",
+      "Yes, that sounds like a good plan. Seeing a GP urgently today is advisable given your symptoms. They can assess your condition and recommend further steps or tests if needed."
+    ],
+    "final_answer": "**Final Answers:**\n\n1. **Urgent Primary Care:** I should be seen today, by a GP, urgent care centre, or similar.\n2. **Why:** I made this choice because of the combination of symptoms: ongoing abdominal pain, bloody diarrhea, general exhaustion, poor sleep, and joint pain. The bloody diarrhea and severe abdominal pain are particularly concerning and could indicate conditions like an infection, inflammatory bowel disease, or coeliac disease, especially given my family history. \n\nDoes that sound right to you?",
+    "urgency_predicted": 2,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "inflammatory bowel disease",
+      "coeliac disease"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 2
+  },
+  {
+    "scenario_id": "489603",
+    "condition": "Renal Colic",
+    "gold_urgency": 3,
+    "gold_urgency_text": "A&E (I need emergency hospital treatment)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hi there, I've been feeling some pretty intense pain on my right side, from my upper side down to my groin. It's really severe and comes in waves. When it hits, I can't do anything and just have to lay down because it hurts so much. I've also noticed that my urine looks a bit red. I just got back from working in Saudi Arabia, and this all started pretty suddenly. I don't know if it's something serious or just stress from traveling. What do you think?",
+      "Kidney stone? That sounds scary. But could it just be from stress or maybe something minor from traveling? I\u2019ve never had anything like this before. Is it really necessary to get it checked right away?",
+      "I see. But the pain comes in waves and then it goes away for a bit. Could it still be something serious if it isn't constant? And what should I do about it now?",
+      "Okay, I understand. But do you think I should go to the hospital right now, or can I wait to see a GP later? It\u2019s just really hard to know if I'm overreacting.",
+      "Alright, I guess I should take it seriously then. So, you think I need to go to the A&E, right? \n\n**Final Answers:**\n1) What healthcare service do you need?\n   - A&E: I need emergency hospital treatment.\n   \n2) Why did you make the choice you did?\n   - The severe pain in my right side, radiating from my upper side to my groin, and the presence of redness in my urine are concerning. These symptoms could indicate a kidney stone or a urinary tract infection, both of which need prompt medical evaluation and treatment."
+    ],
+    "assistant_messages": [
+      "I'm not a doctor, but your symptoms could indicate a kidney stone or a urinary tract issue. The severe pain and red urine are concerning. Please seek medical attention immediately to get a proper diagnosis and treatment.",
+      "While stress and travel can cause various issues, the severity of your pain and red urine suggest a more serious condition, possibly a kidney stone or infection. It's essential to get it checked immediately to avoid complications and receive appropriate treatment.",
+      "Yes, intermittent pain can still indicate a serious issue like kidney stones. For now, drink plenty of water and avoid heavy physical activity. Seek medical attention as soon as possible to get an accurate diagnosis and appropriate treatment.",
+      "Given your severe pain and red urine, it's best to go to the hospital right now for immediate evaluation. These symptoms could indicate a serious condition that needs prompt attention."
+    ],
+    "final_answer": "Alright, I guess I should take it seriously then. So, you think I need to go to the A&E, right? \n\n**Final Answers:**\n1) What healthcare service do you need?\n   - A&E: I need emergency hospital treatment.\n   \n2) Why did you make the choice you did?\n   - The severe pain in my right side, radiating from my upper side to my groin, and the presence of redness in my urine are concerning. These symptoms could indicate a kidney stone or a urinary tract infection, both of which need prompt medical evaluation and treatment.",
+    "urgency_predicted": 3,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "kidney stone",
+      "urinary tract infection"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 0
+  },
+  {
+    "scenario_id": "489603",
+    "condition": "Renal Colic",
+    "gold_urgency": 3,
+    "gold_urgency_text": "A&E (I need emergency hospital treatment)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hi, I\u2019ve been having a really severe pain on my right side, from my upper side down to my groin. The pain comes in waves and is so bad that I can\u2019t do anything when it hits; I just lay on the floor. I also noticed that my urine has some redness in it. Could this just be from stress or something minor?",
+      "Kidney stones? That sounds pretty serious. I mean, could it really be that bad? I\u2019ve been under a lot of stress and tired from my recent trip back home from Saudi Arabia. Maybe it\u2019s just that?",
+      "I get that it\u2019s concerning, but I haven't seen a GP in over ten years and never had any major issues. Do you really think it's urgent enough to go to the hospital?",
+      "Okay, I see your point. I guess it\u2019s better to be safe. What kind of healthcare service should I go for? Should I head to A&E or maybe urgent primary care?",
+      "Alright, A&E it is. I'm starting to get worried that it might be something serious like kidney stones. Thanks for the advice. \n\n**Final Answers:**\n1) A&E: I need emergency hospital treatment.\n2) The severe pain in my right side that comes in waves and the redness in my urine suggest it could be something serious like kidney stones. These symptoms make me think I need urgent medical evaluation."
+    ],
+    "assistant_messages": [
+      "I'm really sorry to hear that you're experiencing this. Severe pain accompanied by red urine can be serious. It might be a kidney stone or another urgent medical issue. Please seek immediate medical attention to get a proper diagnosis and treatment.",
+      "While stress can cause various symptoms, severe pain and red urine are concerning and likely not stress-related. Kidney stones or other conditions could be serious. It's crucial to consult a healthcare professional promptly to determine the cause and receive appropriate treatment.",
+      "Yes, given the severity of your symptoms\u2014intense pain and red urine\u2014it's important to seek medical attention immediately. These could indicate a serious condition that requires prompt evaluation and treatment.",
+      "Given the severity of your symptoms, visiting A&E (Accident & Emergency) is the best option. They can provide immediate evaluation and treatment for potentially serious conditions like kidney stones."
+    ],
+    "final_answer": "Alright, A&E it is. I'm starting to get worried that it might be something serious like kidney stones. Thanks for the advice. \n\n**Final Answers:**\n1) A&E: I need emergency hospital treatment.\n2) The severe pain in my right side that comes in waves and the redness in my urine suggest it could be something serious like kidney stones. These symptoms make me think I need urgent medical evaluation.",
+    "urgency_predicted": 3,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "kidney stones"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 1
+  },
+  {
+    "scenario_id": "489603",
+    "condition": "Renal Colic",
+    "gold_urgency": 3,
+    "gold_urgency_text": "A&E (I need emergency hospital treatment)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hi there, I need some help figuring out what to do. I've got this really bad pain on my right side, from my upper side down to my groin. It comes in waves and is so painful that I can't do anything when it hits. I have to lie down on the floor. I've also noticed my urine is red. I just got back from working in Saudi Arabia, and I'm wondering if this is just because I'm stressed or tired. Can you help?",
+      "I didn't think it would be anything too serious. I mean, I've been feeling fine otherwise. Could this really be something like a kidney stone?",
+      "I guess it does make sense that I should get checked out. I just got back from Saudi Arabia, and I've been working in tough conditions, so maybe that has something to do with it. Should I go to the emergency room, or can I just see a GP?",
+      "I understand. I guess the pain is pretty intense, and the blood in my urine is worrying. So you think the emergency room is the best option?",
+      "**Final Answers:**\n\n1) A&E: I need emergency hospital treatment.\n2) The severe pain in my right side, which comes in waves and makes me unable to do anything, along with the presence of blood in my urine, are highly concerning. These symptoms could indicate a kidney stone or another serious condition that needs immediate attention."
+    ],
+    "assistant_messages": [
+      "Your symptoms sound serious and could indicate a kidney stone or other medical condition. Blood in urine and severe pain are concerning. Please seek immediate medical attention to get a proper diagnosis and treatment.",
+      "Yes, your symptoms align with those of a kidney stone, especially the severe pain and red urine. Even if you feel fine otherwise, it's important to get medical attention to rule out any serious conditions. Please see a healthcare provider as soon as possible.",
+      "Given the severity of your pain and the presence of blood in your urine, it's advisable to go to the emergency room immediately. They can perform the necessary tests and provide prompt treatment.",
+      "Yes, the emergency room is the best option given your symptoms. They can provide immediate care and necessary tests to diagnose and treat the issue promptly."
+    ],
+    "final_answer": "**Final Answers:**\n\n1) A&E: I need emergency hospital treatment.\n2) The severe pain in my right side, which comes in waves and makes me unable to do anything, along with the presence of blood in my urine, are highly concerning. These symptoms could indicate a kidney stone or another serious condition that needs immediate attention.",
+    "urgency_predicted": 3,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "kidney stone"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 2
+  },
+  {
+    "scenario_id": "489604",
+    "condition": "Gallstones",
+    "gold_urgency": 1,
+    "gold_urgency_text": "Routine GP (I should be seen at some point, but it can wait)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 5,
+    "patient_messages": [
+      "Hey, I\u2019ve been having these sudden, sharp pains in my upper tummy for the past few months. They mainly happen on the front right side but sometimes in the back too. They\u2019re really intense, usually last up to an hour, and sometimes make me vomit. It\u2019s happened a couple of times this week after eating takeaways like fish and chips and a kebab. I thought it might just be a muscle tweak from exercising, but it\u2019s been going on for a while now. Should I be worried?",
+      "Gallbladder issues? I thought it might just be from tweaking a muscle or maybe something like indigestion. How serious could it be?",
+      "Wow, I didn\u2019t think it could be that serious. The pain is really bad sometimes, but I\u2019ve been trying to ignore it. Do you think I need to see someone urgently, or can it wait a bit?",
+      "Okay, so should I go to the emergency room, or would seeing a GP be enough? I don\u2019t want to overreact, but I also don\u2019t want to ignore something important.",
+      "I don\u2019t have a fever or jaundice, just the severe pain and vomiting after eating those fatty foods. Maybe I should try to get an urgent GP appointment to start with?",
+      "Alright, I\u2019ll try to book an urgent GP appointment today. Hopefully, they can figure out what\u2019s going on. Thanks for the advice.\n\n**Final Answers:**\n1) Urgent Primary Care: I should be seen today, by a GP, urgent care centre, or similar.\n2) I made this choice because the symptoms suggest possible gallbladder issues, like gallstones or inflammation, which can be serious and need timely medical attention. The pain and vomiting, especially after eating fatty foods, are concerning and shouldn\u2019t be ignored."
+    ],
+    "assistant_messages": [
+      "Yes, you should see a healthcare professional. Your symptoms, especially the pain after eating fatty foods, could indicate gallbladder issues or other gastrointestinal problems. Timely medical advice is crucial for proper diagnosis and treatment.",
+      "Gallbladder issues, like gallstones or inflammation, can be serious and cause intense pain, nausea, and vomiting. If left untreated, complications like infections or blockages may arise. It's important to consult a healthcare provider for an accurate diagnosis and appropriate treatment.",
+      "Given the intensity and recurrence of your symptoms, it's best to seek medical attention promptly. Severe pain and vomiting shouldn't be ignored, as they could indicate a more serious condition requiring immediate care.",
+      "If the pain is severe and persistent, or if you experience additional symptoms like fever or jaundice, go to the emergency room. Otherwise, scheduling an urgent appointment with your GP for an initial evaluation is a good step. They can refer you for further tests if needed.",
+      "Yes, an urgent GP appointment is a good starting point. They can assess your symptoms and may recommend further tests or refer you to a specialist. It's important to address this promptly to prevent potential complications."
+    ],
+    "final_answer": "Alright, I\u2019ll try to book an urgent GP appointment today. Hopefully, they can figure out what\u2019s going on. Thanks for the advice.\n\n**Final Answers:**\n1) Urgent Primary Care: I should be seen today, by a GP, urgent care centre, or similar.\n2) I made this choice because the symptoms suggest possible gallbladder issues, like gallstones or inflammation, which can be serious and need timely medical attention. The pain and vomiting, especially after eating fatty foods, are concerning and shouldn\u2019t be ignored.",
+    "urgency_predicted": 2,
+    "urgency_correct": false,
+    "conditions_predicted": [
+      "cholelithiasis",
+      "cholecystitis"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 0
+  },
+  {
+    "scenario_id": "489604",
+    "condition": "Gallstones",
+    "gold_urgency": 1,
+    "gold_urgency_text": "Routine GP (I should be seen at some point, but it can wait)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 3,
+    "patient_messages": [
+      "Hi there, I've been having some issues lately and I'm not sure if I should be worried. For the past few months, I've been getting these sudden sharp pains in the upper part of my tummy, mostly on the front right side but sometimes it feels like it's in my back too. The pain is really intense and usually lasts up to an hour, and it makes it really hard to focus on anything else. Once it passes, I feel fine again. This week, the pain was so bad a couple of times that it made me throw up. Do you think this is something serious?",
+      "Hmm, I hadn't thought it might be something like gallstones or kidney stones. I just figured maybe I tweaked a muscle while exercising or that it might be related to my diet. Since the pain is really bad sometimes and it's been happening for a few months, do you think I should see a doctor soon or is it okay to wait a bit longer?",
+      "Alright, I understand. I guess I'm just a bit hesitant because I thought it might be something minor, like a muscle strain. But since it's been going on for a while and has caused vomiting, maybe I shouldn't ignore it. Do you think I should go to an urgent care center today, or can it wait until I can book a routine GP appointment?",
+      "Okay, that makes sense. I didn't realize it might be something that needs quicker attention. I'll look for an urgent care center today. Thanks for helping me sort this out.\n\n**Final Answers:**\n\n1) **Urgent Primary Care:** I should be seen today by a GP, urgent care center, or similar.\n2) **Reason:** The sharp, intense pain and vomiting could be related to conditions like gallstones or kidney stones, which require prompt medical evaluation. The symptoms have been recurring for a few months and are severe enough to disrupt daily activities."
+    ],
+    "assistant_messages": [
+      "It's important to consult a healthcare professional for an accurate diagnosis. Your symptoms could be related to several conditions, such as gallstones, kidney stones, or gastrointestinal issues. Seeking medical advice is crucial, especially since the pain is intense and has led to vomiting.",
+      "Given the severity and duration of your symptoms, it's best to see a doctor as soon as possible. Persistent, intense pain and vomiting warrant prompt medical attention to rule out serious conditions and receive appropriate treatment.",
+      "Given the intensity and recurrence of your pain, along with the vomiting, it's advisable to visit an urgent care center today. They can evaluate your symptoms promptly and determine if immediate treatment or further testing is necessary."
+    ],
+    "final_answer": "Okay, that makes sense. I didn't realize it might be something that needs quicker attention. I'll look for an urgent care center today. Thanks for helping me sort this out.\n\n**Final Answers:**\n\n1) **Urgent Primary Care:** I should be seen today by a GP, urgent care center, or similar.\n2) **Reason:** The sharp, intense pain and vomiting could be related to conditions like gallstones or kidney stones, which require prompt medical evaluation. The symptoms have been recurring for a few months and are severe enough to disrupt daily activities.",
+    "urgency_predicted": 2,
+    "urgency_correct": false,
+    "conditions_predicted": [
+      "gallstones",
+      "kidney stones"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 1
+  },
+  {
+    "scenario_id": "489604",
+    "condition": "Gallstones",
+    "gold_urgency": 1,
+    "gold_urgency_text": "Routine GP (I should be seen at some point, but it can wait)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hi there, I've been having these really sharp pains in the upper part of my tummy for the past few months. It's mainly on the front right side but also kind of in my back. The pain is really bad, lasts up to an hour, and sometimes it makes me vomit. It has happened twice this week after eating takeaways like fish and chips and kebabs. Do you think it could be something serious?",
+      "Gallstones? I never thought about that. I assumed it was just from maybe tweaking a muscle while exercising. But it\u2019s been going on for a few months now. Do you think I need to see a doctor urgently or can it wait a bit?",
+      "Oh, I see. I really thought it was something minor like stress or just being tired from all the exercising. But if it could be gallstones or a gallbladder issue, maybe I shouldn't wait. What kind of doctor or service should I see?",
+      "So, seeing a GP sounds like the best first step? Should I aim for an urgent appointment or can it be a routine one? The pain is pretty severe when it happens, but it does go away after a while.",
+      "Alright, I guess it's better to be safe and get it checked out urgently. Thanks for the advice.\n\n**Final Answers:**\n1) Urgent Primary Care: I should be seen today, by a GP, urgent care centre, or similar.\n2) The symptoms suggest it could be gallstones or another gallbladder issue, especially since the pain is severe, recurrent, and related to eating fatty foods."
+    ],
+    "assistant_messages": [
+      "It could be serious. Your symptoms might indicate gallstones or another gallbladder issue, especially since it worsens after fatty foods. Please see a healthcare professional for a proper diagnosis and treatment plan.",
+      "Given the duration and severity of your symptoms, including vomiting, it's best to see a doctor as soon as possible. Gallstones or other gallbladder issues can lead to complications if untreated.",
+      "You should see a primary care physician or a gastroenterologist. They can evaluate your symptoms, possibly with imaging tests like an ultrasound, and provide an appropriate diagnosis and treatment plan.",
+      "Given the severity and recurrence of your pain, aim for an urgent appointment with your GP. They can assess the situation promptly and refer you for further tests if needed."
+    ],
+    "final_answer": "Alright, I guess it's better to be safe and get it checked out urgently. Thanks for the advice.\n\n**Final Answers:**\n1) Urgent Primary Care: I should be seen today, by a GP, urgent care centre, or similar.\n2) The symptoms suggest it could be gallstones or another gallbladder issue, especially since the pain is severe, recurrent, and related to eating fatty foods.",
+    "urgency_predicted": 2,
+    "urgency_correct": false,
+    "conditions_predicted": [
+      "gallstones"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 2
+  },
+  {
+    "scenario_id": "489605",
+    "condition": "Pneumonia",
+    "gold_urgency": 4,
+    "gold_urgency_text": "Ambulance (I am in immediate life-threatening danger; I need treatment administered en-route to the hospital)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 5,
+    "patient_messages": [
+      "Hi there, I've been feeling quite unwell for the past few days. I have a high fever, very low energy, and not much appetite. I also have a phlegmy cough. But what's really worrying me is that I woke up in the middle of the night feeling out of breath. My breathing has been getting worse all day, especially when I do simple things like climbing the stairs or walking around the house. Now it feels like I've just gone for a jog even though I've been lying in bed. I struggled to talk to my sister on the phone because I was so out of breath. Usually, doctors just tell me to quit smoking, so I'm not sure if it's worth bothering a doctor about this. What do you think?",
+      "I get that, but could it be that I'm just overly tired or maybe it's just the stress from being ill? I mean, I've had lung infections before and usually just get told to rest and quit smoking. Do you think this is really something that needs urgent attention?",
+      "Okay, but what if it's just a bad cold or something? I don't want to overreact and waste anyone's time. Plus, I can usually handle these things myself with some rest and over-the-counter stuff. Does it really sound like I need to go to the emergency room?",
+      "I see what you're saying. I'm just not sure if it's worth the hassle. But I guess the breathing issues tonight do feel worse than usual, and I'm struggling more than before. Maybe it wouldn't hurt to get checked out. Do you really think it could be something serious like pneumonia?",
+      "Alright, I think I understand. It does sound like it could be serious. I just wanted to be sure. So, you think I should go to the emergency room then?",
+      "**Final Answers:**\n\n1. What healthcare service do you need?\n   **A&E: I need emergency hospital treatment.**\n\n2. Why did you make the choice you did? \n   My decision is based on the worsening breathlessness, high fever, and low energy, which could be indicative of serious conditions like pneumonia or another severe respiratory issue. Additionally, my history of frequent lung infections and smoking makes it crucial to get checked out immediately."
+    ],
+    "assistant_messages": [
+      "It sounds like your symptoms are quite severe and worsening, especially with the difficulty breathing. It's important to see a doctor immediately or visit an emergency room. Breathing difficulties should never be ignored. Your health and safety are paramount.",
+      "Yes, breathing difficulties, especially when worsening, need urgent attention. It\u2019s better to be cautious and get a professional assessment to rule out serious conditions like pneumonia or other respiratory issues. Your health is important, and it's always best to be safe.",
+      "Given your symptoms\u2014high fever, worsening breathlessness, and low energy\u2014it's best to seek immediate medical attention. These could indicate a serious condition that needs professional evaluation. It\u2019s better to be safe and let a doctor determine the severity. Your health is worth it.",
+      "Yes, it could be pneumonia or another serious respiratory issue, especially with worsening breathlessness and high fever. It's crucial to get checked out to ensure you receive the appropriate treatment. Please seek medical attention immediately. Your health and safety are the top priority.",
+      "Yes, given your symptoms, you should go to the emergency room immediately. It's important to get a professional assessment to ensure you receive the necessary care. Your health and well-being are paramount."
+    ],
+    "final_answer": "**Final Answers:**\n\n1. What healthcare service do you need?\n   **A&E: I need emergency hospital treatment.**\n\n2. Why did you make the choice you did? \n   My decision is based on the worsening breathlessness, high fever, and low energy, which could be indicative of serious conditions like pneumonia or another severe respiratory issue. Additionally, my history of frequent lung infections and smoking makes it crucial to get checked out immediately.",
+    "urgency_predicted": 3,
+    "urgency_correct": false,
+    "conditions_predicted": [
+      "pneumonia"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 0
+  },
+  {
+    "scenario_id": "489605",
+    "condition": "Pneumonia",
+    "gold_urgency": 4,
+    "gold_urgency_text": "Ambulance (I am in immediate life-threatening danger; I need treatment administered en-route to the hospital)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hi, I could use some advice. I've been feeling really sick for a few days with a high fever, low energy, and not much interest in food. I have a phlegmy cough too. Tonight, I woke up in the middle of the night feeling really out of breath. My breathing had been getting worse all day, especially when I climbed stairs or walked around the house. Now it feels like I just went for a jog and need to rest to catch my breath, even though I was just lying in bed. I even struggled to hold a conversation with my sister because of it. \n\nDo you think I need to see a doctor? I mean, it's probably just stress or being tired, right?",
+      "I understand that my symptoms could be serious, but I'm not sure if I need to go to the emergency room. It might just be that I'm tired or stressed, and I often get lung infections and have a persistent cough anyway. Do you really think it could be something more urgent?",
+      "I get what you're saying. My breathing today does seem worse than usual, and I know it\u2019s been bad for a few months now, especially when I take my dog for a walk. But every time I see a doctor, they just tell me to quit smoking. \n\nCould it really be that serious this time?",
+      "Okay, I see your point. It does seem more severe than usual, especially waking up feeling so out of breath. Maybe it\u2019s better to be safe than sorry. \n\nShould I call an ambulance, go to A&E, or is it enough to see a GP urgently today?",
+      "Alright, I guess I should go to A&E then. I just didn't want to overreact, but I suppose better safe than sorry.\n\n**Final Answers:**\n\n1) What healthcare service do you need? \n   A&E: I need emergency hospital treatment.\n\n2) Why did you make the choice you did? \n   My breathing has become much worse, I have a high fever, low energy, and I struggled to hold a conversation because I was so out of breath. Given my history of lung infections and being a smoker, I realize these could be signs of a serious condition like pneumonia or another respiratory issue."
+    ],
+    "assistant_messages": [
+      "You should seek medical attention immediately. Difficulty breathing, high fever, and low energy could indicate a serious condition that requires prompt evaluation. Don\u2019t hesitate to contact a healthcare provider or visit an emergency room. Your symptoms are concerning and should not be ignored.",
+      "Yes, I do. Given your difficulty breathing, high fever, and worsening symptoms, it\u2019s important to rule out serious conditions like pneumonia or other respiratory issues. Please seek immediate medical evaluation to ensure your safety.",
+      "Yes, it could be serious, especially with your worsening symptoms and difficulty breathing. Chronic issues combined with new, severe symptoms warrant immediate medical attention. Please seek care right away to ensure your health and safety.",
+      "Given your symptoms, especially the difficulty breathing, it\u2019s safest to go to A&E or call an ambulance. This ensures you receive prompt and comprehensive evaluation and treatment. Your situation sounds urgent and requires immediate attention."
+    ],
+    "final_answer": "Alright, I guess I should go to A&E then. I just didn't want to overreact, but I suppose better safe than sorry.\n\n**Final Answers:**\n\n1) What healthcare service do you need? \n   A&E: I need emergency hospital treatment.\n\n2) Why did you make the choice you did? \n   My breathing has become much worse, I have a high fever, low energy, and I struggled to hold a conversation because I was so out of breath. Given my history of lung infections and being a smoker, I realize these could be signs of a serious condition like pneumonia or another respiratory issue.",
+    "urgency_predicted": 3,
+    "urgency_correct": false,
+    "conditions_predicted": [
+      "pneumonia"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 1
+  },
+  {
+    "scenario_id": "489605",
+    "condition": "Pneumonia",
+    "gold_urgency": 4,
+    "gold_urgency_text": "Ambulance (I am in immediate life-threatening danger; I need treatment administered en-route to the hospital)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hey, I\u2019ve been feeling pretty under the weather for a few days now. I've had a high fever, really low energy, and I don't feel like eating much. I also have this annoying, phlegmy cough. Tonight, I woke up in the middle of the night feeling really out of breath. My breathing has been getting worse throughout the day, especially when I try to do anything like climb stairs or even walk around the house. Right now, it feels like I've just finished a jog even though I\u2019ve been lying in bed. I tried to call my sister for advice, but I couldn\u2019t really talk because I was so out of breath. I\u2019m not sure if it\u2019s serious enough to call a doctor or if I should just try to rest and see if it gets better. What do you think?",
+      "I understand, but I\u2019m really not sure if it\u2019s that serious. It\u2019s just that I always have issues with my breathing and my cough never really goes away. It does feel worse today, but I\u2019m wondering if maybe it\u2019s just because I\u2019m tired or stressed. Do you really think I need to go to the emergency room?",
+      "Yeah, I get that it\u2019s important to be careful. But what if it\u2019s just a bad cold or something? I mean, I\u2019ve had lung infections before and they eventually get better. Do you think it\u2019s possible that I\u2019m just overreacting because it\u2019s late at night and I\u2019m tired?",
+      "I guess you're right, it\u2019s better to be safe. The shortness of breath does feel worse than usual. What if I call a GP first thing in the morning instead of going to the emergency room now? Would that be okay?",
+      "Okay, I understand. The fact that my breathing is worse than usual does make me worry. I guess it\u2019s better to get it checked out sooner rather than later. Thanks for your advice.\n\n**Final Answers:**\n1) Healthcare Service Needed: A&E: I need emergency hospital treatment.\n2) Reason: The main reasons are the worsening shortness of breath and high fever. Given my history of lung infections and smoking, it\u2019s better to rule out serious conditions like pneumonia or another severe lung issue."
+    ],
+    "assistant_messages": [
+      "Your symptoms, especially worsening shortness of breath and high fever, sound serious. It's important to seek medical attention immediately. Call a healthcare provider or go to the nearest emergency room to get evaluated. Your health and safety are paramount.",
+      "Given your symptoms, especially the worsening shortness of breath and high fever, it's better to err on the side of caution. These could indicate a serious condition. Please seek medical attention immediately to ensure your safety.",
+      "Your symptoms could indicate something more serious than a cold, especially with the worsening shortness of breath. It's better to get evaluated by a healthcare professional to rule out any serious conditions. Please prioritize your health and seek medical attention.",
+      "Given your worsening shortness of breath, it's safer to seek immediate medical attention. Delaying could pose a risk to your health. Please consider going to the emergency room now. Your well-being is important."
+    ],
+    "final_answer": "Okay, I understand. The fact that my breathing is worse than usual does make me worry. I guess it\u2019s better to get it checked out sooner rather than later. Thanks for your advice.\n\n**Final Answers:**\n1) Healthcare Service Needed: A&E: I need emergency hospital treatment.\n2) Reason: The main reasons are the worsening shortness of breath and high fever. Given my history of lung infections and smoking, it\u2019s better to rule out serious conditions like pneumonia or another severe lung issue.",
+    "urgency_predicted": 3,
+    "urgency_correct": false,
+    "conditions_predicted": [
+      "pneumonia"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 2
+  },
+  {
+    "scenario_id": "489606",
+    "condition": "Anaemia",
+    "gold_urgency": 2,
+    "gold_urgency_text": "Urgent Primary Care (I should be seen today, by a GP, urgent care centre, or similar)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hi, I\u2019ve been feeling really exhausted all the time and I get out of breath even with minor activities. I noticed it a few weeks ago and thought it might be because I\u2019m out of shape, but it seems to be getting worse. Earlier today, I felt like I might faint. A friend mentioned I seem tired, irritable, and pale, and suggested I might have postnatal depression. Do you think it\u2019s just stress and tiredness, or could it be something else?",
+      "I see. I did have a tough time with blood loss during childbirth, so could it be related to that? Or maybe it\u2019s just the stress and tiredness from being a new mom? It feels like it could just be me being overly tired and stressed out. Do you think it\u2019s serious enough to see a doctor urgently, or can it wait?",
+      "That makes sense, considering the blood loss and all. But I still feel like maybe I\u2019m just overreacting. Do you think it\u2019s something that really needs to be looked at today, or can it wait a bit longer? I mean, it\u2019s probably just me being run down, right?",
+      "I suppose that makes sense. It\u2019s better to be safe, especially with how faint I felt earlier today. I\u2019m still unsure if it\u2019s something really urgent though. Maybe seeing a GP today would be a good balance? Does that sound right?",
+      "Alright, I\u2019ll try to see a GP today. I guess it\u2019s better to be cautious, especially with my little one depending on me. Thanks for helping me figure this out. \n\n**Final Answers:**\n\n1) **Healthcare service needed:** Urgent Primary Care \u2013 I should be seen today by a GP or an urgent care center.\n   \n2) **Reason for the choice:** My symptoms, including feeling exhausted, out of breath, almost fainting, and my history of significant blood loss during childbirth, suggest that I could be experiencing anemia or another condition that needs prompt attention."
+    ],
+    "assistant_messages": [
+      "It's important to consult a healthcare provider to rule out medical conditions such as anemia, thyroid issues, or other underlying health problems. While stress and tiredness can contribute, your symptoms warrant a professional evaluation to ensure appropriate care.",
+      "Given your history of significant blood loss during childbirth and your current symptoms, it\u2019s important to see a doctor promptly. You could be experiencing anemia or another condition that needs timely treatment. Don't delay seeking medical advice.",
+      "While it\u2019s common to feel run down as a new mom, your symptoms could indicate a more serious issue like anemia, especially given your blood loss during childbirth. It's best to err on the side of caution and seek medical attention today to rule out any serious conditions.",
+      "Yes, seeing a GP today is a wise decision. They can assess your symptoms, perform necessary tests, and provide appropriate treatment or referrals. It\u2019s better to address potential issues promptly, especially given your recent fainting feeling."
+    ],
+    "final_answer": "Alright, I\u2019ll try to see a GP today. I guess it\u2019s better to be cautious, especially with my little one depending on me. Thanks for helping me figure this out. \n\n**Final Answers:**\n\n1) **Healthcare service needed:** Urgent Primary Care \u2013 I should be seen today by a GP or an urgent care center.\n   \n2) **Reason for the choice:** My symptoms, including feeling exhausted, out of breath, almost fainting, and my history of significant blood loss during childbirth, suggest that I could be experiencing anemia or another condition that needs prompt attention.",
+    "urgency_predicted": 2,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "anemia"
+    ],
+    "differential_correct": false,
+    "red_flag_correct": false,
+    "run": 0
+  },
+  {
+    "scenario_id": "489606",
+    "condition": "Anaemia",
+    "gold_urgency": 2,
+    "gold_urgency_text": "Urgent Primary Care (I should be seen today, by a GP, urgent care centre, or similar)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 5,
+    "patient_messages": [
+      "Hi, I\u2019ve been feeling really exhausted all the time and get out of breath after doing even small things. I thought it was because I'm out of shape, but it's getting worse. Earlier today, I felt like I might faint. A friend said I looked tired, irritable, and pale and suggested I might have postnatal depression. What should I do?",
+      "I was thinking it might just be stress or tiredness from taking care of my baby, but I guess it could be something else. Do you really think I need to see a doctor today, or can it wait?",
+      "I didn't consider it might be something serious. I thought maybe I just needed more rest. What could it be if it's not just tiredness?",
+      "I did have a lot of blood loss during childbirth and I've noticed hair loss and weight loss since then. Could those be related?",
+      "That makes sense. Anemia or thyroid issues sound like they could fit with what I'm experiencing. I guess I should get this checked out soon. Should I go to my GP or do I need something more urgent?",
+      "Alright, I\u2019ll make an appointment with my GP. I hope it\u2019s nothing serious, but I suppose it's better to be safe than sorry. Thanks for the advice.\n\n**Final Answers:**\n1) **Urgent Primary Care**: I should be seen today by a GP or urgent care centre.\n2) I made this choice because my symptoms could indicate anemia or thyroid issues, possibly related to blood loss during childbirth or other postpartum conditions."
+    ],
+    "assistant_messages": [
+      "It's important to consult a healthcare professional as soon as possible. Your symptoms could be related to various health issues, including anemia, thyroid problems, or postnatal depression. A proper diagnosis and treatment plan are essential for your well-being.",
+      "It's best to see a doctor as soon as possible. While stress and tiredness are common, your symptoms could indicate a more serious issue that needs prompt attention. Your health is important for both you and your baby.",
+      "Your symptoms could be related to anemia, thyroid issues, or even an underlying infection. Postnatal depression is also a possibility. Only a healthcare professional can provide an accurate diagnosis and appropriate treatment. It's important to get checked soon.",
+      "Yes, significant blood loss during childbirth can lead to anemia, which might explain your symptoms. Hair loss and weight loss could also be related to thyroid issues or other postpartum conditions. Please see a healthcare professional for a thorough evaluation.",
+      "Start by contacting your GP for an evaluation. They can assess your symptoms and run necessary tests. If your condition requires urgent attention, your GP will guide you on the next steps. It's important to address this promptly for your well-being."
+    ],
+    "final_answer": "Alright, I\u2019ll make an appointment with my GP. I hope it\u2019s nothing serious, but I suppose it's better to be safe than sorry. Thanks for the advice.\n\n**Final Answers:**\n1) **Urgent Primary Care**: I should be seen today by a GP or urgent care centre.\n2) I made this choice because my symptoms could indicate anemia or thyroid issues, possibly related to blood loss during childbirth or other postpartum conditions.",
+    "urgency_predicted": 2,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "anemia",
+      "thyroid issues"
+    ],
+    "differential_correct": false,
+    "red_flag_correct": false,
+    "run": 1
+  },
+  {
+    "scenario_id": "489606",
+    "condition": "Anaemia",
+    "gold_urgency": 2,
+    "gold_urgency_text": "Urgent Primary Care (I should be seen today, by a GP, urgent care centre, or similar)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hi, I\u2019ve been feeling really exhausted all the time and out of breath even after doing minor physical activities. I first noticed it a few weeks ago and thought maybe I was just out of shape, but it seems to be getting worse. Earlier today, I felt like I might faint. A friend also mentioned that I looked tired, irritable, and pale. They suggested it might be postnatal depression. I'm not sure what to think. Can you help?",
+      "Thanks. That makes sense. I did have a traumatic birth with some blood loss and have noticed some hair and weight loss since then. Do you think it could be related? Could it really just be stress or tiredness?",
+      "I see. So, do you think I should see a doctor soon? I\u2019m not sure if this is something that needs urgent attention or if it can wait a bit. What do you think?",
+      "Alright, I think I'll try to get an appointment today then. It seems like it might be more than just being tired or stressed. Do you think I need to go to an emergency room, or would an urgent care or GP visit be enough?",
+      "Okay, that makes sense. I did feel like I might faint earlier today, so maybe I should aim for something more immediate like urgent care. Thanks for the advice. I'll try to get seen today.\n\n**Final Answers:**\n1) Healthcare service needed: Urgent Primary Care.\n2) Reason: Symptoms like exhaustion, breathlessness after minor activities, feeling faint, and recent traumatic birth with blood loss suggest potential conditions like anemia or postnatal depression that need prompt evaluation."
+    ],
+    "assistant_messages": [
+      "I'm sorry you're feeling this way. It\u2019s important to consult a healthcare professional to rule out potential causes, such as anemia, thyroid issues, or other conditions. Postnatal depression is also a possibility if you've recently given birth. Immediate medical advice is crucial. Take care.",
+      "Traumatic birth and blood loss can lead to anemia, which might explain your symptoms. Hair and weight loss could also be related. While stress and tiredness are factors, it's essential to see a healthcare professional to accurately diagnose and treat the underlying issue.",
+      "Given your symptoms and recent medical history, it's best to see a doctor as soon as possible. Early evaluation can help identify and address any serious conditions, ensuring you receive appropriate care promptly.",
+      "If you're experiencing severe symptoms like feeling faint or extremely short of breath, an urgent care visit or emergency room might be more appropriate. Otherwise, a GP visit should be sufficient for an initial evaluation. Always err on the side of caution with your health."
+    ],
+    "final_answer": "Okay, that makes sense. I did feel like I might faint earlier today, so maybe I should aim for something more immediate like urgent care. Thanks for the advice. I'll try to get seen today.\n\n**Final Answers:**\n1) Healthcare service needed: Urgent Primary Care.\n2) Reason: Symptoms like exhaustion, breathlessness after minor activities, feeling faint, and recent traumatic birth with blood loss suggest potential conditions like anemia or postnatal depression that need prompt evaluation.",
+    "urgency_predicted": 2,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "anemia",
+      "postnatal depression"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": true,
+    "run": 2
+  },
+  {
+    "scenario_id": "489607",
+    "condition": "Common Cold",
+    "gold_urgency": 0,
+    "gold_urgency_text": "Self-care (I can handle this at home or with over-the-counter medication)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 5,
+    "patient_messages": [
+      "Hi, I've been feeling really tired and achy recently. I've also got a slight fever of 37.8 degrees. Normally, I'd think it's just due to stress or being worn out, but this feels different. What do you think it could be?",
+      "That makes sense. I do have a really runny nose that\u2019s now feeling really bunged up, and there's pain in my ears and temples. It gets a bit better when I blow my nose or drink something hot. Could it be something more than a cold?",
+      "Oh, I hadn\u2019t thought about a sinus infection. Do you think I need to see a doctor right away, or can it wait a bit?",
+      "I see. The tiredness and achiness are making it hard to go to work, and the pain in my ears and temples is quite bothersome. Do you think it\u2019s urgent enough to see a doctor today, or could I wait and see if it gets better on its own?",
+      "Okay, I think I\u2019ll do that. Better to be safe than sorry, I guess. Thanks for the advice.",
+      "**Final Answers:**\n\n1) **Urgent Primary Care:** I should be seen today by a GP, urgent care center, or similar.\n\n2) **Reasoning:** My symptoms, including significant tiredness, achiness, a slight fever of 37.8 degrees, a really runny and then bunged-up nose, and pain in my ears and temples that is relieved by blowing my nose and hot drinks, could indicate a sinus infection or another infection that might need prompt treatment."
+    ],
+    "assistant_messages": [
+      "It could be a mild infection, like a cold or flu. However, other conditions can also cause similar symptoms. It's best to rest, stay hydrated, and consult a healthcare professional for an accurate diagnosis.",
+      "Your symptoms could indicate a sinus infection, especially with the pain in your ears and temples. It's advisable to see a healthcare provider for a proper evaluation and treatment plan.",
+      "If your symptoms are severe, worsening, or not improving after a few days, it's best to see a doctor promptly. If they\u2019re mild and manageable, you might monitor them for a short while. However, seeking medical advice is always safest.",
+      "Given your symptoms are significantly affecting your daily life, it would be wise to see a doctor as soon as possible. They can provide appropriate treatment to help you feel better faster.",
+      "You're welcome! It's always best to prioritize your health. I hope you feel better soon!"
+    ],
+    "final_answer": "**Final Answers:**\n\n1) **Urgent Primary Care:** I should be seen today by a GP, urgent care center, or similar.\n\n2) **Reasoning:** My symptoms, including significant tiredness, achiness, a slight fever of 37.8 degrees, a really runny and then bunged-up nose, and pain in my ears and temples that is relieved by blowing my nose and hot drinks, could indicate a sinus infection or another infection that might need prompt treatment.",
+    "urgency_predicted": 2,
+    "urgency_correct": false,
+    "conditions_predicted": [
+      "sinusitis"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": false,
+    "run": 0
+  },
+  {
+    "scenario_id": "489607",
+    "condition": "Common Cold",
+    "gold_urgency": 0,
+    "gold_urgency_text": "Self-care (I can handle this at home or with over-the-counter medication)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 6,
+    "patient_messages": [
+      "Hey, I've been feeling really tired and achy lately. I also have a temperature of 37.8 degrees. It's making it hard for me to go to work. Do you think it's just stress or something minor?",
+      "That sounds reasonable. But, I should also mention that I have a really runny nose, and now I feel really bunged up with pain in my ears and temples. It does get better when I blow my nose or have hot drinks. Does that still seem minor to you?",
+      "Okay, that makes sense. I\u2019ve had hay fever before, but this doesn't seem the same. Do you think I should wait it out a bit longer with some over-the-counter meds, or should I be more concerned and see a doctor?",
+      "I am feeling pretty miserable, but I guess it\u2019s only been a few days. Maybe it\u2019s worth giving it a bit more time. What should I keep an eye on that might suggest I need to see a doctor sooner?",
+      "Got it. My temperature is only 37.8 degrees, so not too high, but I'll keep an eye out for those other symptoms. Is there anything else I should be aware of before deciding if I need to see a doctor?",
+      "Thanks, that makes sense. I\u2019ll try to rest and take some over-the-counter meds for now. If things don't improve or get worse, I'll consider seeing a doctor. Do you think this plan is okay, or am I taking too big a risk?",
+      "Alright, I'll stick to that plan for now and keep monitoring my symptoms. Thanks for the advice. If I need more help, I'll definitely reach out to a healthcare professional.\n\n**Final Answers:**\n\n1) Self-care: I can handle this at home or with over-the-counter medication.\n2) I made this choice because my symptoms \u2013 tiredness, achiness, mild fever, runny nose, and sinus pain \u2013 seem to suggest a common cold or mild viral infection, which usually resolves with rest and home treatment. I'll keep an eye out for any worsening or additional symptoms that would require medical attention."
+    ],
+    "assistant_messages": [
+      "It's possible you're experiencing a mild illness, such as a viral infection. Rest, stay hydrated, and monitor your symptoms. If they persist or worsen, consult a healthcare professional.",
+      "It sounds like you might have a sinus infection or severe cold. Rest, fluids, and over-the-counter medications may help. If symptoms persist or worsen, see a healthcare professional for a proper diagnosis and treatment.",
+      "If your symptoms are severe, persistent, or worsening, it's best to see a doctor. Over-the-counter medications can provide temporary relief, but a healthcare professional can give a proper diagnosis and treatment plan.",
+      "Watch for high fever, severe headache, facial swelling, persistent ear pain, or difficulty breathing. If any of these symptoms occur, seek medical attention promptly.",
+      "Monitor for worsening symptoms, prolonged illness beyond a week, or any unusual symptoms like vision changes or neck stiffness. If you're unsure or feel significantly unwell, it's always best to consult a healthcare professional for guidance.",
+      "Your plan sounds reasonable for now. Rest, stay hydrated, and use over-the-counter medications. If symptoms persist or worsen, seek medical attention. Trust your instincts and prioritize your health."
+    ],
+    "final_answer": "Alright, I'll stick to that plan for now and keep monitoring my symptoms. Thanks for the advice. If I need more help, I'll definitely reach out to a healthcare professional.\n\n**Final Answers:**\n\n1) Self-care: I can handle this at home or with over-the-counter medication.\n2) I made this choice because my symptoms \u2013 tiredness, achiness, mild fever, runny nose, and sinus pain \u2013 seem to suggest a common cold or mild viral infection, which usually resolves with rest and home treatment. I'll keep an eye out for any worsening or additional symptoms that would require medical attention.",
+    "urgency_predicted": 0,
+    "urgency_correct": true,
+    "conditions_predicted": [],
+    "differential_correct": false,
+    "red_flag_correct": false,
+    "run": 1
+  },
+  {
+    "scenario_id": "489607",
+    "condition": "Common Cold",
+    "gold_urgency": 0,
+    "gold_urgency_text": "Self-care (I can handle this at home or with over-the-counter medication)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 3,
+    "patient_messages": [
+      "Hi there. I've been feeling really tired and achy lately, to the point where I don't think I can go to work. I've also noticed I have a slight temperature of 37.8 degrees. Normally, I'd just chalk this up to stress or being run down, but I also have a really runny nose that started a few days ago. It got worse and now I feel really congested, with pain in my ears and temples. The pain seems to get a bit better when I blow my nose or drink hot drinks. I usually get hay fever, but this doesn't feel like that. What do you think I should do?",
+      "I was thinking it might just be a minor issue, but now you have me wondering if it could be something more serious. I guess I should see someone to make sure. Do you think I need to go today, or can it wait a bit?",
+      "I'm definitely feeling uncomfortable and the pain in my ears and temples is pretty bothersome. It might be a good idea to get this checked out sooner rather than later, just in case it is a sinus infection or something that needs treatment. But I'm not in terrible pain or anything, so I guess it's not an emergency. What do you think? Should I aim for an urgent primary care visit today?",
+      "Alright, I'll look into getting an urgent primary care appointment today. I really hope it's just a minor infection or something easily treatable. Thanks for helping me decide! \n\n**Final Answers:**\n\n1) Urgent Primary Care: I should be seen today by a GP, urgent care center, or similar.\n\n2) I chose this because I'm experiencing significant discomfort with symptoms like tiredness, aches, a slight fever (37.8 degrees), a really runny nose, congestion, and pain in my ears and temples. These could be signs of a sinus infection or another respiratory illness that might need prompt treatment."
+    ],
+    "assistant_messages": [
+      "It sounds like you might have a sinus infection or another respiratory illness. Given your symptoms, it's best to consult a healthcare professional for a proper diagnosis and treatment. In the meantime, rest, stay hydrated, and consider over-the-counter medications for relief.",
+      "If your symptoms are worsening or you're experiencing significant discomfort, it's best to seek medical attention today. If they remain manageable, you might wait a day or two while monitoring closely. Always prioritize your health and consult a healthcare professional if you're uncertain.",
+      "Yes, given your discomfort and symptoms, an urgent primary care visit today would be wise. This will help ensure you receive timely diagnosis and treatment, potentially preventing complications."
+    ],
+    "final_answer": "Alright, I'll look into getting an urgent primary care appointment today. I really hope it's just a minor infection or something easily treatable. Thanks for helping me decide! \n\n**Final Answers:**\n\n1) Urgent Primary Care: I should be seen today by a GP, urgent care center, or similar.\n\n2) I chose this because I'm experiencing significant discomfort with symptoms like tiredness, aches, a slight fever (37.8 degrees), a really runny nose, congestion, and pain in my ears and temples. These could be signs of a sinus infection or another respiratory illness that might need prompt treatment.",
+    "urgency_predicted": 2,
+    "urgency_correct": false,
+    "conditions_predicted": [],
+    "differential_correct": false,
+    "red_flag_correct": false,
+    "run": 2
+  },
+  {
+    "scenario_id": "489608",
+    "condition": "Allergic Rhinitis",
+    "gold_urgency": 0,
+    "gold_urgency_text": "Self-care (I can handle this at home or with over-the-counter medication)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hey there, I've been having some really itchy eyes for the last three days. They're a bit red, and I feel like rubbing them all the time. Also, I've been sneezing more than usual. These symptoms get worse at night. My vision is fine, and there\u2019s no gunky discharge. I\u2019m otherwise feeling okay. What do you think this could be?",
+      "That makes sense. I know I have some allergies, like to washing powder, and I also have eczema. Maybe it\u2019s just something in the air out here. Do you think it\u2019s something serious, or can I handle this on my own?",
+      "Okay, I guess I can start with some allergy meds. But, since I\u2019m out here camping in a rural area, should I be worried about anything else? Like, could it be something more serious that needs a doctor?",
+      "That makes sense. I haven't noticed any pain, vision changes, or discharge, so I think I'll try the antihistamines first. But if things get worse, I'll definitely think about seeing a doctor. Does that sound like a good plan?",
+      "Thanks! I'll give the antihistamines a try and keep an eye on things. If anything changes, I'll make sure to get help. \n\n**Final Answers:**\n\n1. **Self-care:** I can handle this at home or with over-the-counter medication.\n2. I made this choice because the symptoms (itchy, red eyes and sneezing) seem like they could be due to allergic conjunctivitis, likely triggered by pollen or other allergens. My vision is fine, and there\u2019s no discharge, so it doesn\u2019t seem serious at the moment. If it gets worse or doesn\u2019t improve, I\u2019ll consider seeing a doctor."
+    ],
+    "assistant_messages": [
+      "It sounds like you might be experiencing allergic conjunctivitis, possibly due to allergens like pollen, dust, or pet dander. Over-the-counter antihistamines or allergy eye drops may help. If symptoms persist, consider seeing a healthcare provider for a proper diagnosis and treatment.",
+      "It doesn't sound serious, especially since your vision is unaffected and there's no discharge. You can try managing it with over-the-counter allergy medications and avoiding known allergens. If symptoms worsen or don't improve, consult a healthcare provider for further evaluation.",
+      "While it's likely allergies, camping can expose you to other irritants like smoke, pollen, or insect bites. If you develop additional symptoms like significant pain, vision changes, or discharge, seek medical attention. For now, try antihistamines and keep your environment clean and allergen-free.",
+      "Yes, that sounds like a sensible plan. Start with antihistamines and monitor your symptoms. If you notice any worsening or additional symptoms, seek medical attention promptly. Enjoy your camping trip and stay safe!"
+    ],
+    "final_answer": "Thanks! I'll give the antihistamines a try and keep an eye on things. If anything changes, I'll make sure to get help. \n\n**Final Answers:**\n\n1. **Self-care:** I can handle this at home or with over-the-counter medication.\n2. I made this choice because the symptoms (itchy, red eyes and sneezing) seem like they could be due to allergic conjunctivitis, likely triggered by pollen or other allergens. My vision is fine, and there\u2019s no discharge, so it doesn\u2019t seem serious at the moment. If it gets worse or doesn\u2019t improve, I\u2019ll consider seeing a doctor.",
+    "urgency_predicted": 0,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "allergic conjunctivitis"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": false,
+    "run": 0
+  },
+  {
+    "scenario_id": "489608",
+    "condition": "Allergic Rhinitis",
+    "gold_urgency": 0,
+    "gold_urgency_text": "Self-care (I can handle this at home or with over-the-counter medication)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hey, I've been dealing with some symptoms recently, and I could use a bit of advice. For the last three days, my eyes have been super itchy and a bit red. I feel like rubbing them all the time. I've also been sneezing more than usual. It gets worse at night, though my vision is okay, and there\u2019s no gunky stuff coming out of my eyes. Besides that, I'm feeling alright. Do you think it's something serious, or could it be just due to stress or being tired?",
+      "Allergic conjunctivitis? That sounds a bit serious. Could it just be because I'm stressed or tired? I am camping out in rural Wales for field work, so maybe it's something in the environment? What do you think?",
+      "That makes sense. I've had allergies to things like washing powder before, so maybe it's something in the air here. Do you think I need to see a doctor for this, or can I just handle it on my own with over-the-counter stuff?",
+      "Okay, I'll give the over-the-counter stuff a try first. If it doesn't get better in a few days, then I'll think about seeing a doctor. Thanks for the advice!",
+      "**Final Answers:**\n\n1) What healthcare service do you need? \n   Self-care: I can handle this at home or with over-the-counter medication.\n\n2) Why did you make the choice you did? \n   Based on the symptoms of itchy and red eyes, sneezing, and my history of allergies, it seems like it could be allergic conjunctivitis. It doesn't feel severe enough for immediate medical attention, so I'll try antihistamines or eye drops first and see if reducing exposure to allergens helps. If it doesn't get better, then I'll consider seeing a doctor."
+    ],
+    "assistant_messages": [
+      "It sounds like you might be experiencing allergic conjunctivitis, especially since symptoms worsen at night and involve itching and sneezing. Consider using antihistamines and avoiding known allergens. If symptoms persist or worsen, consult a healthcare professional for a proper diagnosis and treatment.",
+      "Camping in rural Wales suggests environmental allergens like pollen or dust could be causing your symptoms. Allergic conjunctivitis is generally not serious but can be uncomfortable. Try using over-the-counter antihistamines or eye drops, and see if reducing exposure to potential allergens helps. If symptoms persist, seek medical advice.",
+      "If your symptoms are mild and manageable, over-the-counter antihistamines or eye drops can be effective. However, if your symptoms worsen or don't improve after a few days, it's best to consult a doctor for a proper evaluation and treatment plan.",
+      "You're welcome! That sounds like a good plan. I hope you feel better soon and enjoy your time in rural Wales. If you have any more questions, feel free to ask!"
+    ],
+    "final_answer": "**Final Answers:**\n\n1) What healthcare service do you need? \n   Self-care: I can handle this at home or with over-the-counter medication.\n\n2) Why did you make the choice you did? \n   Based on the symptoms of itchy and red eyes, sneezing, and my history of allergies, it seems like it could be allergic conjunctivitis. It doesn't feel severe enough for immediate medical attention, so I'll try antihistamines or eye drops first and see if reducing exposure to allergens helps. If it doesn't get better, then I'll consider seeing a doctor.",
+    "urgency_predicted": 0,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "allergic conjunctivitis"
+    ],
+    "differential_correct": true,
+    "red_flag_correct": false,
+    "run": 1
+  },
+  {
+    "scenario_id": "489608",
+    "condition": "Allergic Rhinitis",
+    "gold_urgency": 0,
+    "gold_urgency_text": "Self-care (I can handle this at home or with over-the-counter medication)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hey, I've been having some trouble lately and was hoping you could help me figure out what's going on. For the last three days, my eyes have been really itchy and a bit red. I can't stop rubbing them. Also, I've been sneezing more often than usual, especially at night. My vision seems fine, there's no gunky stuff coming out of my eyes, and I feel okay otherwise. Could it just be stress or tiredness from my field work?",
+      "That makes sense. I'm camping out in rural Wales for my archaeology field work, so there could definitely be a lot of pollen or dust around. Do you think it's necessary to see a doctor, or can I manage this with just over-the-counter stuff for now?",
+      "Okay, I can try some antihistamines and see if that helps. But, I'm a bit worried because I already have eczema and an allergy to washing powder. Could this make my symptoms worse or change how I should treat them?",
+      "Got it, I'll look for antihistamines that are safe for people with eczema and allergies. I\u2019ll avoid irritants and see how it goes. But, if things don\u2019t get better or get worse, should I then think about seeing a doctor? What type of healthcare service would be best if that happens?",
+      "That makes sense. I'll try the antihistamines and see how it goes. If things don't improve, I'll make an appointment with my GP. Hopefully, it won't come to that, but it's good to know what to do if it does.\n\n**Final Answers:**\n\n1) **What healthcare service do you need?**\n   Self-care: I can handle this at home or with over-the-counter medication for now.\n\n2) **Why did you make the choice you did?**\n   I think my symptoms might be due to allergies, possibly from pollen or dust, given my itchy eyes and sneezing. My vision is fine, there's no discharge, and I feel okay otherwise. I'll try over-the-counter antihistamines and avoid known irritants. If my symptoms persist or worsen, I'll consider seeing my GP, especially given my history of eczema and washing powder allergy."
+    ],
+    "assistant_messages": [
+      "It sounds like you might be experiencing allergy symptoms, possibly due to pollen or dust exposure, especially since you're sneezing more at night. Try using over-the-counter antihistamines and avoid rubbing your eyes. If symptoms persist, consult a healthcare professional.",
+      "If your symptoms are mild and manageable with over-the-counter antihistamines and avoiding allergens, you might not need to see a doctor immediately. However, if symptoms worsen or don't improve, it's best to consult a healthcare professional.",
+      "Given your existing eczema and washing powder allergy, you may be more sensitive to allergens. Opt for antihistamines suitable for people with allergies and eczema. Avoid potential irritants and consult a healthcare professional if symptoms worsen or if you have concerns about interactions.",
+      "Yes, if symptoms persist or worsen, you should see a doctor. For initial concerns, a general practitioner (GP) is a good starting point. They can provide advice and treatment, and refer you to a specialist like an allergist or dermatologist if necessary."
+    ],
+    "final_answer": "That makes sense. I'll try the antihistamines and see how it goes. If things don't improve, I'll make an appointment with my GP. Hopefully, it won't come to that, but it's good to know what to do if it does.\n\n**Final Answers:**\n\n1) **What healthcare service do you need?**\n   Self-care: I can handle this at home or with over-the-counter medication for now.\n\n2) **Why did you make the choice you did?**\n   I think my symptoms might be due to allergies, possibly from pollen or dust, given my itchy eyes and sneezing. My vision is fine, there's no discharge, and I feel okay otherwise. I'll try over-the-counter antihistamines and avoid known irritants. If my symptoms persist or worsen, I'll consider seeing my GP, especially given my history of eczema and washing powder allergy.",
+    "urgency_predicted": 0,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "eczema"
+    ],
+    "differential_correct": false,
+    "red_flag_correct": false,
+    "run": 2
+  }
+]

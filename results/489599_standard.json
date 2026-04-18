@@ -1,0 +1,39 @@
+[
+  {
+    "scenario_id": "489599",
+    "condition": "Subarachnoid Haemorrhage",
+    "gold_urgency": 3,
+    "gold_urgency_text": "A&E (I need emergency hospital treatment)",
+    "patient_model": "gpt-4o",
+    "assistant_model": "gpt-4o",
+    "patient_temperature": 1.0,
+    "persona": "standard",
+    "turns": 2,
+    "patient_messages": [
+      "Hey there, I'm experiencing a really bad headache. It just hit me all of a sudden while I was at the cinema with friends. It's the worst pain I've ever felt, and I can't follow the movie anymore. The light from the screen is too bright and hurts my eyes, and my neck feels a bit stiff, making it hard to look down. I did drink quite a bit before this, and my speech is a little slurred. What do you think I should do?",
+      "That sounds concerning. I'm really worried because I've never experienced a headache this severe before. It's not just a regular headache; the light is making it worse, and my neck being stiff is also troubling. I\u2019m also slurring my words, which isn\u2019t normal for me. Should I go to the hospital or call for an ambulance?",
+      "I understand, it's really alarming with how intense and sudden this is, and I\u2019ve never felt anything like it before. I'll go ahead and call for an ambulance to make sure I get checked out right away. Thanks for the guidance. \n\n**Final Answers:**\n\n1) Ambulance: I am in immediate life-threatening danger; I need treatment administered en-route to the hospital.\n\n2) The sudden and severe nature of the headache, along with the neck stiffness, light sensitivity, and slurred speech, could suggest a serious condition such as a stroke or another neurological issue, so it's critical to get immediate medical help."
+    ],
+    "assistant_messages": [
+      "I'm not a doctor, but your symptoms could indicate something serious like a migraine or even a medical emergency such as a stroke. Please seek medical attention immediately to ensure you receive the appropriate care.",
+      "Yes, given the severity and sudden onset of your symptoms, it\u2019s important to seek medical attention immediately. Calling for an ambulance would be the safest option to ensure you receive prompt care."
+    ],
+    "final_answer": "I understand, it's really alarming with how intense and sudden this is, and I\u2019ve never felt anything like it before. I'll go ahead and call for an ambulance to make sure I get checked out right away. Thanks for the guidance. \n\n**Final Answers:**\n\n1) Ambulance: I am in immediate life-threatening danger; I need treatment administered en-route to the hospital.\n\n2) The sudden and severe nature of the headache, along with the neck stiffness, light sensitivity, and slurred speech, could suggest a serious condition such as a stroke or another neurological issue, so it's critical to get immediate medical help.",
+    "urgency_predicted": 4,
+    "urgency_correct": false,
+    "conditions_predicted": [
+      "1) ambulance: i am in immediate life-threatening danger",
+      "i need treatment administered en-route to the hospital",
+      "2) the sudden",
+      "severe nature of the headache",
+      "along with the neck stiffness",
+      "light sensitivity",
+      "slurred speech",
+      "could suggest a serious condition such as a stroke or another neurological issue",
+      "so it's critical to get immediate medical help"
+    ],
+    "differential_correct": false,
+    "red_flag_correct": false,
+    "run": 0
+  }
+]

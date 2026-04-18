@@ -1,0 +1,22 @@
+# API keys
+.env
+
+# Bean et al. original dataset — not ours to distribute
+HELPMed/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+*.egg-info/
+
+# Personal documents
+*.docx
+*.pdf
+
+# Claude internal
+.claude/
+
+# macOS
+.DS_Store

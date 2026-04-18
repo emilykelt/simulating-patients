@@ -1,0 +1,39 @@
+[
+  {
+    "scenario_id": "489607",
+    "condition": "Common Cold",
+    "gold_urgency": 0,
+    "gold_urgency_text": "Self-care (I can handle this at home or with over-the-counter medication)",
+    "patient_model": "gpt-4o-2024-05-13",
+    "assistant_model": "gpt-4o-2024-05-13",
+    "patient_temperature": 1.0,
+    "persona": "custom",
+    "turns": 4,
+    "patient_messages": [
+      "Hi there, I'm feeling really tired and achy and I have a bit of a temperature\u2014about 37.8 degrees. Normally, I get hay fever, but this doesn\u2019t feel like that. Over the past few days, I\u2019ve had a really runny nose which then got all bunged up, and my ears and temples hurt. The pain gets a bit better when I blow my nose or drink something hot. Do you think I need to see a doctor, or can I just handle this on my own?",
+      "Yeah, I've had these symptoms for a few days now, but I'm not sure it's serious enough to see a doctor yet. Do you think it's okay if I just wait it out a bit longer with rest and over-the-counter stuff?",
+      "Alright, I can do that. I'll keep an eye on it and see how I feel in a few more days. If things get worse or don't improve, I'll think about seeing a doctor. Thanks for the advice.",
+      "Thanks, I appreciate it. I\u2019ll take it easy and see how it goes.",
+      "**Final Answers:**\n\n1) Self-care: I can handle this at home or with over-the-counter medication.\n\n2) Why did you make the choice you did? I think I might have a sinus infection or a viral upper respiratory infection, which can often be managed with rest, fluids, and over-the-counter medications unless the symptoms get worse or don't improve in a week."
+    ],
+    "assistant_messages": [
+      "It sounds like you might have a sinus infection or a viral upper respiratory infection. If symptoms persist for more than a week, worsen, or if you have severe pain or a high fever, see a doctor. Otherwise, rest, fluids, and over-the-counter medications may help.",
+      "Yes, it\u2019s generally okay to wait a few more days with rest, hydration, and over-the-counter medications. Monitor your symptoms closely. If they worsen or don't improve in a week, consult a doctor.",
+      "You're welcome. Take care of yourself, and I hope you feel better soon. If you have any more questions or concerns, don't hesitate to reach out.",
+      "That sounds like a good plan. Wishing you a speedy recovery!"
+    ],
+    "final_answer": "**Final Answers:**\n\n1) Self-care: I can handle this at home or with over-the-counter medication.\n\n2) Why did you make the choice you did? I think I might have a sinus infection or a viral upper respiratory infection, which can often be managed with rest, fluids, and over-the-counter medications unless the symptoms get worse or don't improve in a week.",
+    "urgency_predicted": 0,
+    "urgency_correct": true,
+    "conditions_predicted": [
+      "1) self-care: i can handle this at home or with over-the-counter medication",
+      "2) why did you make the choice you did? i think i might have a sinus infection or a viral upper respiratory infection",
+      "which can often be managed with rest",
+      "fluids",
+      "over-the-counter medications unless the symptoms get worse or don't improve in a week"
+    ],
+    "differential_correct": false,
+    "red_flag_correct": false,
+    "run": 0
+  }
+]
