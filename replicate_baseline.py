@@ -37,6 +37,11 @@ except ImportError:
     pass  # dotenv not installed — rely on environment variable directly
 
 from openai import OpenAI
+try:
+    import anthropic as _anthropic_sdk
+    _ANTHROPIC_AVAILABLE = True
+except ImportError:
+    _ANTHROPIC_AVAILABLE = False
 
 # ---------------------------------------------------------------------------
 # Configuration — matches Bean et al. exactly
@@ -276,6 +281,41 @@ def chat(client, model, system_prompt, messages, temperature, max_tokens, max_re
             wait *= 2  # exponential backoff: 5, 10, 20, 40, 80s
 
 
+def chat_anthropic(model, system_prompt, messages, temperature, max_tokens, max_retries=6):
+    """
+    Call the Anthropic messages endpoint with exponential backoff.
+    Uses ANTHROPIC_API_KEY from environment.
+    """
+    if not _ANTHROPIC_AVAILABLE:
+        raise RuntimeError("anthropic package not installed. Run: pip install anthropic")
+    client = _anthropic_sdk.Anthropic()
+    sanitized = [{"role": m["role"], "content": _sanitize(m["content"])} for m in messages]
+    wait = 5
+    for attempt in range(max_retries):
+        try:
+            response = client.messages.create(
+                model=model,
+                system=_sanitize(system_prompt),
+                messages=sanitized,
+                temperature=temperature,
+                max_tokens=max_tokens,
+            )
+            return response.content[0].text.strip()
+        except _anthropic_sdk.RateLimitError:
+            if attempt == max_retries - 1:
+                raise
+            print(f"\n[Anthropic rate limit — waiting {wait}s]", flush=True)
+            import time as _time; _time.sleep(wait)
+            wait *= 2
+
+
+def patient_chat(system_prompt, messages, temperature, max_tokens, openai_client):
+    """Route patient model calls to Anthropic or OpenAI based on PATIENT_MODEL."""
+    if PATIENT_MODEL.startswith("claude-"):
+        return chat_anthropic(PATIENT_MODEL, system_prompt, messages, temperature, max_tokens)
+    return chat(openai_client, PATIENT_MODEL, system_prompt, messages, temperature, max_tokens)
+
+
 # ---------------------------------------------------------------------------
 # Conversation loop
 # ---------------------------------------------------------------------------
@@ -307,9 +347,8 @@ def run_conversation(client, scenario_text, persona_text=None, display=True):
 
     # Step 1: Patient generates its opening message from the kickoff prompt
     patient_history.append({"role": "user", "content": PATIENT_OPENING_MESSAGE})
-    patient_reply = chat(
-        client, PATIENT_MODEL, patient_system,
-        patient_history, PATIENT_TEMPERATURE, PATIENT_MAX_TOKENS,
+    patient_reply = patient_chat(
+        patient_system, patient_history, PATIENT_TEMPERATURE, PATIENT_MAX_TOKENS, client,
     )
     patient_history.append({"role": "assistant", "content": patient_reply})
     patient_messages.append(patient_reply)
@@ -339,9 +378,8 @@ def run_conversation(client, scenario_text, persona_text=None, display=True):
 
         # Patient reads the assistant's reply and responds
         patient_history.append({"role": "user", "content": assistant_reply})
-        patient_reply = chat(
-            client, PATIENT_MODEL, patient_system,
-            patient_history, PATIENT_TEMPERATURE, PATIENT_MAX_TOKENS,
+        patient_reply = patient_chat(
+            patient_system, patient_history, PATIENT_TEMPERATURE, PATIENT_MAX_TOKENS, client,
         )
         patient_history.append({"role": "assistant", "content": patient_reply})
         patient_messages.append(patient_reply)
@@ -678,7 +716,12 @@ def main():
             persona_label = Path(args.persona).stem
         model_label = ""
         if args.patient_model:
-            slug = args.patient_model.replace("gpt-4o-mini", "mini").replace("gpt-4o", "4o")
+            slug = (args.patient_model
+                    .replace("gpt-4o-mini", "mini")
+                    .replace("gpt-4o", "4o")
+                    .replace("claude-haiku-4-5-20251001", "haiku")
+                    .replace("claude-haiku-3-5", "haiku35")
+                    .replace("claude-", "claude_"))
             model_label = f"_{slug}"
         temp_label = ""
         if args.patient_temperature is not None:

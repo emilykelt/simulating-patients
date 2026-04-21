@@ -205,8 +205,8 @@ def fig_heatmap(data, tag=""):
     include_mix = tag and mix_label in data
 
     if include_mix:
-        # Use optimal mixture row instead of equal mixture
-        row_labels = ["Human (Bean et al.)"] + [p[0] for p in PERSONAS] + [mix_label]
+        # Optimal mixture placed immediately after human for direct comparison
+        row_labels = ["Human (Bean et al.)", mix_label] + [p[0] for p in PERSONAS]
     else:
         # Equal mixture: pool all persona runs
         all_runs = []
@@ -218,23 +218,29 @@ def fig_heatmap(data, tag=""):
     n_rows = len(row_labels)
     matrix = np.zeros((n_rows, len(SCENARIO_ORDER)))
 
-    # First row: human data
+    # Row 0: human data
     for j, scenario in enumerate(SCENARIO_ORDER):
         matrix[0, j] = human_per_scenario[scenario]
 
-    # Persona rows
-    for i, (label, fname, color) in enumerate(PERSONAS):
-        psa = per_scenario_accuracy(data[label])
-        for j, scenario in enumerate(SCENARIO_ORDER):
-            matrix[i + 1, j] = psa.get(scenario, 0)
-
-    # Last row: mixture
     if include_mix:
+        # Row 1: optimal mixture
         mix_psa = per_scenario_accuracy(data[mix_label])
+        for j, scenario in enumerate(SCENARIO_ORDER):
+            matrix[1, j] = mix_psa.get(scenario, 0)
+        # Rows 2+: individual personas
+        for i, (label, fname, color) in enumerate(PERSONAS):
+            psa = per_scenario_accuracy(data[label])
+            for j, scenario in enumerate(SCENARIO_ORDER):
+                matrix[i + 2, j] = psa.get(scenario, 0)
     else:
-        mix_psa = mixture_psa
-    for j, scenario in enumerate(SCENARIO_ORDER):
-        matrix[-1, j] = mix_psa.get(scenario, 0)
+        # Rows 1+: individual personas
+        for i, (label, fname, color) in enumerate(PERSONAS):
+            psa = per_scenario_accuracy(data[label])
+            for j, scenario in enumerate(SCENARIO_ORDER):
+                matrix[i + 1, j] = psa.get(scenario, 0)
+        # Last row: equal mixture
+        for j, scenario in enumerate(SCENARIO_ORDER):
+            matrix[-1, j] = mixture_psa.get(scenario, 0)
 
     fig, ax = plt.subplots(figsize=(13, 7.0))
     im = ax.imshow(matrix, cmap="RdYlGn", vmin=0, vmax=100, aspect="auto")
@@ -244,9 +250,14 @@ def fig_heatmap(data, tag=""):
     ax.set_yticks(np.arange(n_rows))
     ax.set_yticklabels(row_labels, fontsize=10)
 
-    # Separator lines: human | personas | mixture
-    ax.axhline(0.5, color="white", linewidth=2.5)
-    ax.axhline(n_rows - 1.5, color="white", linewidth=2.5)
+    # Separator lines
+    if include_mix:
+        # Separate human+mixture block from individual personas
+        ax.axhline(0.5, color="white", linewidth=2.5)
+        ax.axhline(1.5, color="white", linewidth=2.5)
+    else:
+        ax.axhline(0.5, color="white", linewidth=2.5)
+        ax.axhline(n_rows - 1.5, color="white", linewidth=2.5)
 
     # Annotate cells
     for i in range(n_rows):
@@ -256,13 +267,13 @@ def fig_heatmap(data, tag=""):
             ax.text(j, i, f"{val:.0f}%", ha="center", va="center",
                     fontsize=8, color=text_color, fontweight="bold")
 
-    # Gold standard urgency label below x-axis
+    # Gold standard urgency label below x-axis (axes coords: x=data, y=axes 0-1)
     urgency_labels = {0: "Self-care", 1: "Routine GP", 2: "Urgent PC", 3: "A&E", 4: "Ambulance"}
     urgency_colors = {0: "#2ecc71", 1: "#27ae60", 2: "#f39c12", 3: "#e67e22", 4: "#e74c3c"}
     for j, scenario in enumerate(SCENARIO_ORDER):
         u = GOLD_URGENCY[scenario]
-        ax.text(j, n_rows - 0.85, urgency_labels[u],
-                ha="center", va="bottom", fontsize=6.5,
+        ax.text(j, -0.06, urgency_labels[u],
+                ha="center", va="top", fontsize=6.5,
                 color=urgency_colors[u], style="italic",
                 transform=ax.get_xaxis_transform())
 
@@ -641,6 +652,79 @@ def fig_bimodality(data, tag=""):
 
 
 # ---------------------------------------------------------------------------
+# Figure 7: Human vs Standard vs Optimal Mixture — clean three-way comparison
+# ---------------------------------------------------------------------------
+
+def fig_human_vs_mixture(data):
+    """
+    Clean three-line plot: human participants, standard simulated patient,
+    and optimal mixture — highlighting where the mixture closes the gap.
+    """
+    human_per_scenario = {
+        "Subarachnoid Haemorrhage": (18+32+20+13) / (49+66+60+61) * 100,
+        "Pulmonary Embolism":       (4+9+14+10)   / (43+63+75+59) * 100,
+        "Tinnitus":                 (47+68+54+59)  / (54+78+61+69) * 100,
+        "Ulcerative Colitis":       (47+30+33+39)  / (71+56+57+63) * 100,
+        "Renal Colic":              (23+26+13+19)  / (62+56+52+58) * 100,
+        "Gallstones":               (33+23+35+33)  / (64+61+59+63) * 100,
+        "Pneumonia":                (5+9+4+3)      / (57+76+63+60) * 100,
+        "Anaemia":                  (37+30+17+17)  / (85+66+58+66) * 100,
+        "Common Cold":              (23+17+26+26)  / (66+46+60+58) * 100,
+        "Allergic Rhinitis":        (28+18+38+31)  / (49+32+55+43) * 100,
+    }
+
+    mix_label, mix_fname, mix_color = MIXTURE
+    std_psa  = per_scenario_accuracy(data["Standard"])
+    mix_psa  = per_scenario_accuracy(data[mix_label])
+
+    x = np.arange(len(SCENARIO_ORDER))
+    human_vals = [human_per_scenario[s] for s in SCENARIO_ORDER]
+    std_vals   = [std_psa.get(s, 0)     for s in SCENARIO_ORDER]
+    mix_vals   = [mix_psa.get(s, 0)     for s in SCENARIO_ORDER]
+
+    fig, ax = plt.subplots(figsize=(13, 5.5))
+
+    std_color = "#e74c3c"
+    opt_color = "#27ae60"
+
+    # Shaded gap between standard and human
+    ax.fill_between(x, human_vals, std_vals, alpha=0.08, color=std_color,
+                    label="_nolegend_")
+
+    # Shaded gap between mixture and human (smaller = better)
+    ax.fill_between(x, human_vals, mix_vals, alpha=0.13, color=opt_color,
+                    label="_nolegend_")
+
+    # Lines
+    ax.plot(x, human_vals, color="black", linewidth=2.8, linestyle="-",
+            marker="D", markersize=8, label="Human participants", zorder=5)
+    ax.plot(x, std_vals, color=std_color, linewidth=2.0, linestyle="--",
+            marker="o", markersize=6, label="Standard simulated patient\n(RMSE = 38.8pp vs human)", zorder=4)
+    ax.plot(x, mix_vals, color=opt_color, linewidth=2.5, linestyle="-.",
+            marker="s", markersize=7, label="Optimal mixture (Anchorer 41%, Catastrophiser 33%, Dismisser 25%)\n(RMSE = 16.1pp vs human  —  58% improvement)", zorder=6)
+
+    ax.set_xticks(x)
+    ax.set_xticklabels([SCENARIO_SHORT[s] for s in SCENARIO_ORDER], fontsize=9)
+    ax.set_ylabel("Disposition accuracy (%)", fontsize=11)
+    ax.set_ylim(-5, 110)
+    ax.yaxis.grid(True, linestyle="--", alpha=0.4, zorder=0)
+    ax.set_axisbelow(True)
+    ax.set_title(
+        "Per-scenario accuracy: human participants vs standard vs optimal mixture",
+        fontsize=11, pad=12
+    )
+
+    # Legend — place inside upper right
+    ax.legend(fontsize=9, loc="upper right", framealpha=0.9)
+
+    plt.tight_layout()
+    out = FIGURES_DIR / "fig7_human_vs_mixture.png"
+    plt.savefig(out, dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"Saved {out}")
+
+
+# ---------------------------------------------------------------------------
 # Run all figures
 # ---------------------------------------------------------------------------
 
@@ -662,5 +746,6 @@ if __name__ == "__main__":
     fig_error_direction(data, tag="_v2")
     fig_scenario_profiles(data, tag="_v2")
     fig_bimodality(data, tag="_v2")
+    fig_human_vs_mixture(data)
 
     print(f"\nAll figures saved to {FIGURES_DIR}")
