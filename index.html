@@ -7,6 +7,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}]})"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -165,7 +169,7 @@
   tr:hover td { background: rgba(200,103,74,0.04); }
   .winner { color: var(--green); font-weight: 700; }
   .human-row td { font-weight: 700; background: rgba(200,103,74,0.06); }
-  .best td:nth-child(2) { color: var(--green); font-weight: 700; }
+  .best td:nth-child(3) { color: var(--green); font-weight: 700; }
 
   /* ── Figure boxes ── */
   .figure {
@@ -249,6 +253,105 @@
   .formula { text-align: center; font-style: italic; margin: 1rem 0; }
   .list-notes { margin-left: 1.4rem; margin-bottom: 0.9rem; font-size: 0.92rem; }
 
+  /* ── Persona expand carousel ── */
+  .p-carousel {
+    display: flex;
+    gap: 10px;
+    height: 250px;
+    margin: 1rem 0;
+  }
+  .p-card {
+    flex: 0 0 58px;
+    border-radius: 18px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: flex 0.42s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+    border: 1px solid var(--border);
+    background: var(--card);
+  }
+  .p-card.active {
+    flex: 1 1 0;
+    cursor: default;
+  }
+  /* Colored top strip */
+  .p-strip {
+    height: 48px;
+    width: 100%;
+    transition: height 0.42s cubic-bezier(0.4,0,0.2,1);
+  }
+  .p-card.active .p-strip { height: 72px; }
+  /* Number badge */
+  .p-num {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.82rem;
+    color: white;
+    transition: bottom 0.42s ease, left 0.42s ease, transform 0.42s ease, top 0.42s ease;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .p-card.active .p-num {
+    bottom: auto;
+    top: 20px;
+    left: 20px;
+    transform: none;
+    width: 28px; height: 28px;
+    font-size: 0.78rem;
+  }
+  /* Content (only visible when active) */
+  .p-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 1rem 1.1rem 0.9rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    overflow-y: auto;
+    max-height: calc(250px - 72px);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .p-card.active .p-content {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.15s ease 0.25s;
+  }
+  .p-name { font-weight: 700; font-size: 0.92rem; }
+  .p-desc { color: var(--muted); font-size: 0.78rem; line-height: 1.4; }
+  .prompt-btn {
+    align-self: flex-start;
+    margin-top: 0.3rem;
+    font-size: 0.7rem;
+    padding: 0.18rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    letter-spacing: 0.02em;
+  }
+  .prompt-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .prompt-panel {
+    display: none;
+    padding: 0.6rem 0.7rem;
+    background: var(--bg);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.5;
+    font-family: ui-monospace, 'Cascadia Code', monospace;
+    white-space: pre-wrap;
+  }
+  .prompt-panel.open { display: block; }
+
   @media (max-width: 600px) {
     .personas { grid-template-columns: 1fr; }
   }
@@ -277,15 +380,6 @@
         <div class="author-name">Emily Kelt</div>
         <div class="author-inst">University of Cambridge</div>
       </div>
-    </div>
-    <div class="keywords">
-      <span class="kw active">Cognitive Bias</span>
-      <span class="kw">LLM Simulation</span>
-      <span class="kw">NHS Triage</span>
-      <span class="kw">HELPMed</span>
-      <span class="kw">RLHF Resistance</span>
-      <span class="kw">Patient Modelling</span>
-      <span class="kw">Silicon Sampling</span>
     </div>
   </div>
 
@@ -340,32 +434,68 @@
     <h3>Cognitive Bias Personas</h3>
     <p>Five cognitive bias personas were designed as system prompt injections to the patient model. Each persona is grounded in established psychological and medical decision-making literature:</p>
 
-    <div class="personas">
-      <div class="persona-card">
-        <div class="name">🔵 Anchorer</div>
-        <div class="desc">Fixates on the first symptom mentioned. Resists updating their assessment when new information contradicts the initial framing.</div>
+    <div class="p-carousel">
+
+      <div class="p-card active" onclick="activateCard(this)">
+        <div class="p-strip" style="background:#4a7fc1"></div>
+        <div class="p-num" style="background:#4a7fc1">1</div>
+        <div class="p-content">
+          <div class="p-name">Anchorer</div>
+          <div class="p-desc">Fixates on the first symptom mentioned. Resists updating their assessment when new information contradicts the initial framing.</div>
+          <button type="button" class="prompt-btn" onclick="togglePrompt(event,this)">View system prompt</button>
+          <div class="prompt-panel">You are a patient calling a medical helpline. You are worried about a health problem. When the conversation started, one particular symptom was at the front of your mind and your thinking keeps returning to it — even if the assistant raises other possibilities, you find yourself anchoring back to that initial concern. You are not irrational, but your interpretation is shaped by that first impression. Respond naturally in short conversational turns. Do not mention that you are anchoring.</div>
+        </div>
       </div>
-      <div class="persona-card">
-        <div class="name">🔴 Anxious Catastrophiser</div>
-        <div class="desc">Over-escalates perceived severity. Interprets ambiguous symptoms as worst-case. Partially reassurable but worry tends to return.</div>
+
+      <div class="p-card" onclick="activateCard(this)">
+        <div class="p-strip" style="background:#c44a4a"></div>
+        <div class="p-num" style="background:#c44a4a">2</div>
+        <div class="p-content">
+          <div class="p-name">Anxious Catastrophiser</div>
+          <div class="p-desc">Over-escalates perceived severity. Interprets ambiguous symptoms as worst-case. Partially reassurable but worry tends to return.</div>
+          <button type="button" class="prompt-btn" onclick="togglePrompt(event,this)">View system prompt</button>
+          <div class="prompt-panel">You are a patient calling a medical helpline. You are prone to health anxiety and tend to catastrophise. When you notice a symptom, your mind jumps to serious or life-threatening causes. You may feel briefly reassured but your worry returns. You escalate how serious you describe your symptoms and push for more urgent interventions. Respond naturally in short conversational turns. Do not explicitly state that you are anxious.</div>
+        </div>
       </div>
-      <div class="persona-card">
-        <div class="name">🟤 Dismisser</div>
-        <div class="desc">Minimises symptoms and resists medical advice. Prefers to self-manage and is reluctant to seek help.</div>
+
+      <div class="p-card" onclick="activateCard(this)">
+        <div class="p-strip" style="background:#a0722a"></div>
+        <div class="p-num" style="background:#a0722a">3</div>
+        <div class="p-content">
+          <div class="p-name">Dismisser</div>
+          <div class="p-desc">Minimises symptoms and resists medical advice. Prefers to self-manage and is reluctant to seek help.</div>
+          <button type="button" class="prompt-btn" onclick="togglePrompt(event,this)">View system prompt</button>
+          <div class="prompt-panel">You are a patient calling a medical helpline. You tend to downplay your symptoms and are sceptical about whether you really need professional care. You would rather manage things yourself. When the assistant recommends seeking help, you push back — you're not sure it's that serious, you've had this before, you're probably fine. Respond naturally in short conversational turns. Do not explicitly state that you are dismissing your symptoms.</div>
+        </div>
       </div>
-      <div class="persona-card">
-        <div class="name">🟣 Premature Closer</div>
-        <div class="desc">Reaches a conclusion early and stops seeking further information, even when the situation warrants continued enquiry.</div>
+
+      <div class="p-card" onclick="activateCard(this)">
+        <div class="p-strip" style="background:#7b52c4"></div>
+        <div class="p-num" style="background:#7b52c4">4</div>
+        <div class="p-content">
+          <div class="p-name">Premature Closer</div>
+          <div class="p-desc">Reaches a conclusion early and stops seeking further information, even when the situation warrants continued enquiry.</div>
+          <button type="button" class="prompt-btn" onclick="togglePrompt(event,this)">View system prompt</button>
+          <div class="prompt-panel">You are a patient calling a medical helpline. You have already formed a view about what is wrong with you before the conversation began. Once you've decided on an explanation, you stop looking for alternatives. You do not volunteer additional symptoms and are happy to accept the first reasonable explanation that fits your conclusion. Respond naturally in short conversational turns. Do not mention that you have reached a premature conclusion.</div>
+        </div>
       </div>
-      <div class="persona-card">
-        <div class="name">🟡 Confidence Deferrer</div>
-        <div class="desc">Excessively defers to the assistant's framing and recommendations, abandoning their own initial assessment.</div>
+
+      <div class="p-card" onclick="activateCard(this)">
+        <div class="p-strip" style="background:#b8891a"></div>
+        <div class="p-num" style="background:#b8891a">5</div>
+        <div class="p-content">
+          <div class="p-name">Confidence Deferrer</div>
+          <div class="p-desc">Excessively defers to the assistant's framing and recommendations, abandoning their own initial assessment.</div>
+          <button type="button" class="prompt-btn" onclick="togglePrompt(event,this)">View system prompt</button>
+          <div class="prompt-panel">You are a patient calling a medical helpline. You hold medical professionals in very high regard and tend to defer to their authority. Whatever the assistant suggests — even if it contradicts what you initially said — you tend to agree with and adopt their framing. If they suggest your symptoms are mild, you concede they are mild. If they suggest urgency, you immediately become more concerned. Respond naturally in short conversational turns. Do not explicitly state that you are deferring.</div>
+        </div>
       </div>
+
     </div>
 
     <h3>Optimal Mixture Derivation</h3>
     <p>An optimal weighted mixture of personas was derived analytically. The objective was to find weights w<sub>i</sub> ≥ 0, Σw<sub>i</sub> = 1 minimising the mean squared error between the predicted per-scenario accuracy and the human baseline:</p>
-    <p class="formula">min<sub>w</sub> Σ<sub>s</sub> (Σ<sub>i</sub> w<sub>i</sub> · acc<sub>i,s</sub> − human<sub>s</sub>)²</p>
+    <p class="formula">\[\min_{\mathbf{w}} \sum_s \!\left(\sum_i w_i \cdot \mathrm{acc}_{i,s} - \mathrm{human}_s\right)^{\!2} \quad \text{s.t.} \quad w_i \geq 0,\; \textstyle\sum_i w_i = 1\]</p>
     <p>Solved using <strong>scipy.optimize.minimize (SLSQP)</strong>. Premature Closer and Confidence Deferrer converged to &lt;0.5% weight and were excluded. Remaining weights were renormalised.</p>
 
     <div class="mix-vis">
@@ -532,13 +662,34 @@
       <li>Gupta, S. et al. (2023). Bias Runs Deep: Implicit Reasoning Biases in Persona-Assigned LLMs. <em>ICLR 2024</em>. <a href="https://arxiv.org/abs/2311.04892">arXiv:2311.04892</a></li>
       <li>Abdulhai, M. et al. (2025). Consistently Simulating Human Personas with Multi-Turn Reinforcement Learning. <em>NeurIPS 2025</em>. <a href="https://arxiv.org/abs/2511.00222">arXiv:2511.00222</a></li>
       <li>Schmidgall, S. et al. (2024). AgentClinic: a multimodal agent benchmark to evaluate AI in simulated clinical environments. <em>Preprint</em>. <a href="https://arxiv.org/abs/2405.07960">arXiv:2405.07960</a></li>
-      <li>Gui, R. &amp; Toubia, O. (2024). The Challenge of Using LLMs to Simulate Human Behavior: A Causal Inference Perspective. <em>Preprint</em>.</li>
-      <li>Sarstedt, M. et al. Bimodality coefficient methodology. <em>Journal of Business Research</em>.</li>
-      <li>Role-Play Paradox in Large Language Models. (2024). <a href="https://arxiv.org/html/2409.13979v2">arXiv:2409.13979</a></li>
-      <li>Quantifying the Persona Effect in LLM Simulations. (2024). <em>ACL 2024</em>. <a href="https://aclanthology.org/2024.acl-long.554.pdf">ACL Anthology</a></li>
+      <li>Gui, G. &amp; Toubia, O. (2023). The Challenge of Using LLMs to Simulate Human Behavior: A Causal Inference Perspective. <em>Preprint</em>. <a href="https://arxiv.org/abs/2312.15524">arXiv:2312.15524</a></li>
+      <li>Sarle, W.S. (1990). The CLUSTER Procedure. <em>SAS/STAT User's Guide</em>, 4th ed. SAS Institute Inc. [Bimodality coefficient: \(b = (\hat{\gamma}_1^2 + 1)/\hat{\kappa}\)]</li>
+      <li>Zhou, Y. et al. (2024). Role-Play Paradox in Large Language Models: Reasoning Performance Gains and Ethical Dilemmas. <em>Preprint</em>. <a href="https://arxiv.org/abs/2409.13979">arXiv:2409.13979</a></li>
+      <li>Hu, T. &amp; Collier, N. (2024). Quantifying the Persona Effect in LLM Simulations. <em>Proceedings of ACL 2024</em>, pp. 10289–10307. <a href="https://aclanthology.org/2024.acl-long.554/">ACL Anthology</a></li>
     </ol>
   </section>
 
 </div>
+
+<script>
+  function activateCard(card) {
+    if (card.classList.contains('active')) return;
+    const carousel = card.closest('.p-carousel');
+    // Close any open prompt panels
+    carousel.querySelectorAll('.prompt-panel.open').forEach(p => {
+      p.classList.remove('open');
+      p.previousElementSibling.textContent = 'View system prompt';
+    });
+    carousel.querySelectorAll('.p-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+  }
+
+  function togglePrompt(event, btn) {
+    event.stopPropagation();
+    const panel = btn.nextElementSibling;
+    const open = panel.classList.toggle('open');
+    btn.textContent = open ? 'Hide system prompt' : 'View system prompt';
+  }
+</script>
 </body>
 </html>
