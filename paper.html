@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Closing the Gap — Cognitive Bias Personas for LLM-Simulated Patients</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f3ee;
+    --card: #ede8e2;
+    --accent: #c8674a;
+    --text: #2a2218;
+    --muted: #6b5e50;
+    --border: #d6cec4;
+    --green: #27ae60;
+    --red: #e74c3c;
+    --purple: #9b59b6;
+    --orange: #e67e22;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ── Nav ── */
+  nav {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 48px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav .brand { font-weight: 700; color: var(--accent); font-size: 0.9rem; letter-spacing: 0.02em; }
+  nav a { font-size: 0.82rem; color: var(--muted); text-decoration: none; }
+  nav a:hover { color: var(--accent); }
+
+  /* ── Layout ── */
+  .page { max-width: 860px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+
+  /* ── Heading font ── */
+  h1, h2 { font-family: 'Instrument Serif', Georgia, serif; }
+
+  /* ── Hero ── */
+  .hero { margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 2.5rem; }
+  .hero-kicker {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .hero-kicker span { margin: 0 0.6rem; }
+  .hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 2rem;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 em { color: var(--accent); font-style: italic; }
+
+  /* ── Authors ── */
+  .authors { display: flex; gap: 2.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .author-name { font-weight: 700; font-size: 0.9rem; }
+  .author-inst { font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
+
+  /* ── Keyword tags ── */
+  .keywords { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .kw {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: transparent;
+  }
+  .kw.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+  /* ── Abstract two-column ── */
+  .abstract-wrap {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 2rem;
+    align-items: start;
+  }
+  .abstract-text { font-size: 0.95rem; line-height: 1.75; }
+  .abstract-text p { margin-bottom: 0.8rem; }
+  .abstract-stats { display: flex; flex-direction: column; gap: 0.75rem; }
+  .stat-card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 1.1rem 1.3rem;
+    border: 1px solid var(--border);
+  }
+  .stat-card .num {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 2.4rem;
+    font-weight: 400;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .stat-card .label { font-size: 0.78rem; color: var(--muted); line-height: 1.3; }
+
+  /* ── Sections ── */
+  section { margin-bottom: 3rem; }
+  h2 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  h3 { font-size: 1rem; font-weight: 700; margin: 1.4rem 0 0.5rem; color: var(--text); }
+
+  @media (max-width: 680px) {
+    .abstract-wrap { grid-template-columns: 1fr; }
+    .abstract-stats { flex-direction: row; flex-wrap: wrap; }
+    .stat-card { flex: 1; min-width: 130px; }
+  }
+  p { margin-bottom: 0.9rem; color: var(--text); }
+
+  /* ── Abstract ── */
+  .abstract {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+  }
+
+  /* ── Tables ── */
+  .table-wrap { overflow-x: auto; margin: 1.2rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  th {
+    background: var(--card);
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+    font-weight: 700;
+    border-bottom: 2px solid var(--border);
+    color: var(--muted);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  td { padding: 0.55rem 0.9rem; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(200,103,74,0.04); }
+  .winner { color: var(--green); font-weight: 700; }
+  .human-row td { font-weight: 700; background: rgba(200,103,74,0.06); }
+  .best td:nth-child(2) { color: var(--green); font-weight: 700; }
+
+  /* ── Figure boxes ── */
+  .figure {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin: 1.5rem 0;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .figure .fig-title { font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+  .figure img { width: 100%; border-radius: 6px; margin-bottom: 0.6rem; display: block; }
+
+  /* ── Persona cards ── */
+  .personas { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin: 1rem 0; }
+  .persona-card {
+    background: var(--card);
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+  .persona-card .name { font-weight: 700; margin-bottom: 0.2rem; }
+  .persona-card .desc { color: var(--muted); font-size: 0.8rem; line-height: 1.4; }
+
+  /* ── Inline highlight ── */
+  .hl { color: var(--accent); font-weight: 700; }
+  .tag {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── Callout ── */
+  .callout {
+    background: linear-gradient(135deg, rgba(39,174,96,0.08), rgba(200,103,74,0.06));
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .callout strong { color: var(--accent); }
+
+  /* ── References ── */
+  .refs ol { padding-left: 1.4rem; font-size: 0.85rem; color: var(--muted); }
+  .refs li { margin-bottom: 0.5rem; }
+  .refs a { color: var(--accent); }
+
+  /* ── Mixture pie ── */
+  .mix-vis {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    background: var(--card);
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    margin: 1rem 0;
+    border: 1px solid var(--border);
+  }
+  .mix-bar { flex: 1; }
+  .mix-row { margin-bottom: 0.5rem; font-size: 0.85rem; }
+  .mix-row .mix-label { display: flex; justify-content: space-between; margin-bottom: 0.15rem; }
+  .mix-track { height: 10px; background: var(--border); border-radius: 999px; overflow: hidden; }
+  .mix-fill { height: 100%; border-radius: 999px; }
+  .mix-bar-title { font-weight: 700; margin-bottom: 0.8rem; font-size: 0.9rem; }
+  .mix-row-gap { margin-top: 0.5rem; }
+  .mix-pct-green { color: var(--green); font-weight: 700; }
+  .mix-pct-accent { color: var(--accent); font-weight: 700; }
+  .mix-pct-red { color: var(--red); font-weight: 700; }
+  .mix-fill-green { background: #6ACC65; }
+  .mix-fill-blue  { background: #77BEDB; }
+  .mix-fill-red   { background: #D65F5F; }
+  .formula { text-align: center; font-style: italic; margin: 1rem 0; }
+  .list-notes { margin-left: 1.4rem; margin-bottom: 0.9rem; font-size: 0.92rem; }
+
+  @media (max-width: 600px) {
+    .personas { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">IB Research · Cambridge</span>
+  <a href="#abstract">Abstract</a>
+  <a href="#background">Background</a>
+  <a href="#methods">Methods</a>
+  <a href="#results">Results</a>
+  <a href="#discussion">Discussion</a>
+  <a href="#refs">References</a>
+</nav>
+
+<div class="page">
+
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <div class="hero-kicker">LLM Simulation · Medical AI<span>·</span>2026<span>·</span>n = 10 scenarios</div>
+    <h1>Closing the Gap: <em>Cognitive Bias Personas</em> Improve the Distributional Validity of LLM-Simulated Patients in NHS Triage</h1>
+    <div class="authors">
+      <div>
+        <div class="author-name">Emily Kelt</div>
+        <div class="author-inst">University of Cambridge</div>
+      </div>
+    </div>
+    <div class="keywords">
+      <span class="kw active">Cognitive Bias</span>
+      <span class="kw">LLM Simulation</span>
+      <span class="kw">NHS Triage</span>
+      <span class="kw">HELPMed</span>
+      <span class="kw">RLHF Resistance</span>
+      <span class="kw">Patient Modelling</span>
+      <span class="kw">Silicon Sampling</span>
+    </div>
+  </div>
+
+  <!-- ── Abstract ── -->
+  <section id="abstract">
+    <h2>Abstract</h2>
+    <div class="abstract-wrap">
+      <div class="abstract-text">
+        <p>Bean et al. (2025) introduced HELPMed, a framework in which a GPT-4o-simulated patient consults a GPT-4o medical assistant across 10 NHS triage scenarios. Simulated patients achieved 52% disposition accuracy versus ~43% for real human participants, with a striking bimodal distribution: 26/30 scenario–condition pairs scored either 0% or 100%, unlike the graded 8–87% spread observed in humans.</p>
+        <p>We investigate whether injecting cognitive bias personas into the simulated patient system prompt can reduce this bimodal clustering and better match the human per-scenario accuracy profile. Five personas — Anchorer, Anxious Catastrophiser, Dismisser, Premature Closer, and Confidence Deferrer — were each evaluated at n=25 runs per scenario on GPT-4o. An optimal weighted mixture was derived by minimising mean squared error against the human per-scenario baseline using constrained optimisation (SLSQP).</p>
+        <p>The mixture (Anchorer 41.2%, Catastrophiser 33.4%, Dismisser 25.4%) reduced per-scenario RMSE by 58% (38.8pp → 16.1pp) and the extreme ratio from 60% to 10%. Experiments with Claude Haiku as patient model reveal that reduced RLHF alignment produces a standard accuracy of 46.4% — much closer to the human 43.3% — and substantially stronger bias execution, with Catastrophiser falling to 24.8% versus 40% under GPT-4o.</p>
+      </div>
+      <div class="abstract-stats">
+        <div class="stat-card">
+          <div class="num">58%</div>
+          <div class="label">Reduction in per-scenario RMSE (GPT-4o optimal mixture)</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">10%</div>
+          <div class="label">Extreme ratio for optimal mixture vs 60% standard (human: 30%)</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">46.4%</div>
+          <div class="label">Haiku standard accuracy — closest to human 43.3% of all conditions</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Background ── -->
+  <section id="background">
+    <h2>Background</h2>
+
+    <h3>HELPMed and the Simulated Patient Problem</h3>
+    <p>Bean et al. (2025) introduced <strong>HELPMed</strong>, a framework for evaluating LLM-based medical assistants using GPT-4o-simulated patients. Patients consult an assistant across 10 NHS triage scenarios and choose one of five disposition levels: Ambulance, A&amp;E, Urgent Primary Care, Routine GP, or Self-care. Simulated patients achieved <span class="hl">52% overall accuracy</span> against gold-standard NHS dispositions, compared to <span class="hl">~43% for real human participants</span>.</p>
+    <p>Bean et al. explicitly noted a structural bimodality: 26/30 scenario–condition combinations produced either 0% or 100% accuracy. Human participants show a graded distribution ranging from 8% (Pneumonia) to 87% (Tinnitus). This gap in distributional validity limits the use of LLM-simulated patients as realistic proxies for human behaviour in medical education research.</p>
+
+    <h3>RLHF Resistance and Persona Injection</h3>
+    <p>Reinforcement Learning from Human Feedback (RLHF) training makes models like GPT-4o helpful, harmless, and accurate — but also resistant to instructions that conflict with this training. Prior work (AgentClinic; Bias Runs Deep, Gupta et al. 2023) shows that stronger, more aligned models exhibit greater resistance to persona-induced bias, with GPT-4-Turbo showing the least persona-induced performance shift of models tested. This directly motivates testing whether less RLHF-constrained models (Claude Haiku) show stronger bias compliance.</p>
+
+    <h3>Silicon Sampling Validity</h3>
+    <p>The validity of using LLMs to simulate human populations — "silicon sampling" — has been debated extensively (Gui &amp; Toubia; Sarstedt et al.). A core concern is that LLMs' shared training distribution homogenises responses in ways that do not reflect real human heterogeneity. The bimodal pattern observed in HELPMed is a specific manifestation of this homogenisation problem.</p>
+  </section>
+
+  <!-- ── Methods ── -->
+  <section id="methods">
+    <h2>Methods</h2>
+
+    <h3>Experimental Setup</h3>
+    <p>We replicate the Bean et al. HELPMed framework exactly, using <strong>GPT-4o-2024-05-13</strong> as both patient and assistant model (temperature 1.0 for patient, as in the original study). Experiments were also conducted using <strong>Claude Haiku (claude-haiku-4-5-20251001)</strong> as the patient model with GPT-4o as assistant. Each condition was run at <strong>n = 25 per scenario</strong> (250 total runs per condition). The primary metric is urgency-level disposition accuracy.</p>
+
+    <h3>Cognitive Bias Personas</h3>
+    <p>Five cognitive bias personas were designed as system prompt injections to the patient model. Each persona is grounded in established psychological and medical decision-making literature:</p>
+
+    <div class="personas">
+      <div class="persona-card">
+        <div class="name">🔵 Anchorer</div>
+        <div class="desc">Fixates on the first symptom mentioned. Resists updating their assessment when new information contradicts the initial framing.</div>
+      </div>
+      <div class="persona-card">
+        <div class="name">🔴 Anxious Catastrophiser</div>
+        <div class="desc">Over-escalates perceived severity. Interprets ambiguous symptoms as worst-case. Partially reassurable but worry tends to return.</div>
+      </div>
+      <div class="persona-card">
+        <div class="name">🟤 Dismisser</div>
+        <div class="desc">Minimises symptoms and resists medical advice. Prefers to self-manage and is reluctant to seek help.</div>
+      </div>
+      <div class="persona-card">
+        <div class="name">🟣 Premature Closer</div>
+        <div class="desc">Reaches a conclusion early and stops seeking further information, even when the situation warrants continued enquiry.</div>
+      </div>
+      <div class="persona-card">
+        <div class="name">🟡 Confidence Deferrer</div>
+        <div class="desc">Excessively defers to the assistant's framing and recommendations, abandoning their own initial assessment.</div>
+      </div>
+    </div>
+
+    <h3>Optimal Mixture Derivation</h3>
+    <p>An optimal weighted mixture of personas was derived analytically. The objective was to find weights w<sub>i</sub> ≥ 0, Σw<sub>i</sub> = 1 minimising the mean squared error between the predicted per-scenario accuracy and the human baseline:</p>
+    <p class="formula">min<sub>w</sub> Σ<sub>s</sub> (Σ<sub>i</sub> w<sub>i</sub> · acc<sub>i,s</sub> − human<sub>s</sub>)²</p>
+    <p>Solved using <strong>scipy.optimize.minimize (SLSQP)</strong>. Premature Closer and Confidence Deferrer converged to &lt;0.5% weight and were excluded. Remaining weights were renormalised.</p>
+
+    <div class="mix-vis">
+      <div class="mix-bar">
+        <div class="mix-bar-title">GPT-4o Optimal Mixture</div>
+        <div class="mix-row">
+          <div class="mix-label"><span>Anchorer</span><span class="mix-pct-green">41.2%</span></div>
+          <div class="mix-track"><div class="mix-fill mix-fill-green" style="width:41.2%"></div></div>
+        </div>
+        <div class="mix-row mix-row-gap">
+          <div class="mix-label"><span>Anxious Catastrophiser</span><span class="mix-pct-accent">33.4%</span></div>
+          <div class="mix-track"><div class="mix-fill mix-fill-blue" style="width:33.4%"></div></div>
+        </div>
+        <div class="mix-row mix-row-gap">
+          <div class="mix-label"><span>Dismisser</span><span class="mix-pct-red">25.4%</span></div>
+          <div class="mix-track"><div class="mix-fill mix-fill-red" style="width:25.4%"></div></div>
+        </div>
+      </div>
+      <div class="mix-bar">
+        <div class="mix-bar-title">Haiku Optimal Mixture</div>
+        <div class="mix-row">
+          <div class="mix-label"><span>Anchorer</span><span class="mix-pct-green">74.5%</span></div>
+          <div class="mix-track"><div class="mix-fill mix-fill-green" style="width:74.5%"></div></div>
+        </div>
+        <div class="mix-row mix-row-gap">
+          <div class="mix-label"><span>Catastrophiser</span><span class="mix-pct-accent">21.6%</span></div>
+          <div class="mix-track"><div class="mix-fill mix-fill-blue" style="width:21.6%"></div></div>
+        </div>
+        <div class="mix-row mix-row-gap">
+          <div class="mix-label"><span>Dismisser</span><span class="mix-pct-red">4.0%</span></div>
+          <div class="mix-track"><div class="mix-fill mix-fill-red" style="width:4%"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Results ── -->
+  <section id="results">
+    <h2>Results</h2>
+
+    <h3>GPT-4o Individual Personas</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Condition</th><th>Overall Accuracy</th><th>RMSE vs Human</th><th>Extreme Ratio</th></tr>
+        </thead>
+        <tbody>
+          <tr class="human-row"><td>Human (Bean et al.)</td><td>43.3%</td><td>—</td><td>30%</td></tr>
+          <tr><td>Standard (GPT-4o)</td><td>52.4%</td><td>38.8pp</td><td>60%</td></tr>
+          <tr><td>Anchorer</td><td>~64%</td><td>—</td><td>50%</td></tr>
+          <tr><td>Anxious Catastrophiser</td><td>~40%</td><td>—</td><td>50%</td></tr>
+          <tr><td>Dismisser</td><td>~60%</td><td>—</td><td>50%</td></tr>
+          <tr><td>Premature Closer</td><td>~56%</td><td>—</td><td>50%</td></tr>
+          <tr><td>Confidence Deferrer</td><td>~56%</td><td>—</td><td>60%</td></tr>
+          <tr class="best"><td><strong>GPT-4o Optimal Mixture</strong> <span class="tag">KEY</span></td><td><strong>53.6%</strong></td><td><strong>16.1pp</strong></td><td><strong>10%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <strong>58% RMSE reduction.</strong> The optimal mixture (Anchorer 41.2%, Catastrophiser 33.4%, Dismisser 25.4%) reduces per-scenario RMSE from 38.8pp to 16.1pp relative to the human baseline. The extreme ratio falls from 60% to 10% — approaching the human value of 30%. Three scenarios previously stuck at near-zero accuracy are substantially rescued: Common Cold (4% → 52%), Ulcerative Colitis (16% → 60%), Gallstones (8% → 36%).
+    </div>
+
+    <div class="figure">
+      <img src="results/figures/fig7_human_vs_mixture.png" alt="Human vs Standard vs Optimal Mixture line graph">
+      <div class="fig-title">Figure 7. Per-scenario accuracy: human participants vs standard GPT-4o vs optimal mixture.</div>
+      The green shaded region (gap between mixture and human) is substantially smaller than the red region (standard GPT-4o gap) across most scenarios. The mixture closely tracks the human line, especially for Ulcerative Colitis (60% vs 60%) and Tinnitus (88% vs 87%).
+    </div>
+
+    <div class="figure">
+      <img src="results/figures/fig2_heatmap_v2.png" alt="Per-scenario heatmap">
+      <div class="fig-title">Figure 2. Per-scenario accuracy heatmap. Optimal mixture placed directly below human for comparison.</div>
+      Standard GPT-4o shows extreme red/green clustering (bimodality). The optimal mixture row closely mirrors the human row in colour pattern, particularly for mid-urgency scenarios.
+    </div>
+
+    <h3>Claude Haiku Results</h3>
+    <p>Running Claude Haiku (less RLHF-constrained) as the patient model reveals two key findings:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Condition</th><th>GPT-4o</th><th>Haiku</th><th>Difference</th></tr>
+        </thead>
+        <tbody>
+          <tr class="human-row"><td>Human baseline</td><td>43.3%</td><td>43.3%</td><td>—</td></tr>
+          <tr><td>Standard</td><td>52.4%</td><td class="winner">46.4%</td><td>−6.0pp (closer to human)</td></tr>
+          <tr><td>Anchorer</td><td>~64%</td><td>67.6%</td><td>+3.6pp</td></tr>
+          <tr><td>Anxious Catastrophiser</td><td>~40%</td><td class="winner">24.8%</td><td>−15.2pp (below human)</td></tr>
+          <tr><td>Dismisser</td><td>~60%</td><td>62.8%</td><td>+2.8pp</td></tr>
+          <tr><td>Premature Closer</td><td>~56%</td><td>53.2%</td><td>−2.8pp</td></tr>
+          <tr><td>Confidence Deferrer</td><td>~56%</td><td>52.4%</td><td>−3.6pp</td></tr>
+          <tr><td>Haiku Optimal Mixture</td><td>—</td><td>—</td><td>RMSE 33.6pp</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The Catastrophiser result is particularly striking: accuracy falls from ~40% under GPT-4o to <span class="hl">24.8%</span> under Haiku, dropping <em>below</em> the human baseline. This is strong evidence that RLHF resistance in GPT-4o was actively suppressing the bias effect. Haiku's standard accuracy (46.4%) is much closer to human (43.3%) than GPT-4o's 52.4%, confirming that RLHF-induced caution inflates simulated patient performance.</p>
+
+    <div class="figure">
+      <img src="results/figures/fig8_model_comparison.png" alt="Model comparison line graph">
+      <div class="fig-title">Figure 8. Per-scenario accuracy across all conditions: human, GPT-4o standard (red), Haiku standard (purple), GPT-4o optimal mixture (green), Haiku optimal mixture (orange).</div>
+      The GPT-4o optimal mixture (green) most closely tracks the human line. Haiku standard (purple) is closer to human overall than GPT-4o (red) but still shows distributional mismatch. Haiku mixture (orange) is intermediate.
+    </div>
+
+    <h3>Bimodality Analysis</h3>
+    <p>We quantify bimodality using the <strong>extreme ratio</strong> — the proportion of scenarios with accuracy below 20% or above 80% — which is more reliable than Sarle's bimodality coefficient at n=10 scenarios (underpowered).</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Condition</th><th>Extreme Ratio</th><th>Interpretation</th></tr>
+        </thead>
+        <tbody>
+          <tr class="human-row"><td>Human (Bean et al.)</td><td>30%</td><td>Benchmark</td></tr>
+          <tr><td>Standard GPT-4o</td><td>60%</td><td>Strongly bimodal</td></tr>
+          <tr><td>GPT-4o Optimal Mixture</td><td class="winner">10%</td><td>Near-human distribution</td></tr>
+          <tr><td>Haiku Standard</td><td>40%</td><td>Moderately bimodal</td></tr>
+          <tr><td>Haiku Dismisser</td><td>10%</td><td>Near-human distribution</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="figure">
+      <img src="results/figures/fig6_bimodality_v2.png" alt="Bimodality figure">
+      <div class="fig-title">Figure 6. Bimodality of per-scenario accuracy distributions. Each dot = one scenario. Horizontal bar = mean. Shaded zones = extreme (&lt;20% or &gt;80%).</div>
+      Human participants show a spread across the full range. Standard GPT-4o clusters at extremes. The optimal mixture shows a dramatically more distributed pattern.
+    </div>
+
+    <h3>Remaining Limitations</h3>
+    <p>Two scenarios remain poorly matched by all personas and mixtures:</p>
+    <ul class="list-notes">
+      <li><strong>Pneumonia</strong>: Human 8.2% vs mixture 36% — no persona combination reaches the human floor. LLMs correctly identify pneumonia severity regardless of persona.</li>
+      <li><strong>Renal Colic</strong>: Human 35.5% vs mixture 64% — similar structural issue. These scenarios lie outside the convex hull of the persona space.</li>
+    </ul>
+    <p>This suggests a fundamental limit: prompt-level persona injection cannot replicate genuine human knowledge gaps in scenarios where LLM medical knowledge is reliable and hard to suppress.</p>
+  </section>
+
+  <!-- ── Discussion ── -->
+  <section id="discussion">
+    <h2>Discussion</h2>
+
+    <h3>Why Most Biased Personas Outperform Standard</h3>
+    <p>Counterintuitively, most bias personas <em>increase</em> overall accuracy relative to the standard model. The explanation: the standard GPT-4o patient over-escalates mild conditions (Common Cold, Gallstones near 0%) due to RLHF-driven medical caution. Most biases accidentally counteract this tendency — the Dismisser and Anchorer introduce under-escalation that corrects an existing baseline error rather than simulating human behaviour. Only the Catastrophiser compounds the over-escalation, producing the lowest accuracy (~40%) and the closest match to human overall performance, though for the wrong mechanistic reasons.</p>
+
+    <h3>RLHF Resistance as a Structural Barrier</h3>
+    <p>The Haiku experiments provide the clearest evidence for RLHF resistance as the primary mechanism preventing faithful bias execution. The Catastrophiser falls from 40% (GPT-4o) to 24.8% (Haiku) — a 15pp drop consistent with GPT-4o's safety training actively suppressing the bias mid-conversation. The literature (Bias Runs Deep, Gupta et al. 2023; Role-Play Paradox, 2024) confirms this pattern: larger, more aligned models show less persona-induced performance shift.</p>
+
+    <h3>Optimal Mixture as a Method</h3>
+    <p>The SLSQP-derived mixture provides a principled, data-driven approach to calibrating simulated patients. The convergence of weights to three interpretable personas (anchoring and catastrophising dominating) is consistent with clinical decision-making bias literature, providing construct validity. The 58% RMSE improvement is achieved without any model fine-tuning — through system prompt manipulation alone.</p>
+
+    <h3>Future Work</h3>
+    <p>The most promising extension is persona consistency enforcement across turns. Abdulhai et al. (NeurIPS 2025) show that multi-turn RL fine-tuning reduces persona inconsistency by 55% in patient simulation settings — directly addressing the turn-2-3 drift problem observed here. Chain-of-thought persona state tracking (explicit internal monologue before each patient turn) offers a prompt-engineering alternative that can be implemented without retraining. A Haiku optimal mixture validated at n=25 would also provide a direct model-level comparison.</p>
+  </section>
+
+  <!-- ── Conclusion ── -->
+  <section>
+    <h2>Conclusion</h2>
+    <p>Cognitive bias personas substantially improve the distributional validity of LLM-simulated patients in NHS triage without requiring model fine-tuning. The bimodal response pattern identified by Bean et al. is not a fixed property of the underlying model — it is a consequence of the standard patient prompt. An optimal weighted mixture of three personas (Anchorer, Anxious Catastrophiser, Dismisser) reduces per-scenario RMSE by 58% and extreme ratio from 60% to 10%. Experiments with Claude Haiku confirm that RLHF resistance in GPT-4o was suppressing bias execution, with the Catastrophiser falling below the human baseline under the less-aligned model. The fundamental limit — scenarios outside the convex hull of the persona space — points toward model fine-tuning or RL-based persona consistency as the necessary next step.</p>
+  </section>
+
+  <!-- ── References ── -->
+  <section id="refs" class="refs">
+    <h2>References</h2>
+    <ol>
+      <li>Bean, R. et al. (2025). HELPMed: Evaluating LLM-based medical assistants using simulated patients. <em>Preprint</em>.</li>
+      <li>Gupta, S. et al. (2023). Bias Runs Deep: Implicit Reasoning Biases in Persona-Assigned LLMs. <em>ICLR 2024</em>. <a href="https://arxiv.org/abs/2311.04892">arXiv:2311.04892</a></li>
+      <li>Abdulhai, M. et al. (2025). Consistently Simulating Human Personas with Multi-Turn Reinforcement Learning. <em>NeurIPS 2025</em>. <a href="https://arxiv.org/abs/2511.00222">arXiv:2511.00222</a></li>
+      <li>Schmidgall, S. et al. (2024). AgentClinic: a multimodal agent benchmark to evaluate AI in simulated clinical environments. <em>Preprint</em>. <a href="https://arxiv.org/abs/2405.07960">arXiv:2405.07960</a></li>
+      <li>Gui, R. &amp; Toubia, O. (2024). The Challenge of Using LLMs to Simulate Human Behavior: A Causal Inference Perspective. <em>Preprint</em>.</li>
+      <li>Sarstedt, M. et al. Bimodality coefficient methodology. <em>Journal of Business Research</em>.</li>
+      <li>Role-Play Paradox in Large Language Models. (2024). <a href="https://arxiv.org/html/2409.13979v2">arXiv:2409.13979</a></li>
+      <li>Quantifying the Persona Effect in LLM Simulations. (2024). <em>ACL 2024</em>. <a href="https://aclanthology.org/2024.acl-long.554.pdf">ACL Anthology</a></li>
+    </ol>
+  </section>
+
+</div>
+</body>
+</html>
