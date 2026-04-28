@@ -409,12 +409,12 @@
       <div class="abstract-text">
         <p>Bean et al. (2025) introduced HELPMed, a framework in which a GPT-4o-simulated patient consults a GPT-4o medical assistant across 10 NHS triage scenarios. Simulated patients achieved 52% disposition accuracy versus ~43% for real human participants, with a striking bimodal distribution: 26/30 scenario–condition pairs scored either 0% or 100%, unlike the graded 8–87% spread observed in humans.</p>
         <p>We investigate whether injecting cognitive bias personas into the simulated patient system prompt can reduce this bimodal clustering and better match the human per-scenario accuracy profile. Five personas — Anchorer, Anxious Catastrophiser, Dismisser, Premature Closer, and Confidence Deferrer — were each evaluated at n=25 runs per scenario on GPT-4o. An optimal weighted mixture was derived by minimising mean squared error against the human per-scenario baseline using constrained optimisation (SLSQP).</p>
-        <p>The mixture (Anchorer 41.2%, Catastrophiser 33.4%, Dismisser 25.4%) reduced per-scenario RMSE by 58% (38.8pp → 16.1pp) and the extreme ratio from 60% to 10%. Experiments with Claude Haiku as patient model reveal that reduced RLHF alignment produces a standard accuracy of 46.4% — much closer to the human 43.3% — and substantially stronger bias execution, with Catastrophiser falling to 24.8% versus 40% under GPT-4o.</p>
+        <p>The mixture (Anchorer 41.2%, Catastrophiser 33.4%, Dismisser 25.4%) reduced per-scenario RMSE from 38.8pp to 16.1pp in-sample (58%). Leave-one-scenario-out cross-validation gives a held-out RMSE of 23.1pp — a 41% generalisation reduction [95% CI: 15.4–29.2pp]. The extreme ratio falls from 60% to 10%. Experiments with Claude Haiku as patient model reveal that reduced RLHF alignment produces a standard accuracy of 46.4% — closer to the human 43.3% — and substantially stronger bias execution, with Catastrophiser falling to 24.8% versus 40% under GPT-4o.</p>
       </div>
       <div class="abstract-stats">
         <div class="stat-card">
-          <div class="num">58%</div>
-          <div class="label">Reduction in per-scenario RMSE (GPT-4o optimal mixture)</div>
+          <div class="num">41%</div>
+          <div class="label">LOSO-CV RMSE reduction (23.1pp vs 38.8pp, held-out generalisation)</div>
         </div>
         <div class="stat-card">
           <div class="num">10%</div>
@@ -575,7 +575,7 @@
     </div>
 
     <div class="callout">
-      <strong>58% RMSE reduction.</strong> The optimal mixture (Anchorer 41.2%, Catastrophiser 33.4%, Dismisser 25.4%) reduces per-scenario RMSE from 38.8pp to 16.1pp relative to the human baseline. The extreme ratio falls from 60% to 10% — approaching the human value of 30%. Three scenarios previously stuck at near-zero accuracy are substantially rescued: Common Cold (4% → 52%), Ulcerative Colitis (16% → 60%), Gallstones (8% → 36%).
+      <strong>41% LOSO-CV RMSE reduction.</strong> The optimal mixture (Anchorer 41.2%, Catastrophiser 33.4%, Dismisser 25.4%) achieves a held-out RMSE of 23.1pp vs 38.8pp standard [95% CI: 15.4–29.2pp], confirmed by leave-one-scenario-out cross-validation. In-sample fit is 16.1pp (58%). The extreme ratio falls from 60% to 10%. A formal convex-hull LP test confirms that Renal Colic (human 35.5%) and Subarachnoid Haemorrhage (human 35.2%) lie outside the reachable space — all persona accuracies for these scenarios are &gt;56%, making the human floor structurally unreachable.
     </div>
 
     <div class="figure">
@@ -642,12 +642,30 @@
     </div>
 
     <h3>Remaining Limitations</h3>
-    <p>Two scenarios remain poorly matched by all personas and mixtures:</p>
+    <p>A formal linear-programming convex-hull test was run for each scenario: can the human per-scenario accuracy be expressed as a convex combination of persona accuracies? Two scenarios are provably outside this reachable space:</p>
     <ul class="list-notes">
-      <li><strong>Pneumonia</strong>: Human 8.2% vs mixture 36% — no persona combination reaches the human floor. LLMs correctly identify pneumonia severity regardless of persona.</li>
-      <li><strong>Renal Colic</strong>: Human 35.5% vs mixture 64% — similar structural issue. These scenarios lie outside the convex hull of the persona space.</li>
+      <li><strong>Renal Colic</strong>: Human 35.5% — all personas score ≥56%, making the human floor structurally unreachable regardless of mixture weights.</li>
+      <li><strong>Subarachnoid Haemorrhage</strong>: Human 35.2% — minimum persona accuracy is 36.0%, just above the human value. LP infeasible.</li>
     </ul>
-    <p>This suggests a fundamental limit: prompt-level persona injection cannot replicate genuine human knowledge gaps in scenarios where LLM medical knowledge is reliable and hard to suppress.</p>
+    <p>Pneumonia (human 8.2%, persona range 4–64%) is formally <em>in</em> the convex hull — the per-fold prediction error of +19.5pp reflects weight instability under LOSO-CV rather than a hard structural limit. This distinction matters: Pneumonia's poor fit is correctable with more data or better-designed personas; Renal Colic and Subarachnoid Haemorrhage are fundamentally unreachable by prompt-level intervention.</p>
+
+    <h3>Differential and Red-Flag Accuracy</h3>
+    <p>Urgency accuracy is the primary metric replicating Bean et al., but the pipeline also scores differential diagnosis and red-flag identification. Standard GPT-4o achieves the highest differential accuracy (69.6%) while the Anchorer — despite highest urgency accuracy (67.2%) — has the lowest differential accuracy (54.4%), suggesting anchoring to the first symptom impairs condition identification even when urgency is correct.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Condition</th><th>Urgency%</th><th>Differential%</th><th>Red-Flag%</th></tr></thead>
+        <tbody>
+          <tr class="human-row"><td>Human (Bean et al.)</td><td>43.3%</td><td>—</td><td>—</td></tr>
+          <tr><td>Standard (GPT-4o)</td><td>52.4%</td><td>69.6%</td><td>62.4%</td></tr>
+          <tr><td>Anchorer</td><td>67.2%</td><td>54.4%</td><td>47.6%</td></tr>
+          <tr><td>Anxious Catastrophiser</td><td>34.0%</td><td>70.8%</td><td>61.6%</td></tr>
+          <tr><td>Dismisser</td><td>61.6%</td><td>69.2%</td><td>63.2%</td></tr>
+          <tr><td>Premature Closer</td><td>56.4%</td><td>61.2%</td><td>51.2%</td></tr>
+          <tr><td>Confidence Deferrer</td><td>57.6%</td><td>60.4%</td><td>54.0%</td></tr>
+          <tr class="best"><td><strong>Optimal Mixture</strong></td><td>53.6%</td><td>63.2%</td><td>54.8%</td></tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <!-- ── Discussion ── -->
@@ -661,16 +679,19 @@
     <p>The Haiku experiments provide the clearest evidence for RLHF resistance as the primary mechanism preventing faithful bias execution. The Catastrophiser falls from 40% (GPT-4o) to 24.8% (Haiku) — a 15pp drop consistent with GPT-4o's safety training actively suppressing the bias mid-conversation. The literature (Bias Runs Deep, Gupta et al. 2023; Role-Play Paradox, 2024) confirms this pattern: larger, more aligned models show less persona-induced performance shift.</p>
 
     <h3>Optimal Mixture as a Method</h3>
-    <p>The SLSQP-derived mixture provides a principled, data-driven approach to calibrating simulated patients. The convergence of weights to three interpretable personas (anchoring and catastrophising dominating) is consistent with clinical decision-making bias literature, providing construct validity. The 58% RMSE improvement is achieved without any model fine-tuning — through system prompt manipulation alone.</p>
+    <p>The SLSQP-derived mixture provides a principled, data-driven approach to calibrating simulated patients. Leave-one-scenario-out cross-validation confirms 41% RMSE generalisation (23.1pp held-out vs 38.8pp standard), substantially reducing but not eliminating the in-sample optimism of the 58% figure. The convergence of weights to three interpretable personas is consistent with clinical decision-making bias literature. Critically, the two scenarios outside the convex hull (Renal Colic, Subarachnoid Haemorrhage) represent hard limits of prompt-level intervention — addressable only through fine-tuning or scenario-specific augmentation.</p>
+
+    <h3>Sim-to-Real Gap</h3>
+    <p>The broader simulation-validity literature corroborates our findings. Araújo et al. (2026) demonstrate across 451 participants and 31 LLM simulators that simulators are systematically "excessively cooperative, stylistically uniform, and lack realistic frustration or ambiguity" — precisely the characteristics we observe in standard GPT-4o patients. Their User-Sim Index (USI) provides a fidelity metric that could be applied to our persona conditions as future validation. Owoicho et al. (2025) similarly find that general model capability does not predict simulation fidelity — consistent with our observation that GPT-4o's RLHF alignment, rather than raw capability, is the primary driver of persona resistance.</p>
 
     <h3>Future Work</h3>
-    <p>The most promising extension is persona consistency enforcement across turns. Abdulhai et al. (NeurIPS 2025) show that multi-turn RL fine-tuning reduces persona inconsistency by 55% in patient simulation settings — directly addressing the turn-2-3 drift problem observed here. Chain-of-thought persona state tracking (explicit internal monologue before each patient turn) offers a prompt-engineering alternative that can be implemented without retraining. A Haiku optimal mixture validated at n=25 would also provide a direct model-level comparison.</p>
+    <p>The most pressing extension is persona compliance verification. Abdulhai et al. (NeurIPS 2025) provide three automated metrics (prompt-to-line, line-to-line, Q&A consistency) validated against human annotation — directly applicable to auditing whether our patient model maintains the assigned bias across the 6–10 conversation turns. Their multi-turn RL fine-tuning reduces inconsistency by 55%, providing a blueprint for a training-based alternative to our prompt-injection approach. USI-based fidelity measurement (Araújo et al. 2026) and real-scenario deployment in a medical education platform (cf. MedSimAI, Khamees et al. 2025) are the natural next validation steps.</p>
   </section>
 
   <!-- ── Conclusion ── -->
   <section>
     <h2>Conclusion</h2>
-    <p>Cognitive bias personas substantially improve the distributional validity of LLM-simulated patients in NHS triage without requiring model fine-tuning. The bimodal response pattern identified by Bean et al. is not a fixed property of the underlying model — it is a consequence of the standard patient prompt. An optimal weighted mixture of three personas (Anchorer, Anxious Catastrophiser, Dismisser) reduces per-scenario RMSE by 58% and extreme ratio from 60% to 10%. Experiments with Claude Haiku confirm that RLHF resistance in GPT-4o was suppressing bias execution, with the Catastrophiser falling below the human baseline under the less-aligned model. The fundamental limit — scenarios outside the convex hull of the persona space — points toward model fine-tuning or RL-based persona consistency as the necessary next step.</p>
+    <p>Cognitive bias personas substantially improve the marginal accuracy calibration of LLM-simulated patients in NHS triage without model fine-tuning. The bimodal response pattern identified by Bean et al. is not a structural property of GPT-4o — it is a consequence of the standard patient prompt. An optimal weighted mixture of three personas (Anchorer 41.2%, Catastrophiser 33.4%, Dismisser 25.4%) achieves a 41% RMSE reduction under leave-one-scenario-out cross-validation (23.1pp vs 38.8pp, [95% CI: 15.4–29.2pp]), with in-sample fit of 58% (16.1pp). A formal convex-hull LP test identifies two scenarios (Renal Colic, Subarachnoid Haemorrhage) as provably unreachable by any prompt-level mixture. Experiments with Claude Haiku confirm that RLHF alignment suppresses bias execution — the Catastrophiser falls below the human baseline only in the less-constrained model. The next step is persona compliance verification using Abdulhai et al.'s consistency metrics, and USI-based fidelity measurement to quantify the remaining sim-to-real gap.</p>
   </section>
 
   <!-- ── References ── -->
@@ -685,6 +706,8 @@
       <li>Sarle, W.S. (1990). The CLUSTER Procedure. <em>SAS/STAT User's Guide</em>, 4th ed. SAS Institute Inc. [Bimodality coefficient: \(b = (\hat{\gamma}_1^2 + 1)/\hat{\kappa}\)]</li>
       <li>Zhou, Y. et al. (2024). Role-Play Paradox in Large Language Models: Reasoning Performance Gains and Ethical Dilemmas. <em>Preprint</em>. <a href="https://arxiv.org/abs/2409.13979">arXiv:2409.13979</a></li>
       <li>Hu, T. &amp; Collier, N. (2024). Quantifying the Persona Effect in LLM Simulations. <em>Proceedings of ACL 2024</em>, pp. 10289–10307. <a href="https://aclanthology.org/2024.acl-long.554/">ACL Anthology</a></li>
+      <li>Araújo, F. et al. (2026). Mind the Sim2Real Gap in User Simulation for Agentic Tasks. <em>Preprint</em>. <a href="https://arxiv.org/abs/2603.11245">arXiv:2603.11245</a></li>
+      <li>Khamees, A. et al. (2025). MedSimAI: Evaluating LLM-based Patient Simulation in Medical Education. <em>Preprint</em>. <a href="https://arxiv.org/abs/2503.05793">arXiv:2503.05793</a></li>
     </ol>
   </section>
 

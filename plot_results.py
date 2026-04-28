@@ -12,6 +12,7 @@ import matplotlib.patches as mpatches
 from collections import defaultdict
 from pathlib import Path
 from scipy.stats import skew, kurtosis
+from scipy.optimize import minimize as sp_minimize, linprog
 
 # ---------------------------------------------------------------------------
 # Config
@@ -83,7 +84,7 @@ SCENARIO_SHORT = {
     "Pulmonary Embolism":       "Pulmonary\nEmbolism",
 }
 
-HUMAN_ACCURACY = 43.0  # average across Bean et al. treatment conditions
+HUMAN_ACCURACY = 43.3  # average across Bean et al. treatment conditions
 BEAN_STANDARD  = 52.0  # Bean et al. published simulated patient result
 
 # ---------------------------------------------------------------------------
@@ -725,6 +726,248 @@ def fig_human_vs_mixture(data):
 
 
 # ---------------------------------------------------------------------------
+# Validation & academic robustness checks
+# ---------------------------------------------------------------------------
+
+# Human per-scenario fractions (raw counts from Bean et al. clean_examples.csv)
+HUMAN_PSA_RAW = {
+    "Subarachnoid Haemorrhage": (18+32+20+13) / (49+66+60+61) * 100,
+    "Pulmonary Embolism":       (4+9+14+10)   / (43+63+75+59) * 100,
+    "Tinnitus":                 (47+68+54+59)  / (54+78+61+69) * 100,
+    "Ulcerative Colitis":       (47+30+33+39)  / (71+56+57+63) * 100,
+    "Renal Colic":              (23+26+13+19)  / (62+56+52+58) * 100,
+    "Gallstones":               (33+23+35+33)  / (64+61+59+63) * 100,
+    "Pneumonia":                (5+9+4+3)      / (57+76+63+60) * 100,
+    "Anaemia":                  (37+30+17+17)  / (85+66+58+66) * 100,
+    "Common Cold":              (23+17+26+26)  / (66+46+60+58) * 100,
+    "Allergic Rhinitis":        (28+18+38+31)  / (49+32+55+43) * 100,
+}
+
+# Personas used in the mixture (excluding those with <0.5% weight)
+MIXTURE_PERSONAS = ["Anchorer", "Anxious Catastrophiser", "Dismisser"]
+
+
+def compute_rmse(psa_dict, human_psa, scenarios=None):
+    if scenarios is None:
+        scenarios = SCENARIO_ORDER
+    errors = [psa_dict.get(s, 0) - human_psa[s] for s in scenarios]
+    return np.sqrt(np.mean(np.array(errors) ** 2))
+
+
+def bootstrap_rmse_ci(errors, n_boot=10000, ci=95):
+    """Bootstrap percentile CI for RMSE from a list of per-scenario errors."""
+    rng = np.random.default_rng(42)
+    errors = np.array(errors)
+    boot = [np.sqrt(np.mean(rng.choice(errors, size=len(errors), replace=True) ** 2))
+            for _ in range(n_boot)]
+    lo = np.percentile(boot, (100 - ci) / 2)
+    hi = np.percentile(boot, 100 - (100 - ci) / 2)
+    return lo, hi
+
+
+def fit_mixture_weights(P_matrix, human_vec):
+    """Fit SLSQP mixture weights. P_matrix: (n_personas, n_scenarios)."""
+    n_p = P_matrix.shape[0]
+    def obj(w): return np.sum((w @ P_matrix - human_vec) ** 2)
+    res = sp_minimize(obj, np.ones(n_p) / n_p, method="SLSQP",
+                      constraints=[{"type": "eq", "fun": lambda w: w.sum() - 1}],
+                      bounds=[(0, 1)] * n_p)
+    return res.x
+
+
+def loso_cv(data, human_psa=None):
+    """
+    Leave-one-scenario-out cross-validation for mixture weights.
+
+    Fits weights on 9 scenarios, predicts the held-out 10th, reports
+    mean held-out RMSE and per-fold breakdown.
+    """
+    if human_psa is None:
+        human_psa = HUMAN_PSA_RAW
+
+    scenarios = SCENARIO_ORDER
+    n = len(scenarios)
+    human = np.array([human_psa[s] for s in scenarios])
+
+    # Per-scenario accuracy matrix: shape (n_personas, n_scenarios)
+    P = np.array([
+        [per_scenario_accuracy(data[p]).get(s, 0) for s in scenarios]
+        for p in MIXTURE_PERSONAS
+    ])
+
+    fold_errors, fold_abs_errors, fold_results = [], [], []
+
+    for held_out in range(n):
+        train_idx = [i for i in range(n) if i != held_out]
+        P_train = P[:, train_idx]
+        h_train = human[train_idx]
+
+        w_opt = fit_mixture_weights(P_train, h_train)
+
+        pred = float(w_opt @ P[:, held_out])
+        err = pred - human[held_out]
+        fold_errors.append(err)
+        fold_abs_errors.append(abs(err))
+        fold_results.append({
+            "scenario":    scenarios[held_out],
+            "human":       round(float(human[held_out]), 1),
+            "predicted":   round(pred, 1),
+            "error_pp":    round(float(err), 1),
+            "weights":     {p: round(float(w), 3) for p, w in zip(MIXTURE_PERSONAS, w_opt)},
+        })
+
+    loso_rmse = np.sqrt(np.mean(np.array(fold_errors) ** 2))
+    lo, hi = bootstrap_rmse_ci(np.array(fold_errors))
+
+    # In-sample RMSE (all 10 scenarios) for comparison
+    w_full = fit_mixture_weights(P, human)
+    insample_errors = w_full @ P - human
+    insample_rmse = np.sqrt(np.mean(insample_errors ** 2))
+
+    # Standard model RMSE
+    std_psa = per_scenario_accuracy(data["Standard"])
+    std_errors = np.array([std_psa.get(s, 0) - human_psa[s] for s in scenarios])
+    std_rmse = np.sqrt(np.mean(std_errors ** 2))
+    std_lo, std_hi = bootstrap_rmse_ci(std_errors)
+
+    return {
+        "loso_rmse":      round(float(loso_rmse), 2),
+        "loso_ci_95":     (round(lo, 2), round(hi, 2)),
+        "insample_rmse":  round(float(insample_rmse), 2),
+        "standard_rmse":  round(float(std_rmse), 2),
+        "standard_ci_95": (round(std_lo, 2), round(std_hi, 2)),
+        "loso_improvement_pct": round((1 - loso_rmse / std_rmse) * 100, 1),
+        "insample_improvement_pct": round((1 - insample_rmse / std_rmse) * 100, 1),
+        "fold_results":   fold_results,
+        "full_weights":   {p: round(float(w), 3) for p, w in zip(MIXTURE_PERSONAS, w_full)},
+    }
+
+
+def convex_hull_test(data, human_psa=None):
+    """
+    For each scenario test whether the human per-scenario accuracy lies
+    within the convex hull of all 5 persona per-scenario accuracies.
+
+    Solved as a linear feasibility LP: find w >= 0, sum(w)=1 such that
+    w @ persona_accs == human_acc. Infeasible => outside convex hull.
+    """
+    if human_psa is None:
+        human_psa = HUMAN_PSA_RAW
+
+    all_personas = [p[0] for p in PERSONAS]  # all 5 including Standard
+    psa = {p: per_scenario_accuracy(data[p]) for p in all_personas}
+    results = {}
+
+    for scenario in SCENARIO_ORDER:
+        h = human_psa[scenario] / 100          # fraction
+        accs = np.array([psa[p].get(scenario, 0) / 100 for p in all_personas])
+        n_p = len(all_personas)
+
+        # LP: min 0 s.t. accs @ w = h, sum(w) = 1, w >= 0
+        res = linprog(
+            np.zeros(n_p),
+            A_eq=np.vstack([accs, np.ones(n_p)]),
+            b_eq=np.array([h, 1.0]),
+            bounds=[(0, 1)] * n_p,
+            method="highs",
+        )
+        in_hull = (res.status == 0)
+        results[scenario] = {
+            "human_pct":    round(h * 100, 1),
+            "min_persona":  round(float(accs.min() * 100), 1),
+            "max_persona":  round(float(accs.max() * 100), 1),
+            "in_hull":      in_hull,
+        }
+    return results
+
+
+def differential_redflag_summary(data):
+    """Print differential and red-flag accuracy for all conditions."""
+    conditions = list(PERSONAS) + [MIXTURE]
+    rows = []
+    for label, fname, _ in conditions:
+        if label not in data:
+            continue
+        runs = data[label]
+        if not runs:
+            continue
+        n = len(runs)
+        urg  = sum(r["urgency_correct"] for r in runs) / n * 100
+        diff = sum(r.get("differential_correct", False) for r in runs) / n * 100
+        rf   = sum(r.get("red_flag_correct",    False) for r in runs) / n * 100
+        rows.append((label, urg, diff, rf, n))
+    return rows
+
+
+def print_validation_report(data):
+    print("\n" + "=" * 70)
+    print("VALIDATION REPORT")
+    print("=" * 70)
+
+    # 1. LOSO-CV
+    print("\n--- 1. Leave-one-scenario-out cross-validation (LOSO-CV) ---")
+    cv = loso_cv(data)
+    print(f"  Standard model RMSE :  {cv['standard_rmse']:.1f}pp "
+          f"[95% CI {cv['standard_ci_95'][0]:.1f}–{cv['standard_ci_95'][1]:.1f}]")
+    print(f"  Mixture in-sample RMSE: {cv['insample_rmse']:.1f}pp "
+          f"  ({cv['insample_improvement_pct']:.0f}% reduction vs standard)")
+    print(f"  Mixture LOSO-CV RMSE:   {cv['loso_rmse']:.1f}pp "
+          f"[95% CI {cv['loso_ci_95'][0]:.1f}–{cv['loso_ci_95'][1]:.1f}]"
+          f"  ({cv['loso_improvement_pct']:.0f}% reduction vs standard)")
+    print(f"\n  Full-sample weights: {cv['full_weights']}")
+    print("\n  Per-fold breakdown:")
+    print(f"  {'Scenario':<30} {'Human':>6} {'Pred':>6} {'Err':>6}  Weights")
+    for f in cv["fold_results"]:
+        w = f["weights"]
+        wstr = f"Anch={w['Anchorer']:.2f} Cat={w['Anxious Catastrophiser']:.2f} Dis={w['Dismisser']:.2f}"
+        print(f"  {f['scenario']:<30} {f['human']:>5.1f}% {f['predicted']:>5.1f}% "
+              f"{f['error_pp']:>+5.1f}pp  {wstr}")
+
+    # 2. Convex hull test
+    print("\n--- 2. Convex hull feasibility test ---")
+    ch = convex_hull_test(data)
+    print(f"  {'Scenario':<30} {'Human%':>7} {'Min%':>6} {'Max%':>6}  In hull?")
+    for s in SCENARIO_ORDER:
+        r = ch[s]
+        flag = "YES" if r["in_hull"] else "*** OUTSIDE ***"
+        print(f"  {s:<30} {r['human_pct']:>6.1f}% {r['min_persona']:>5.1f}% "
+              f"{r['max_persona']:>5.1f}%  {flag}")
+
+    # 3. Differential and red-flag accuracy
+    print("\n--- 3. Differential & red-flag accuracy ---")
+    rows = differential_redflag_summary(data)
+    print(f"  {'Condition':<28} {'Urgency%':>9} {'Differential%':>14} {'RedFlag%':>10} {'n':>5}")
+    print("  " + "-" * 68)
+    for label, urg, diff, rf, n in rows:
+        print(f"  {label:<28} {urg:>8.1f}% {diff:>13.1f}% {rf:>9.1f}% {n:>5}")
+
+    # 4. Replication check vs Bean et al.
+    print("\n--- 4. Replication check (our standard vs Bean et al.) ---")
+    std_runs = data["Standard"]
+    std_total = len(std_runs)
+    std_correct = sum(r["urgency_correct"] for r in std_runs)
+    std_overall = std_correct / std_total * 100
+    # Bean et al. report ~52% for GPT-4o simulated patient overall accuracy.
+    # Per-scenario breakdown was not published for simulated patients (only for
+    # real human participants). Comparison is at overall-accuracy level only.
+    print(f"  Our standard GPT-4o simulated patient: {std_overall:.1f}%  (n={std_total})")
+    print(f"  Bean et al. GPT-4o simulated patient:  ~52-56%  (reported in paper)")
+    print(f"  Match: {'GOOD' if abs(std_overall - 52) < 5 else 'CHECK'}")
+    print()
+    # Show our per-scenario standard vs human, since that's the meaningful comparison
+    std_psa = per_scenario_accuracy(data["Standard"])
+    print(f"  Per-scenario our std vs human (for reference, not Bean comparison):")
+    print(f"  {'Scenario':<30} {'Our std%':>9} {'Human%':>8}  {'Diff':>6}")
+    for s in SCENARIO_ORDER:
+        ours = std_psa.get(s, 0)
+        human = HUMAN_PSA_RAW[s]
+        print(f"  {s:<30} {ours:>8.1f}% {human:>7.1f}%  {ours-human:>+5.1f}pp")
+
+    print("\n" + "=" * 70)
+    return cv, ch
+
+
+# ---------------------------------------------------------------------------
 # Run all figures
 # ---------------------------------------------------------------------------
 
@@ -749,3 +992,6 @@ if __name__ == "__main__":
     fig_human_vs_mixture(data)
 
     print(f"\nAll figures saved to {FIGURES_DIR}")
+
+    print("\nRunning validation report...")
+    cv_results, ch_results = print_validation_report(data)

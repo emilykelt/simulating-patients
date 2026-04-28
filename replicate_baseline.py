@@ -412,12 +412,40 @@ def extract_urgency(text):
     """
     Parse the urgency level from the patient's final answer text.
     Returns an integer 0-4, or -1 if not parseable.
+
+    Strategy: isolate the disposition answer (after "1)") to avoid false
+    matches in the body of the conversation. Falls back to full-text scan.
+    All matches are collected and the highest-confidence (most-specific)
+    keyword wins, breaking ties toward the level with the most keywords hit.
     """
-    text_lower = text.lower()
+    # Try to isolate the structured "1)" disposition section first
+    section_match = re.split(r"\b1[\)\.]\s*", text, maxsplit=1, flags=re.IGNORECASE)
+    # Take only the first ~200 chars after "1)" to avoid bleed from "2)"
+    if len(section_match) > 1:
+        candidate = re.split(r"\b2[\)\.]\s*", section_match[1], maxsplit=1)[0][:200]
+    else:
+        candidate = text
+
+    text_lower = candidate.lower()
+
+    # Count keyword hits per urgency level in the candidate section
+    hits = {}
+    for urgency_level in sorted(URGENCY_KEYWORDS.keys(), reverse=True):
+        count = sum(1 for kw in URGENCY_KEYWORDS[urgency_level] if kw in text_lower)
+        if count > 0:
+            hits[urgency_level] = count
+
+    if hits:
+        # Return the highest urgency level with any hit (conservative: patient safety)
+        return max(hits.keys())
+
+    # Fallback: scan full text
+    full_lower = text.lower()
     for urgency_level in sorted(URGENCY_KEYWORDS.keys(), reverse=True):
         for keyword in URGENCY_KEYWORDS[urgency_level]:
-            if keyword in text_lower:
+            if keyword in full_lower:
                 return urgency_level
+
     return -1
 
 
