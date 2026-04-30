@@ -107,6 +107,10 @@ def load_all():
     if mix_path.exists():
         with open(mix_path) as f:
             data[mix_label] = json.load(f)
+    haiku_path = RESULTS_DIR / "all_standard_haiku_x25.json"
+    if haiku_path.exists():
+        with open(haiku_path) as f:
+            data["Standard Haiku"] = json.load(f)
     return data
 
 def accuracy(runs):
@@ -674,49 +678,101 @@ def fig_human_vs_mixture(data):
         "Allergic Rhinitis":        (28+18+38+31)  / (49+32+55+43) * 100,
     }
 
-    mix_label, mix_fname, mix_color = MIXTURE
-    std_psa  = per_scenario_accuracy(data["Standard"])
-    mix_psa  = per_scenario_accuracy(data[mix_label])
+    std_psa    = per_scenario_accuracy(data["Standard"])
+    haiku_psa  = per_scenario_accuracy(data["Standard Haiku"]) if "Standard Haiku" in data else None
 
-    x = np.arange(len(SCENARIO_ORDER))
-    human_vals = [human_per_scenario[s] for s in SCENARIO_ORDER]
-    std_vals   = [std_psa.get(s, 0)     for s in SCENARIO_ORDER]
-    mix_vals   = [mix_psa.get(s, 0)     for s in SCENARIO_ORDER]
+    # LOSO-CV held-out predictions per scenario
+    loso = loso_cv(data)
+    loso_by_scenario = {f["scenario"]: f["predicted"] for f in loso["fold_results"]}
+    loso_rmse = loso["loso_rmse"]
+    loso_imp  = loso["loso_improvement_pct"]
 
-    fig, ax = plt.subplots(figsize=(13, 5.5))
+    # Sort scenarios by human accuracy (descending: highest at top)
+    scenarios_sorted = sorted(SCENARIO_ORDER, key=lambda s: human_per_scenario[s], reverse=True)
 
-    std_color = "#e74c3c"
-    opt_color = "#27ae60"
+    human_vals = [human_per_scenario[s] for s in scenarios_sorted]
+    std_vals   = [std_psa.get(s, 0)     for s in scenarios_sorted]
+    loso_vals  = [loso_by_scenario[s]   for s in scenarios_sorted]
+    haiku_vals = [haiku_psa.get(s, 0)   for s in scenarios_sorted] if haiku_psa else None
 
-    # Shaded gap between standard and human
-    ax.fill_between(x, human_vals, std_vals, alpha=0.08, color=std_color,
-                    label="_nolegend_")
+    fig, ax = plt.subplots(figsize=(12, 7))
 
-    # Shaded gap between mixture and human (smaller = better)
-    ax.fill_between(x, human_vals, mix_vals, alpha=0.13, color=opt_color,
-                    label="_nolegend_")
+    human_color = "#222"
+    std_color   = "#10a37f"   # OpenAI green
+    haiku_color = "#cc785c"   # Anthropic clay
+    loso_color  = "#7b52c4"   # mixture purple (distinct from both providers)
 
-    # Lines
-    ax.plot(x, human_vals, color="black", linewidth=2.8, linestyle="-",
-            marker="D", markersize=8, label="Human participants", zorder=5)
-    ax.plot(x, std_vals, color=std_color, linewidth=2.0, linestyle="--",
-            marker="o", markersize=6, label="Standard simulated patient\n(RMSE = 38.8pp vs human)", zorder=4)
-    ax.plot(x, mix_vals, color=opt_color, linewidth=2.5, linestyle="-.",
-            marker="s", markersize=7, label="Optimal mixture (Anchorer 41%, Catastrophiser 33%, Dismisser 25%)\n(RMSE = 16.1pp vs human  —  58% improvement)", zorder=6)
+    y = np.arange(len(scenarios_sorted))
 
-    ax.set_xticks(x)
-    ax.set_xticklabels([SCENARIO_SHORT[s] for s in SCENARIO_ORDER], fontsize=9)
-    ax.set_ylabel("Disposition accuracy (%)", fontsize=11)
-    ax.set_ylim(-5, 110)
-    ax.yaxis.grid(True, linestyle="--", alpha=0.4, zorder=0)
-    ax.set_axisbelow(True)
-    ax.set_title(
-        "Per-scenario accuracy: human participants vs standard vs optimal mixture",
-        fontsize=11, pad=12
+    # Connector segments: thin grey line spanning min→max of all values per scenario
+    for i, s in enumerate(scenarios_sorted):
+        vals = [human_vals[i], std_vals[i], loso_vals[i]]
+        if haiku_vals: vals.append(haiku_vals[i])
+        ax.plot([min(vals), max(vals)], [i, i], color="#cfcfcf", linewidth=1.4, zorder=1)
+
+    # Markers — image icons for the LLMs, smiley emoji for humans, halo+star for mixture
+    from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+    import matplotlib.image as mpimg
+
+    logo_dir = FIGURES_DIR / "logos"
+    openai_img    = mpimg.imread(logo_dir / "openai.png")
+    anthropic_img = mpimg.imread(logo_dir / "anthropic.png")
+    person_img    = mpimg.imread(logo_dir / "person.png")
+
+    def place_logo(ax, img, x, y, zoom=0.045):
+        oi = OffsetImage(img, zoom=zoom)
+        ab = AnnotationBbox(oi, (x, y), frameon=False, pad=0)
+        ax.add_artist(ab)
+
+    # Human: silhouette icon
+    for xv, yv in zip(human_vals, y):
+        place_logo(ax, person_img, xv, yv, zoom=0.06)
+    # Standard GPT-4o: real OpenAI logo
+    for xv, yv in zip(std_vals, y):
+        place_logo(ax, openai_img, xv, yv, zoom=0.055)
+    # Haiku: real Anthropic logo
+    if haiku_vals:
+        for xv, yv in zip(haiku_vals, y):
+            place_logo(ax, anthropic_img, xv, yv, zoom=0.055)
+    # Optimal mixture LOSO: simple star marker
+    ax.scatter(loso_vals, y, color=loso_color, s=260, marker="*",
+               edgecolor="white", linewidth=0.8, zorder=4)
+
+    # Legend handles built manually so icons match (logos drawn into legend via images)
+    from matplotlib.lines import Line2D
+    legend_elements = [
+        Line2D([0], [0], marker="o", color="w", label="Human participants",
+               markerfacecolor=human_color, markeredgecolor=human_color, markersize=12),
+        Line2D([0], [0], marker="o", color="w",
+               label=f"Standard GPT-4o (RMSE = 38.8pp)",
+               markerfacecolor="#222", markeredgecolor="#222", markersize=12),
+    ]
+    if haiku_vals:
+        haiku_rmse = np.sqrt(np.mean([(haiku_psa[s] - human_per_scenario[s]) ** 2
+                                      for s in SCENARIO_ORDER]))
+        legend_elements.append(
+            Line2D([0], [0], marker="o", color="w",
+                   label=f"Standard Haiku (RMSE = {haiku_rmse:.1f}pp)",
+                   markerfacecolor=haiku_color, markeredgecolor=haiku_color, markersize=12)
+        )
+    legend_elements.append(
+        Line2D([0], [0], marker="*", color="w",
+               label=f"Optimal mixture, LOSO-CV held-out\n(RMSE = {loso_rmse:.1f}pp, {loso_imp:.0f}% reduction)",
+               markerfacecolor=loso_color, markersize=20)
     )
 
-    # Legend — place inside upper right
-    ax.legend(fontsize=9, loc="upper right", framealpha=0.9)
+    ax.set_yticks(y)
+    ax.set_yticklabels(scenarios_sorted, fontsize=10)
+    ax.invert_yaxis()
+    ax.set_xlabel("Disposition accuracy (%)", fontsize=11)
+    ax.set_xlim(-5, 105)
+    ax.xaxis.grid(True, linestyle="--", alpha=0.4, zorder=0)
+    ax.set_axisbelow(True)
+    ax.set_title(
+        "Per-scenario accuracy: humans vs GPT-4o vs Haiku vs LOSO-CV held-out mixture\n(scenarios sorted by human accuracy)",
+        fontsize=11, pad=12
+    )
+    ax.legend(handles=legend_elements, fontsize=9, loc="lower right", framealpha=0.95)
 
     plt.tight_layout()
     out = FIGURES_DIR / "fig7_human_vs_mixture.png"

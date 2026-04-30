@@ -1,0 +1,47 @@
+
+[Standard] sampled 20 conversations
+  5/20 done
+  10/20 done
+  15/20 done
+  20/20 done
+
+[Anchorer] sampled 20 conversations
+  5/20 done
+  10/20 done
+  15/20 done
+  20/20 done
+
+[Anxious Catastrophiser] sampled 20 conversations
+  5/20 done
+  10/20 done
+  15/20 done
+  20/20 done
+
+[Dismisser] sampled 20 conversations
+  5/20 done
+  10/20 done
+  15/20 done
+  20/20 done
+
+[Premature Closer] sampled 20 conversations
+  5/20 done
+  10/20 done
+  15/20 done
+  20/20 done
+
+[Confidence Deferrer] sampled 20 conversations
+  5/20 done
+  10/20 done
+  15/20 done
+  20/20 done
+
+=== Persona consistency (Abdulhai 2025 metrics) ===
+Persona                     P→L    L→L    Q&A  n_conv
+Standard                   4.67   5.00   5.00      20
+Anchorer                   4.89   4.80   5.00      20
+Anxious Catastrophiser     4.95   5.00   5.00      20
+Dismisser                  4.62   4.85   5.00      20
+Premature Closer           4.55   5.00   5.00      20
+Confidence Deferrer        4.85   5.00   5.00      20
+
+Saved to /Users/emilykelt/Library/Mobile Documents/com~apple~CloudDocs/Uni/IB/Research/results/consistency_scores.json
